@@ -1,28 +1,28 @@
-; ladda in customizations från subdir
+; Load customizations from subdir
 (add-to-list 'load-path "~/.emacs.d/")
 
-; Visa inget välkomstmeddelande
+; No welcome message
 (setq inhibit-startup-message t)
 
 ; --------------------------------------------------------------------------------
-; Anpassningar för GUI emacs, dvs GTK eller Cocoa
+; Customizations for GUI emacs, ie GTK or Cocoa
 ; --------------------------------------------------------------------------------
 
 (if window-system
     (progn
-      ;; Spara/återställ fönsterstorlekar:
+      ;; Save / Restore window-sizes
       (load-library "restore-framegeometry")
       (add-hook 'after-init-hook 'load-framegeometry)
       (add-hook 'kill-emacs-hook 'save-framegeometry)
 
-      ;; För linux, font och bakgrundsfärg:
-      (if (string-equal (window-system) "x") ; x = linux, ns = cocoa
+      ;; For linux, font and background color:
+      (if (string-equal (window-system) "x")  ; x = linux, ns = cocoa
           (progn
-            (set-default-font "Monospace 8" ); Linux
+            (set-default-font "Monospace 8" ) ; Linux
             (set-background-color "#ffffff"))
         )
 
-      ;; Göm menubar (ikoner) och scrollbar - tack till https://sites.google.com/site/steveyegge2/effective-emacs
+      ;; Hide menubar (icons) and scrollbar - thanks to https://sites.google.com/site/steveyegge2/effective-emacs
       (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
       (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
@@ -30,18 +30,18 @@
   )
 
 ; --------------------------------------------------------------------------------
-; Ladda in custom functions med ev kortkommandon
+; Load custom functions and keyboard shortcuts
 ; --------------------------------------------------------------------------------
 
-; Byt innehåll i två fönster
+; Swap content between two windows
 (load-library "swap-windows")
 (global-set-key "\C-c\C-s" 'swap-windows)
 
-; Toggle mellan vertical/horizontal split av två windows
+; Toggle vertical/horizontal split of two windows
 (load-library "rotate-frame-split")
 (global-set-key (kbd "\C-x 5") 'rotate-frame-split)
 
-; Spara kopia av buffern utan att switcha till denna buffer
+; Save copy of buffer without switching to the new buffer/file name
 (load-library "save-copy-as")
 (global-set-key "\C-c\C-w" 'save-copy-as)
 
@@ -50,42 +50,46 @@
 (define-key minibuffer-local-map (kbd "C-<tab>") 'dabbrev-expand)
 
 ; --------------------------------------------------------------------------------
-; Fixar för  tangentbord
+; Keyboard fixes
 ; --------------------------------------------------------------------------------
 
 ; backspace/C-h fix:
 (global-set-key "\C-h" 'backward-delete-char)
 (normal-erase-is-backspace-mode 0)
 
-; På Mac: Låt emacs lämna högra alt-tangenten i fred, annars kan jag inte skriva \
-; Längst ner här (French keyboard): http://stackoverflow.com/questions/6344389/osx-emacs-unbind-just-the-right-alt
+; Help key:
+(global-set-key "\C-+" 'help)
+
+; Mac, Swedish keyboard: Leave right alt-key alone, else I cannot write \
+; Solution found at the bottom of this page (French keyboard): http://stackoverflow.com/questions/6344389/osx-emacs-unbind-just-the-right-alt
 (setq-default mac-option-modifier nil)
 
 
 ; --------------------------------------------------------------------------------
-; Style för programmering
+; Styles for programming
 ; --------------------------------------------------------------------------------
 
 ; C-mode
 (setq c-default-style "linux"
       c-basic-offset 4)
 
-; Tror detta var indent med SPACE inte TABS
+; Indent with spaces, not tabs
 (setq-default indent-tabs-mode nil)
 
-; Minns inte, vad är det?
+; http://www.gnu.org/software/emacs/manual/html_node/emacs/Hungry-Delete.html
 (setq c-toggle-hungry-state t)
 
-; radera trailing whitespace alltid
+; Always delete trailing whitespace when saving
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-; radera trailing whitespace endast i c* modes
+; Delete trailing whitespace only in C-mode
 ;(add-hook 'c-mode-common-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
 ; --------------------------------------------------------------------------------
 ; Extra modes
 ; --------------------------------------------------------------------------------
 
+; Lua-mode:
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
