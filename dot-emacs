@@ -1,0 +1,91 @@
+; ladda in customizations från subdir
+(add-to-list 'load-path "~/.emacs.d/")
+
+; Visa inget välkomstmeddelande
+(setq inhibit-startup-message t)
+
+; --------------------------------------------------------------------------------
+; Anpassningar för GUI emacs, dvs GTK eller Cocoa
+; --------------------------------------------------------------------------------
+
+(if window-system
+    (progn
+      ;; Spara/återställ fönsterstorlekar:
+      (load-library "restore-framegeometry")
+      (add-hook 'after-init-hook 'load-framegeometry)
+      (add-hook 'kill-emacs-hook 'save-framegeometry)
+
+      ;; För linux, font och bakgrundsfärg:
+      (if (string-equal (window-system) "x") ; x = linux, ns = cocoa
+          (progn
+            (set-default-font "Monospace 8" ); Linux
+            (set-background-color "#ffffff"))
+        )
+
+      ;; Göm menubar (ikoner) och scrollbar - tack till https://sites.google.com/site/steveyegge2/effective-emacs
+      (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+      )
+  )
+
+; --------------------------------------------------------------------------------
+; Ladda in custom functions med ev kortkommandon
+; --------------------------------------------------------------------------------
+
+; Byt innehåll i två fönster
+(load-library "swap-windows")
+(global-set-key "\C-c\C-s" 'swap-windows)
+
+; Toggle mellan vertical/horizontal split av två windows
+(load-library "rotate-frame-split")
+(global-set-key (kbd "\C-x 5") 'rotate-frame-split)
+
+; Spara kopia av buffern utan att switcha till denna buffer
+(load-library "save-copy-as")
+(global-set-key "\C-c\C-w" 'save-copy-as)
+
+; dabbrev-expand via C-TAB
+(global-set-key (kbd "C-<tab>") 'dabbrev-expand)
+(define-key minibuffer-local-map (kbd "C-<tab>") 'dabbrev-expand)
+
+; --------------------------------------------------------------------------------
+; Fixar för  tangentbord
+; --------------------------------------------------------------------------------
+
+; backspace/C-h fix:
+(global-set-key "\C-h" 'backward-delete-char)
+(normal-erase-is-backspace-mode 0)
+
+; På Mac: Låt emacs lämna högra alt-tangenten i fred, annars kan jag inte skriva \
+; Längst ner här (French keyboard): http://stackoverflow.com/questions/6344389/osx-emacs-unbind-just-the-right-alt
+(setq-default mac-option-modifier nil)
+
+
+; --------------------------------------------------------------------------------
+; Style för programmering
+; --------------------------------------------------------------------------------
+
+; C-mode
+(setq c-default-style "linux"
+      c-basic-offset 4)
+
+; Tror detta var indent med SPACE inte TABS
+(setq-default indent-tabs-mode nil)
+
+; Minns inte, vad är det?
+(setq c-toggle-hungry-state t)
+
+; radera trailing whitespace alltid
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+; radera trailing whitespace endast i c* modes
+;(add-hook 'c-mode-common-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+
+; --------------------------------------------------------------------------------
+; Extra modes
+; --------------------------------------------------------------------------------
+
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
