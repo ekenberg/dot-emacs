@@ -1,3 +1,8 @@
+; --------------------------------------------------------------------------------
+; Combined Emacs init-file for linux and mac
+; Defined for a Swedish keyboard layout
+; --------------------------------------------------------------------------------
+
 ; Load customizations from subdir
 (add-to-list 'load-path "~/.emacs.d/")
 
@@ -30,7 +35,7 @@
   )
 
 ; --------------------------------------------------------------------------------
-; Load custom functions and keyboard shortcuts
+; Load custom functions + keyboard shortcuts
 ; --------------------------------------------------------------------------------
 
 ; Swap content between two windows
@@ -50,7 +55,7 @@
 (define-key minibuffer-local-map (kbd "C-<tab>") 'dabbrev-expand)
 
 ; --------------------------------------------------------------------------------
-; Keyboard fixes
+; Other keyboard fixes and shortcuts
 ; --------------------------------------------------------------------------------
 
 ; backspace/C-h fix:
@@ -58,7 +63,7 @@
 (normal-erase-is-backspace-mode 0)
 
 ; Help key:
-(global-set-key "\C-+" 'help)
+(global-set-key (kbd "C-+") 'help)
 
 ; Mac, Swedish keyboard: Leave right alt-key alone, else I cannot write \
 ; Solution found at the bottom of this page (French keyboard): http://stackoverflow.com/questions/6344389/osx-emacs-unbind-just-the-right-alt
