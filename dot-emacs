@@ -1,6 +1,6 @@
 ; --------------------------------------------------------------------------------
 ; Combined Emacs init-file for linux and mac
-; Defined for a Swedish keyboard layout
+; Used with Swedish keyboard layout
 ; --------------------------------------------------------------------------------
 
 ; Load customizations from subdir
@@ -31,8 +31,14 @@
       (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
       (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
+      ;; Set title bar to show file name if available, else buffer name
+      (setq frame-title-format '(buffer-file-name "%f" ("%b")))
+
+      ;; Disable C-z, use window-system to minimize window
+      (global-set-key "\C-z" (lambda () (interactive) (message "Zzzzzz...")))
       )
   )
+
 
 ; --------------------------------------------------------------------------------
 ; Load custom functions + keyboard shortcuts
@@ -54,6 +60,7 @@
 (global-set-key (kbd "C-<tab>") 'dabbrev-expand)
 (define-key minibuffer-local-map (kbd "C-<tab>") 'dabbrev-expand)
 
+
 ; --------------------------------------------------------------------------------
 ; Other keyboard fixes and shortcuts
 ; --------------------------------------------------------------------------------
@@ -71,7 +78,7 @@
 
 
 ; --------------------------------------------------------------------------------
-; Styles for programming
+; Options mainly for programming
 ; --------------------------------------------------------------------------------
 
 ; C-mode
@@ -90,6 +97,11 @@
 ; Delete trailing whitespace only in C-mode
 ;(add-hook 'c-mode-common-hook (lambda () (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
+; (Un-)Comment key bindings
+; TODO: Improve to custom 'comment-region-or-line, this doesn't quite work ie for perl-mode:
+(global-set-key "\C-cc" 'comment-region)
+(global-set-key "\C-cu" 'uncomment-region)
+
 ; --------------------------------------------------------------------------------
 ; Extra modes
 ; --------------------------------------------------------------------------------
@@ -98,3 +110,22 @@
 (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+
+
+; --------------------------------------------------------------------------------
+; Various file options
+; --------------------------------------------------------------------------------
+
+; Preserve backup-file user/group, especially important under sudo / su
+(setq backup-by-copying-when-mismatch t)
+
+; Always end files with a newline
+(setq require-final-newline 't)
+
+
+; --------------------------------------------------------------------------------
+; Various other options
+; --------------------------------------------------------------------------------
+
+; Disable all Version Controll backends. Quicker start-up. Avoid hanging in git-enabled dirs with emacs-gtk on Linux
+(setq vc-handled-backends ())
