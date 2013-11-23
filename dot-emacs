@@ -1,3 +1,9 @@
+; TODO:
+;  * Add rainbow-parens
+;  * Add rainbow-mode
+;  * Add smartparens
+
+
 ; --------------------------------------------------------------------------------
 ; Combined Emacs init-file for linux and mac
 ; Used with Swedish keyboard layout
@@ -6,8 +12,12 @@
 ; Load customizations from subdir
 (add-to-list 'load-path "~/.emacs.d/")
 
-; No welcome message
-(setq inhibit-startup-message t)
+; Use Melpa for extra packages
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+; Custom themes folder
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 
 ; --------------------------------------------------------------------------------
 ; Customizations for GUI emacs, ie GTK or Cocoa
@@ -25,6 +35,9 @@
           (progn
             (set-default-font "Monospace 8" ) ; Linux
             (set-background-color "#ffffff"))
+
+        (progn
+          (set-default-font "Menlo-Regular 12")) ; Mac
         )
 
       ;; Hide menubar (icons) and scrollbar - thanks to https://sites.google.com/site/steveyegge2/effective-emacs
@@ -127,5 +140,11 @@
 ; Various other options
 ; --------------------------------------------------------------------------------
 
-; Disable all Version Controll backends. Quicker start-up. Avoid hanging in git-enabled dirs with emacs-gtk on Linux
+; Disable all Version Control backends. Quicker start-up. Avoid hanging in git-enabled dirs with emacs-gtk on Linux
 (setq vc-handled-backends ())
+
+; No welcome message
+(setq inhibit-startup-message t)
+
+
+; --------------------------------------------------------------------------------
