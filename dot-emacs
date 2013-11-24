@@ -2,7 +2,7 @@
 ;  * Add rainbow-parens
 ;  * Add rainbow-mode
 ;  * Add smartparens
-
+;  * Add smart-tab
 
 ; --------------------------------------------------------------------------------
 ; Combined Emacs init-file for linux and mac
@@ -15,6 +15,8 @@
 ; Use Melpa for extra packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+(package-initialize)
 
 ; Custom themes folder
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -59,7 +61,7 @@
 
 ; Swap content between two windows
 (load-library "swap-windows")
-(global-set-key "\C-c\C-s" 'swap-windows)
+(global-set-key (kbd "\C-x 6") 'swap-windows)
 
 ; Toggle vertical/horizontal split of two windows
 (load-library "rotate-frame-split")
@@ -70,6 +72,7 @@
 (global-set-key "\C-c\C-w" 'save-copy-as)
 
 ; dabbrev-expand via C-TAB
+; TODO: Denna funkar inte i terminal
 (global-set-key (kbd "C-<tab>") 'dabbrev-expand)
 (define-key minibuffer-local-map (kbd "C-<tab>") 'dabbrev-expand)
 
