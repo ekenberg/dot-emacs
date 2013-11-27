@@ -1,9 +1,3 @@
-; TODO:
-;  * Add rainbow-parens
-;  * Add rainbow-mode
-;  * Add smartparens
-;  * Add smart-tab
-
 ; --------------------------------------------------------------------------------
 ; Combined Emacs init-file for linux and mac
 ; Used with Swedish keyboard layout
@@ -20,6 +14,7 @@
 
 ; Custom themes folder
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+(load-theme 'my-dev-1 t)
 
 ; --------------------------------------------------------------------------------
 ; Customizations for GUI emacs, ie GTK or Cocoa
@@ -72,9 +67,20 @@
 (global-set-key "\C-c\C-w" 'save-copy-as)
 
 ; dabbrev-expand via C-TAB
-; TODO: Denna funkar inte i terminal
+; TODO: This doesn't work in a terminal
 (global-set-key (kbd "C-<tab>") 'dabbrev-expand)
 (define-key minibuffer-local-map (kbd "C-<tab>") 'dabbrev-expand)
+
+;; Go to previous window, anti-clockwise (opposite of C-x o)
+(global-set-key (kbd "\C-x p") '(lambda () (interactive) (other-window -1)))
+
+;; Kill buffer in other (next) window, ie for closing a man-page etc
+(load-library "kill-buffer-other-window")
+(global-set-key (kbd "\C-x 4 k") 'kill-buffer-other-window)
+
+;; Vertical split by default
+(setq split-height-threshold nil)
+(setq split-width-treshold 0)
 
 
 ; --------------------------------------------------------------------------------
@@ -117,6 +123,52 @@
 ; TODO: Improve to custom 'comment-region-or-line, this doesn't quite work ie for perl-mode:
 (global-set-key "\C-cc" 'comment-region)
 (global-set-key "\C-cu" 'uncomment-region)
+
+;; rainbow-delimiters for lisp-modes
+(add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
+
+;; Auto indent all prog-modes
+(add-hook 'prog-mode-hook '(lambda ()
+                             (local-set-key (kbd "RET") 'reindent-then-newline-and-indent)))
+
+;; Smarter tab (completion, indent-region, indent)
+(add-hook 'prog-mode-hook 'smart-tab-mode)
+
+;; Smartparens: Auto match/complete ([{" etc
+(require 'smartparens-config)
+(add-hook 'prog-mode-hook 'smartparens-mode)
+
+;; Show matching brace/parens for prog-modes
+(add-hook 'prog-mode-hook 'show-paren-mode)
+
+;; PHP Eldoc
+(add-hook 'php-mode-hook 'php-eldoc-enable)
+(add-hook 'web-mode-hook 'php-eldoc-enable)
+
+;; web-mode (http://web-mode.org)
+(add-to-list 'auto-mode-alist '("\\.phpclass'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+(defun my-web-mode-hook ()
+  "My settings for Web mode."
+  ;; indents = 4 spaces
+  (setq web-mode-markup-indent-offset 3)
+  (setq web-mode-css-indent-offset 3)
+  (setq web-mode-code-indent-offset 3)
+
+  ;; Get colors from active theme
+  (set-face-attribute 'web-mode-html-tag-face nil :foreground
+                      (face-attribute 'font-lock-function-name-face :foreground))
+  (set-face-attribute 'web-mode-html-attr-name-face nil :foreground
+                      (face-attribute 'font-lock-type-face :foreground))
+  (set-face-attribute 'web-mode-html-attr-value-face nil :foreground
+                      (face-attribute 'font-lock-string-face :foreground))
+  )
+(add-hook 'web-mode-hook  'my-web-mode-hook)
 
 ; --------------------------------------------------------------------------------
 ; Extra modes
