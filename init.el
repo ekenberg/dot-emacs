@@ -170,6 +170,21 @@
   )
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
+;; Markdown mode (http://jblevins.org/projects/markdown-mode/)
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+;; gfm-mode = Markdown GIT flavor
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+(defun markdown-custom ()
+  "my-markdown-mode-hook"
+  (setq markdown-open-command "~/local/bin/marked")
+  (setq markdown-command      "~/local/bin/gfm"))  ;; gfm = git-flavoured-markdown; http://github.com/alampros/Docter
+(add-hook 'markdown-mode-hook 'markdown-custom)
+
+
 ; --------------------------------------------------------------------------------
 ; Extra modes
 ; --------------------------------------------------------------------------------
