@@ -167,6 +167,9 @@
                       (face-attribute 'font-lock-type-face :foreground))
   (set-face-attribute 'web-mode-html-attr-value-face nil :foreground
                       (face-attribute 'font-lock-string-face :foreground))
+
+  ;; Disable auto-pairing (Conflicts with smartparens-mode)
+  (setq web-mode-disable-auto-pairing t)
   )
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
@@ -183,7 +186,6 @@
   (setq markdown-open-command "~/local/bin/marked")
   (setq markdown-command      "~/local/bin/gfm"))  ;; gfm = git-flavoured-markdown; http://github.com/alampros/Docter
 (add-hook 'markdown-mode-hook 'markdown-custom)
-
 
 ; --------------------------------------------------------------------------------
 ; Extra modes
