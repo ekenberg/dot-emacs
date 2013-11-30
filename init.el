@@ -82,6 +82,10 @@
 (setq split-height-threshold nil)
 (setq split-width-treshold 0)
 
+;; Try-to-be-smart shell-command, derived from here: http://stackoverflow.com/questions/206806/filtering-text-through-a-shell-command-in-emacs
+(load-library "smart-shell-command")
+(global-set-key (kbd "\C-x |") 'smart-shell-command)
+
 
 ; --------------------------------------------------------------------------------
 ; Other keyboard fixes and shortcuts
