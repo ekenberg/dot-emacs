@@ -184,6 +184,7 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 ;; gfm-mode = Markdown GIT flavor
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.txt\\'" . gfm-mode))
 (defun markdown-custom ()
   "my-markdown-mode-hook"
   (setq markdown-open-command "~/local/bin/marked")
