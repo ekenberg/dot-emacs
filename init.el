@@ -27,11 +27,10 @@
       (add-hook 'after-init-hook 'load-framegeometry)
       (add-hook 'kill-emacs-hook 'save-framegeometry)
 
-      ;; For linux, font and background color:
+      ;; Fonts differ Linux/Mac:
       (if (string-equal (window-system) "x")  ; x = linux, ns = cocoa
           (progn
-            (set-default-font "Monospace 8" ) ; Linux
-            (set-background-color "#ffffff"))
+            (set-default-font "Monospace 8" )) ; Linux
 
         (progn
           (set-default-font "Menlo-Regular 12")) ; Mac
