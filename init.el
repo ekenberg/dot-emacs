@@ -40,8 +40,10 @@
       (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
       (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-      ;; Set title bar to show file name if available, else buffer name
-      (setq frame-title-format '(buffer-file-name "%f" ("%b")))
+      ;; Set title bar to show buffer name
+      ;; (setq frame-title-format '(buffer-file-name "%f" ("%b")))
+      ;; Only buffer-name:
+      (setq frame-title-format '(buffer-file-name "Emacs: %b" ))
 
       ;; Disable C-z, use window-system to minimize window
       (global-set-key "\C-z" (lambda () (interactive) (message "Zzzzzz...")))
@@ -146,7 +148,6 @@
 (add-hook 'prog-mode-hook 'show-paren-mode)
 
 ;; PHP Eldoc
-(add-hook 'php-mode-hook 'php-eldoc-enable)
 (add-hook 'web-mode-hook 'php-eldoc-enable)
 
 ;; web-mode (http://web-mode.org)
