@@ -27,11 +27,10 @@
       (add-hook 'after-init-hook 'load-framegeometry)
       (add-hook 'kill-emacs-hook 'save-framegeometry)
 
-      ;; For linux, font and background color:
+      ;; Fonts differ Linux/Mac:
       (if (string-equal (window-system) "x")  ; x = linux, ns = cocoa
           (progn
-            (set-default-font "Monospace 8" ) ; Linux
-            (set-background-color "#ffffff"))
+            (set-default-font "Monospace 8" )) ; Linux
 
         (progn
           (set-default-font "Menlo-Regular 12")) ; Mac
@@ -41,8 +40,10 @@
       (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
       (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
-      ;; Set title bar to show file name if available, else buffer name
-      (setq frame-title-format '(buffer-file-name "%f" ("%b")))
+      ;; Set title bar to show buffer name
+      ;; (setq frame-title-format '(buffer-file-name "%f" ("%b")))
+      ;; Only buffer-name:
+      (setq frame-title-format '(buffer-file-name "Emacs: %b" ))
 
       ;; Disable C-z, use window-system to minimize window
       (global-set-key "\C-z" (lambda () (interactive) (message "Zzzzzz...")))
@@ -147,7 +148,6 @@
 (add-hook 'prog-mode-hook 'show-paren-mode)
 
 ;; PHP Eldoc
-(add-hook 'php-mode-hook 'php-eldoc-enable)
 (add-hook 'web-mode-hook 'php-eldoc-enable)
 
 ;; web-mode (http://web-mode.org)
@@ -185,6 +185,7 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 ;; gfm-mode = Markdown GIT flavor
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.txt\\'" . gfm-mode))
 (defun markdown-custom ()
   "my-markdown-mode-hook"
   (setq markdown-open-command "~/local/bin/marked")
