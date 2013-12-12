@@ -193,15 +193,16 @@
   (setq markdown-command      "~/local/bin/gfm"))
 (add-hook 'markdown-mode-hook 'markdown-custom)
 
-;; SLIME
-(require 'slime)
-(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-(setq inferior-lisp-program "sbcl")
-(slime-setup '(slime-fancy))
-;; tab-completion in the REPL:
-(add-to-list 'smart-tab-completion-functions-alist '(slime-repl-mode . slime-complete-symbol))
-(add-hook 'slime-repl-mode-hook (lambda () (run-hooks 'prog-mode-hook))) ; treat as a prog-mode
+;; SLIME (optional)
+(when (require 'slime nil t)
+  (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+  (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+  (setq inferior-lisp-program "sbcl")
+  (slime-setup '(slime-fancy))
+  ;; tab-completion in the REPL:
+  (add-to-list 'smart-tab-completion-functions-alist '(slime-repl-mode . slime-complete-symbol))
+  (add-hook 'slime-repl-mode-hook (lambda () (run-hooks 'prog-mode-hook)))  ; treat as a prog-mode
+  )
 
 
 ;;; --------------------------------------------------------------------------------
