@@ -9,8 +9,13 @@
 ;; Use Melpa for extra packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
 (package-initialize)
+
+;; Auto-install required packages
+(load-library "autopackage")
+(unless (check-install-packages
+	 '(smartparens web-mode smart-tab markdown-mode markdown-mode+ rainbow-delimiters rainbow-mode))
+  (save-buffers-kill-terminal))
 
 ;; Custom themes folder
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -235,6 +240,3 @@
 
 ;; No welcome message
 (setq inhibit-startup-message t)
-
-
-;;; --------------------------------------------------------------------------------
