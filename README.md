@@ -24,6 +24,6 @@ or
 Clone this repo from github and symlink the directory:
 
     cd
-    # backup old .emacs as/if needed:
+    # backup old .emacs.d as/if needed:
     mv .emacs.d .emacs.d.old
     ln -s path-to-dot-emacs .emacs.d
