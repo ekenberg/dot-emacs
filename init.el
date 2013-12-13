@@ -3,6 +3,16 @@
 ;;;; Used with Swedish keyboard layout
 ;;;; --------------------------------------------------------------------------------
 
+;; Require major version >= 24
+(when (< emacs-major-version 24)
+  (let ((sleep-sec 4))
+    (while (> sleep-sec 0)
+      (message "This Emacs configuration requires major version 24 or higher! Exit in %d seconds" sleep-sec)
+      (sit-for 1)
+      (setq sleep-sec (1- sleep-sec)))
+    (save-buffers-kill-terminal))
+  )
+
 ;; Load customizations from subdir
 (add-to-list 'load-path "~/.emacs.d/")
 
