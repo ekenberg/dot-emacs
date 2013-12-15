@@ -3,6 +3,9 @@
 ;;;; Used with Swedish keyboard layout
 ;;;; --------------------------------------------------------------------------------
 
+;; Skip site init
+(setq inhibit-default-init t)
+
 ;; Require major version >= 24
 (when (< emacs-major-version 24)
   (let ((sleep-sec 4))
