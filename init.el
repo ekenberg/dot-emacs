@@ -7,7 +7,7 @@
 (setq inhibit-default-init t)
 
 ;; Require major version >= 24
-(when (< emacs-major-version 24)
+(when (version< emacs-major-version "24")
   (let ((sleep-sec 4))
     (while (> sleep-sec 0)
       (message "This Emacs configuration requires major version 24 or higher! Exit in %d seconds" sleep-sec)
