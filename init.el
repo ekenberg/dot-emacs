@@ -244,7 +244,7 @@
 (setq backup-by-copying-when-mismatch t)
 
 ;; Always end files with a newline
-(setq require-final-newline 't)
+(setq require-final-newline t)
 
 
 ;;; --------------------------------------------------------------------------------
