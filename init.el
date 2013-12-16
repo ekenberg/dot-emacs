@@ -27,7 +27,7 @@
 ;; Auto-install required packages
 (load-library "autopackage")
 (unless (check-install-packages
-	 '(smartparens web-mode smart-tab markdown-mode markdown-mode+ rainbow-delimiters rainbow-mode))
+	 '(smartparens web-mode smart-tab markdown-mode markdown-mode+ rainbow-delimiters rainbow-mode magit))
   (save-buffers-kill-terminal))
 
 ;; Custom themes folder
@@ -105,7 +105,14 @@
 (load-library "smart-shell-command")
 (global-set-key (kbd "\C-x |") 'smart-shell-command)
 
-
+;; Magit - Emacs Git Integration
+(global-set-key (kbd "\C-c g") 'magit-status)
+;; (eval-after-load 'magit
+;;   '(progn
+;;      (set-face-foreground 'magit-diff-add "green3")
+;;      (set-face-foreground 'magit-diff-del "red3")
+;;      (set-face-background 'magit-item-highlight
+;;                           (face-attribute 'default :background))))
 ;;; --------------------------------------------------------------------------------
 ;;; Other keyboard fixes and shortcuts
 ;;; --------------------------------------------------------------------------------

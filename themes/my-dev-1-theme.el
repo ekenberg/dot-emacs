@@ -47,7 +47,9 @@
       (*string*             "#17A917")
 ;;      (*variable*           "#FD971F")
       (*variable*           "#D78700")
-      (*visual-selection*   "#555"))
+      (*visual-selection*   "#555")
+      (*diff-add*             "#17A917")
+      (*diff-del*             "#AF0000"))
 
   (custom-theme-set-faces
    'my-dev-1
@@ -101,6 +103,13 @@
    `(isearch ((t (:background, *regexp* :foreground, *visual-selection*))))
    `(isearch-fail ((t (:background, *warning*))))
    `(lazy-highlight ((t (:background, *operators* :foreground, *visual-selection*))))
+
+   ;; Magit
+   `(magit-diff-add ((t (:foreground, *diff-add*))))
+   `(magit-diff-del ((t (:foreground, *diff-del*))))
+   `(magit-item-highlight ((t (:background, *background*))))
+   `(magit-diff-hunk-header ((t (:background, *mode-inactive-bg*))))
+   `(magit-diff-file-header ((t (:background, *mode-inactive-bg*))))
 
    ))
 
