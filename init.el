@@ -106,7 +106,7 @@
 (global-set-key (kbd "\C-x |") 'smart-shell-command)
 
 ;; Magit - Emacs Git Integration
-(global-set-key (kbd "\C-c g") 'magit-status)
+(global-set-key (kbd "\C-x g") 'magit-status)
 
 ;;; --------------------------------------------------------------------------------
 ;;; Other keyboard fixes and shortcuts
