@@ -108,6 +108,9 @@
 ;; Magit - Emacs Git Integration
 (global-set-key (kbd "\C-x g") 'magit-status)
 
+;; Visa man-page för kommando under cursor
+(global-set-key (kbd "<f1> ,") 'man-follow)
+
 ;;; --------------------------------------------------------------------------------
 ;;; Other keyboard fixes and shortcuts
 ;;; --------------------------------------------------------------------------------
