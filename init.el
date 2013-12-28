@@ -27,7 +27,8 @@
 ;; Auto-install required packages
 (load-library "autopackage")
 (unless (check-install-packages
-	 '(smartparens web-mode smart-tab markdown-mode markdown-mode+ rainbow-delimiters rainbow-mode magit))
+	 '(smartparens web-mode smart-tab markdown-mode markdown-mode+ rainbow-delimiters
+                       rainbow-mode magit goto-last-change))
   (save-buffers-kill-terminal))
 
 ;; Custom themes folder
@@ -230,6 +231,10 @@
   (slime-setup '(slime-fancy))
   (add-hook 'slime-repl-mode-hook 'my-slime-repl-hook))
 
+;; goto-last-change
+(autoload 'goto-last-change "goto-last-change"
+  "Set point to the position of the last change." t)
+(global-set-key (kbd "\C-x \C-u") 'goto-last-change)
 
 ;;; --------------------------------------------------------------------------------
 ;;; Extra modes
