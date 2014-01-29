@@ -13,11 +13,11 @@ dot-emacs
 #### Automatic:
 The commandline program ```unzip``` is required for installation. It's present by default on most Macs and Linuxes
 
-    curl https://raw.github.com/ekenberg/dot-emacs/master/installer.sh | sh
+    curl https://raw.github.com/ekenberg/dot-emacs/master/installer.sh | bash
 
 or
 
-    wget -qO - https://raw.github.com/ekenberg/dot-emacs/master/installer.sh | sh
+    wget -qO - https://raw.github.com/ekenberg/dot-emacs/master/installer.sh | bash
 
 #### Manual:
 
