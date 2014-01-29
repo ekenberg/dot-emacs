@@ -109,8 +109,11 @@
 ;; Magit - Emacs Git Integration
 (global-set-key (kbd "\C-x g") 'magit-status)
 
-;; Visa man-page för kommando under cursor
+;; Show manpage for command under cursor
 (global-set-key (kbd "<f1> ,") 'man-follow)
+
+;; Grep
+(global-set-key (kbd "\C-c g") 'grep)
 
 ;;; --------------------------------------------------------------------------------
 ;;; Other keyboard fixes and shortcuts
