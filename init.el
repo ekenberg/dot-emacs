@@ -239,6 +239,11 @@
   "Set point to the position of the last change." t)
 (global-set-key (kbd "\C-x \C-u") 'goto-last-change)
 
+;; sh-mode disable << HEREDOC auto-completion
+(add-hook 'sh-mode-hook
+          (lambda ()
+            (sh-electric-here-document-mode -1)))
+
 ;;; --------------------------------------------------------------------------------
 ;;; Extra modes
 ;;; --------------------------------------------------------------------------------
