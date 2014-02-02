@@ -170,6 +170,7 @@
 ;; Smartparens: Auto match/complete ([{" etc
 (require 'smartparens-config)
 (add-hook 'prog-mode-hook 'smartparens-mode)
+(add-hook 'markdown-mode-hook 'smartparens-mode)
 
 ;; Show matching brace/parens for prog-modes
 (add-hook 'prog-mode-hook 'show-paren-mode)
