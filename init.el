@@ -206,6 +206,13 @@
   )
 (add-hook 'web-mode-hook  'my-web-mode-hook)
 
+;; Make smartparens-mode play nice with web-mode, skip auto-completing <> inside code context
+(defun sp-webmode-is-code-context (id action context)
+  (when (and (eq action 'insert)
+             (not (or (get-text-property (point) 'part-side) (get-text-property (point) 'block-side))))
+    t))
+(sp-local-pair 'web-mode "<" nil :when '(sp-webmode-is-code-context))
+
 ;; Markdown mode (http://jblevins.org/projects/markdown-mode/)
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
