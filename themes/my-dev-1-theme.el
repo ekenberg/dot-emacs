@@ -105,8 +105,8 @@
    `(lazy-highlight ((t (:background, *operators* :foreground, *visual-selection*))))
 
    ;; Magit
-   `(magit-diff-add ((t (:foreground, *diff-add*))))
-   `(magit-diff-del ((t (:foreground, *diff-del*))))
+   `(magit-diff-add ((t (:foreground, *diff-add* :background, *background*))))
+   `(magit-diff-del ((t (:foreground, *diff-del* :background, *background*))))
    `(magit-item-highlight ((t (:background, *background*))))
    `(magit-diff-hunk-header ((t (:background, *mode-inactive-bg*))))
    `(magit-diff-file-header ((t (:background, *mode-inactive-bg*))))

@@ -170,6 +170,8 @@
 ;; Smartparens: Auto match/complete ([{" etc
 (require 'smartparens-config)
 (add-hook 'prog-mode-hook 'smartparens-mode)
+(add-hook 'markdown-mode-hook 'smartparens-mode)
+(add-hook 'gfm-mode-hook 'smartparens-mode)
 
 ;; Show matching brace/parens for prog-modes
 (add-hook 'prog-mode-hook 'show-paren-mode)
@@ -203,6 +205,13 @@
   (setq web-mode-disable-auto-pairing t)
   )
 (add-hook 'web-mode-hook  'my-web-mode-hook)
+
+;; Make smartparens-mode play nice with web-mode, skip auto-completing <> inside code context
+(defun sp-webmode-is-code-context (id action context)
+  (when (and (eq action 'insert)
+             (not (or (get-text-property (point) 'part-side) (get-text-property (point) 'block-side))))
+    t))
+(sp-local-pair 'web-mode "<" nil :when '(sp-webmode-is-code-context))
 
 ;; Markdown mode (http://jblevins.org/projects/markdown-mode/)
 (autoload 'markdown-mode "markdown-mode"
@@ -238,6 +247,11 @@
 (autoload 'goto-last-change "goto-last-change"
   "Set point to the position of the last change." t)
 (global-set-key (kbd "\C-x \C-u") 'goto-last-change)
+
+;; sh-mode disable << HEREDOC auto-completion
+(add-hook 'sh-mode-hook
+          (lambda ()
+            (sh-electric-here-document-mode -1)))
 
 ;;; --------------------------------------------------------------------------------
 ;;; Extra modes
