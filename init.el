@@ -28,7 +28,7 @@
 (load-library "autopackage")
 (unless (check-install-packages
 	 '(smartparens web-mode smart-tab markdown-mode markdown-mode+ rainbow-delimiters
-                       rainbow-mode magit goto-last-change php-eldoc))
+                       rainbow-mode magit goto-last-change php-eldoc pandoc-mode))
   (save-buffers-kill-terminal))
 
 ;; Custom themes folder
