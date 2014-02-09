@@ -114,6 +114,7 @@
 
 ;; Grep
 (global-set-key (kbd "\C-c g") 'grep)
+(setq next-error-highlight-no-select t) ; permanent highlight for matches
 
 ;;; --------------------------------------------------------------------------------
 ;;; Other keyboard fixes and shortcuts

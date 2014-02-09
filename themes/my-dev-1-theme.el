@@ -111,6 +111,9 @@
    `(magit-diff-hunk-header ((t (:background, *mode-inactive-bg*))))
    `(magit-diff-file-header ((t (:background, *mode-inactive-bg*))))
 
+   ;; grep/compile highlight match
+   `(next-error ((t (:background, *method-declaration*))))
+
    ))
 
 ;;;###autoload
