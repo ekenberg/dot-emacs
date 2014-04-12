@@ -163,7 +163,7 @@
 
 ;; Auto indent all prog-modes
 (add-hook 'prog-mode-hook '(lambda ()
-                             (local-set-key (kbd "RET") 'reindent-then-newline-and-indent)))
+                             (local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;; Smarter tab (completion, indent-region, indent)
 (add-hook 'prog-mode-hook 'smart-tab-mode)
