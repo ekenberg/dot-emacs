@@ -274,6 +274,14 @@
 ;; Always end files with a newline
 (setq require-final-newline t)
 
+;;; --------------------------------------------------------------------------------
+;;; Dired / dired-x
+;;; --------------------------------------------------------------------------------
+(require 'dired-x)
+
+;; Omit uninteresting files (., .., *~ etc), see http://www.emacswiki.org/emacs/DiredOmitMode
+;; Toggle with M-o
+(setq-default dired-omit-files-p t) ;
 
 ;;; --------------------------------------------------------------------------------
 ;;; Various other options
