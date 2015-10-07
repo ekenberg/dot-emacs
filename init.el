@@ -1,4 +1,4 @@
-;;;; --------------------------------------------------------------------------------
+S;;;; --------------------------------------------------------------------------------
 ;;;; Combined Emacs init-file for linux and mac
 ;;;; Used with Swedish keyboard layout
 ;;;; --------------------------------------------------------------------------------
@@ -17,7 +17,7 @@
   )
 
 ;; Load customizations from subdir
-(add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/lisp")
 
 ;; Use Melpa for extra packages
 (require 'package)
