@@ -254,6 +254,9 @@
           (lambda ()
             (sh-electric-here-document-mode -1)))
 
+;; nqc (not-quite-c for programming LEGO RCX units), use c-mode
+(add-to-list 'auto-mode-alist '("\\.nqc\\'" . c-mode))
+
 ;;; --------------------------------------------------------------------------------
 ;;; Extra modes
 ;;; --------------------------------------------------------------------------------
