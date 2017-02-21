@@ -6,7 +6,7 @@
 ;;
 ;; ----------------------------
 
-(unless (>= 24 emacs-major-version)
+(when (version< emacs-version "24")
   (error "requires Emacs 24 or later."))
 
 (deftheme my-dev-1  "A dark color theme for Emacs based on Sublime Text 2")
