@@ -52,7 +52,7 @@
             (set-default-font "Monospace 8" )) ; Linux
 
         (progn
-          (set-default-font "Menlo-Regular 12")) ; Mac
+          (set-default-font "Menlo 12")) ; Mac
         )
 
       ;; Hide menubar (icons) and scrollbar - thanks to https://sites.google.com/site/steveyegge2/effective-emacs
