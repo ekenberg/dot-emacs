@@ -126,6 +126,7 @@
 
 ;; Help key:
 (global-set-key (kbd "C-+") 'help)
+(global-set-key (kbd "M-+") 'help)
 
 ;; Mac, Swedish keyboard: Leave right alt-key alone, else I cannot write \
 ;; Solution found at the bottom of this page (French keyboard): http://stackoverflow.com/questions/6344389/osx-emacs-unbind-just-the-right-alt
@@ -295,3 +296,17 @@
 
 ;; No welcome message
 (setq inhibit-startup-message t)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (sws-mode swift-mode smart-tab slime scss-mode rainbow-mode rainbow-delimiters php-mode php-eldoc pandoc-mode markdown-mode+ magit-find-file json-mode jedi jade-mode helm graphene goto-last-change feature-mode f))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
