@@ -49,7 +49,7 @@
       ;; Fonts differ Linux/Mac:
       (if (string-equal (window-system) "x")  ; x = linux, ns = cocoa
           (progn
-            (set-default-font "Monospace 9" )) ; Linux
+            (set-default-font "Bitstream Vera Sans Mono-10" )) ; Linux
 
         (progn
           (set-default-font "Menlo 12")) ; Mac
