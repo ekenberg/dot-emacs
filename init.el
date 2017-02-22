@@ -33,7 +33,8 @@
 
 ;; Custom themes folder
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'my-dev-1 t)
+;(load-theme 'my-dev-1 t)
+(load-theme 'material t)
 
 ;;; --------------------------------------------------------------------------------
 ;;; Customizations for GUI emacs, ie GTK or Cocoa
@@ -303,7 +304,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (sws-mode swift-mode smart-tab slime scss-mode rainbow-mode rainbow-delimiters php-mode php-eldoc pandoc-mode markdown-mode+ magit-find-file json-mode jedi jade-mode helm graphene goto-last-change feature-mode f))))
+    (material-theme sws-mode swift-mode smart-tab slime scss-mode rainbow-mode rainbow-delimiters php-mode php-eldoc pandoc-mode markdown-mode+ magit-find-file json-mode jedi jade-mode helm graphene goto-last-change feature-mode f))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
