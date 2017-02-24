@@ -1,0 +1,524 @@
+#+TITLE: Emacs Configuration
+
+* Basic sanity, startup and paths
+
+** Skip site-init
+
+*** TODO is this relevant anymore?
+
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-default-init t)
+#+END_SRC
+
+** Require version 24 or higher
+
+#+BEGIN_SRC emacs-lisp
+  (when (version< emacs-version "24")
+    (let ((sleep-sec 4))
+      (while (> sleep-sec 0)
+        (message "This Emacs configuration requires major version 24 or higher! Exit in %d seconds" sleep-sec)
+        (sit-for 1)
+        (setq sleep-sec (1- sleep-sec)))
+      (save-buffers-kill-terminal))
+    )
+#+END_SRC
+
+** Path to custom functions and themes
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/lisp")
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+#+END_SRC
+
+** No startup message
+
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-message t)
+#+END_SRC
+
+** Disable vc-backends
+
+Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
+
+#+BEGIN_SRC emacs-lisp
+  (setq vc-handled-backends ())
+#+END_SRC
+
+
+* Package management
+
+** Use Melpa
+
+#+BEGIN_SRC emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (package-initialize)
+#+END_SRC
+
+** Autoinstall required packages
+
+*** TODO replace with 'use-package'
+
+#+BEGIN_SRC emacs-lisp
+  (load-library "autopackage")
+  (unless (check-install-packages
+           '(smartparens web-mode smart-tab markdown-mode markdown-mode+ rainbow-delimiters
+                         rainbow-mode magit goto-last-change php-eldoc pandoc-mode
+                         material-theme neotree ivy smex try swiper ox-twbs org-bullets))
+    (save-buffers-kill-terminal))
+#+END_SRC
+
+
+
+* Global keybinds and custom functions
+
+** Backspace and C-h
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key "\C-h" 'backward-delete-char)
+  (normal-erase-is-backspace-mode 0)
+#+END_SRC
+
+** Help key
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-+") 'help)
+  (global-set-key (kbd "M-+") 'help) ;; can't make C-+ work on Mac in terminal
+#+END_SRC
+
+** Swap content between two windows
+
+#+BEGIN_SRC emacs-lisp
+  (load-library "swap-windows")
+  (global-set-key (kbd "\C-x 6") 'swap-windows)
+#+END_SRC
+
+** Toggle vertical/horizontal split of two windows
+
+#+BEGIN_SRC emacs-lisp
+  (load-library "rotate-frame-split")
+  (global-set-key (kbd "\C-x 5") 'rotate-frame-split)
+#+END_SRC
+
+** Save buffer as new name but stay on old buffer
+
+#+BEGIN_SRC emacs-lisp
+  (load-library "save-copy-as")
+  (global-set-key "\C-c\C-w" 'save-copy-as)
+#+END_SRC
+
+** Go to previous window anti-clockwise
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "\C-x p") '(lambda () (interactive) (other-window -1)))
+#+END_SRC
+
+** Kill buffer in other (next) window
+
+Closing man-pages, help, warnings etc
+
+#+BEGIN_SRC emacs-lisp
+  (load-library "kill-buffer-other-window")
+  (global-set-key (kbd "\C-x 4 k") 'kill-buffer-other-window)
+#+END_SRC
+
+** Smart shell command
+
+Pipe region to shell command derived from [[http://stackoverflow.com/questions/206806/filtering-text-through-a-shell-command-in-emacs][this question on stackoverflow]]
+
+#+BEGIN_SRC emacs-lisp
+  (load-library "smart-shell-command")
+  (global-set-key (kbd "\C-x |") 'smart-shell-command)
+#+END_SRC
+
+** Manpage for command under cursor
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<f1> ,") 'man-follow)
+#+END_SRC
+
+** Grep
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "\C-c g") 'grep)
+  (setq next-error-highlight-no-select t) ; permanent highlight for matches
+#+END_SRC
+
+** Go to last change
+
+#+BEGIN_SRC emacs-lisp
+  (autoload 'goto-last-change "goto-last-change"
+    "Set point to the position of the last change." t)
+  (global-set-key (kbd "\C-x \C-u") 'goto-last-change)
+#+END_SRC
+
+
+* Package settings and keybinds
+
+** Magit
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "\C-x g") 'magit-status)
+#+END_SRC
+
+** Smex
+
+M-x replacement
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; old M-x
+#+END_SRC
+
+** Ivy
+
+Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
+
+#+BEGIN_SRC emacs-lisp
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (define-key ivy-mode-map "\C-h" 'ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
+  (global-set-key "\C-s" 'swiper) ;; replace default search
+#+END_SRC
+
+** Org-mode
+
+*** Pretty header bullets
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (org-bullets-mode t)))
+#+END_SRC
+
+*** Use ⤵ to show header collapsed mode
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-ellipsis "⤵")
+#+END_SRC
+
+*** Code block syntax highlighting when editing
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-fontify-natively t)
+#+END_SRC
+
+*** Code block make TAB act 'natively'
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-tab-acts-natively t)
+#+END_SRC
+
+*** Code edit in same window
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-window-setup 'current-window)
+#+END_SRC
+
+*** Babel code evaluation
+
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)
+     (ruby . t)
+     (emacs-lisp . t)
+     (perl . t)
+     (sh . t)))
+#+END_SRC
+
+*** Twitter bootstrap exporting [[https://github.com/marsmining/ox-twbs]['ow-twbs']]
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-twbs)
+#+END_SRC
+
+*** Skip footer in html exports
+
+#+BEGIN_SRC emacs-lisp
+  (setq org-html-postamble nil)
+#+END_SRC
+
+*** Save link to current file and line
+
+#+BEGIN_SRC emacs-lisp
+  (define-key global-map "\C-cl" 'org-store-link)
+#+END_SRC
+
+** Dired-x
+
+#+BEGIN_SRC emacs-lisp
+  (require 'dired-x)
+#+END_SRC
+
+*** [[http://www.emacswiki.org/emacs/DiredOmitMode][Omit Mode]]
+
+Toggle with M-o
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default dired-omit-files-p t)
+#+END_SRC
+
+** Neotree
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key [f8] 'neotree-toggle)
+  (setq neo-smart-open t)
+#+END_SRC
+
+
+* Programming options and packages
+
+** Use spaces for indent
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+#+END_SRC
+
+** Auto-indent for all programming modes
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook '(lambda ()
+                               (local-set-key (kbd "RET") 'newline-and-indent)))
+#+END_SRC
+
+** Make TAB smarter
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook 'smart-tab-mode)
+#+END_SRC
+
+** Delete trailing whitespace when saving
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+END_SRC
+
+** Always end files with a newline
+
+#+BEGIN_SRC emacs-lisp
+  (setq require-final-newline t)
+#+END_SRC
+
+** Preserve user and group of backup files
+
+Specially important using sudo or su
+
+#+BEGIN_SRC emacs-lisp
+  (setq backup-by-copying-when-mismatch t)
+#+END_SRC
+
+** Comment/uncomment region keybinds
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key "\C-cc" 'comment-region)
+  (global-set-key "\C-cu" 'uncomment-region)
+#+END_SRC
+
+** C-mode
+
+#+BEGIN_SRC emacs-lisp
+  (setq c-default-style "linux"
+        c-basic-offset 4)
+  (setq c-toggle-hungry-state t)
+#+END_SRC
+
+** Lisp-mode
+
+Rainbow delimiters
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
+#+END_SRC
+
+** Smartparens
+
+Auto-complete ([{ etc
+
+#+BEGIN_SRC emacs-lisp
+  (require 'smartparens-config)
+  (add-hook 'prog-mode-hook 'smartparens-mode)
+  (add-hook 'prog-mode-hook 'show-paren-mode)
+  (add-hook 'markdown-mode-hook 'smartparens-mode)
+  (add-hook 'gfm-mode-hook 'smartparens-mode)
+#+END_SRC
+
+** Web-mode
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.phpclass'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+  (defun my-web-mode-hook ()
+    "My settings for Web mode."
+    ;; indents = 4 spaces
+    (setq web-mode-markup-indent-offset 3)
+    (setq web-mode-css-indent-offset 3)
+    (setq web-mode-code-indent-offset 3)
+
+    ;; Get colors from active theme
+    (set-face-attribute 'web-mode-html-tag-face nil :foreground
+                        (face-attribute 'font-lock-function-name-face :foreground))
+    (set-face-attribute 'web-mode-html-attr-name-face nil :foreground
+                        (face-attribute 'font-lock-type-face :foreground))
+    (set-face-attribute 'web-mode-html-attr-value-face nil :foreground
+                        (face-attribute 'font-lock-string-face :foreground))
+
+    ;; Disable auto-pairing (Conflicts with smartparens-mode)
+    (setq web-mode-disable-auto-pairing t)
+    )
+  (add-hook 'web-mode-hook  'my-web-mode-hook)
+
+  ;; Make smartparens-mode play nice with web-mode, skip auto-completing <> inside code context
+  (defun sp-webmode-is-code-context (id action context)
+    (when (and (eq action 'insert)
+               (not (or (get-text-property (point) 'part-side) (get-text-property (point) 'block-side))))
+      t))
+  (sp-local-pair 'web-mode "<" nil :when '(sp-webmode-is-code-context))
+#+END_SRC
+
+
+
+** Markdown-mode
+
+#+BEGIN_SRC emacs-lisp
+  (autoload 'markdown-mode "markdown-mode"
+    "Major mode for editing Markdown files" t)
+
+  (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+  ;; gfm-mode = Markdown GIT flavor
+  (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+  (add-to-list 'auto-mode-alist '("\\.txt\\'" . gfm-mode))
+
+  (defun markdown-custom ()
+    "my-markdown-mode-hook"
+    (setq markdown-open-command "~/local/bin/marked")
+    ;; gfm = git-flavoured-markdown; http://github.com/alampros/Docter
+    (setq markdown-command      "~/local/bin/gfm"))
+
+  (add-hook 'markdown-mode-hook 'markdown-custom)
+#+END_SRC
+
+** Slime (lisp)
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-slime-repl-hook ()
+    ;; tab-completion in the REPL
+    (add-to-list 'smart-tab-completion-functions-alist '(slime-repl-mode . slime-complete-symbol))
+    ;; treat slime-repl as prog-mode
+    (run-hooks 'prog-mode-hook)
+    )
+  (when (require 'slime nil t)
+    (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+    (add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+    (setq inferior-lisp-program "sbcl")
+    (slime-setup '(slime-fancy))
+    (add-hook 'slime-repl-mode-hook 'my-slime-repl-hook))
+#+END_SRC
+
+** sh-mode
+
+Disable << HEREDOC auto-completion
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'sh-mode-hook
+            (lambda ()
+              (sh-electric-here-document-mode -1)))
+#+END_SRC
+
+** nqc (Lego RCX)
+
+use c-mode for nqc files
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.nqc\\'" . c-mode))
+#+END_SRC
+
+** Lua-mode
+
+#+BEGIN_SRC emacs-lisp
+  (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+  (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+  (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+#+END_SRC
+
+
+* Themes, fonts and visual
+
+** Default theme
+
+#+BEGIN_SRC emacs-lisp
+  (load-theme 'material t)
+#+END_SRC
+
+** Window manager operations (Mac/Linux)
+
+*** Save / restore window-sizes
+
+#+BEGIN_SRC emacs-lisp
+  (if window-system
+      (progn
+        (load-library "restore-framegeometry")
+        (add-hook 'after-init-hook 'load-framegeometry)
+        (add-hook 'kill-emacs-hook 'save-framegeometry)))
+#+END_SRC
+
+*** Mac/Linux fonts
+
+#+BEGIN_SRC emacs-lisp
+  (if window-system
+      (progn
+        (if (string-equal (window-system) "x")  ; x = linux, ns = cocoa
+            (progn
+              (set-default-font "Bitstream Vera Sans Mono-10" )) ; Linux
+
+          (progn
+            (set-default-font "Menlo 13")) ; Mac
+          )))
+#+END_SRC
+
+*** Hide menubar/scrollbar
+
+#+BEGIN_SRC emacs-lisp
+  (if window-system
+      (progn
+        (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+        (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))))
+#+END_SRC
+
+*** Title bar shows buffer name
+
+#+BEGIN_SRC emacs-lisp
+  (if window-system
+      (progn
+        (setq frame-title-format '(buffer-file-name "Emacs: %b" ))))
+#+END_SRC
+
+*** Disable Ctrl-z
+
+#+BEGIN_SRC emacs-lisp
+  (if window-system
+      (progn
+        (global-set-key "\C-z" (lambda () (interactive) (message "Zzzzzz...")))))
+#+END_SRC
+
+
+** Highlight current line
+
+#+BEGIN_SRC emacs-lisp
+  (global-hl-line-mode)
+#+END_SRC
+
+** Vertical splits by default
+
+#+BEGIN_SRC emacs-lisp
+  (setq split-height-threshold nil)
+  (setq split-width-treshold 0)
+#+END_SRC
