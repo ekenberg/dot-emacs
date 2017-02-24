@@ -34,9 +34,9 @@ $DL_PROG https://github.com/ekenberg/dot-emacs/archive/master.zip
 
 # (re)move existing .emacs.d
 [ -h $HOME/.emacs.d ] && rm -f $HOME/.emacs.d
-[ -e $HOME/.emacs.d ] && (echo "Backing up your current .emacs.d:"; mv -Tbv $HOME/.emacs.d $HOME/.emacs.d.orig.bak)
+[ -e $HOME/.emacs.d ] && (echo "Backing up your current .emacs.d:"; rm -rf $HOME/.emacs.d.orig.bak; mv -v $HOME/.emacs.d $HOME/.emacs.d.orig.bak)
 [ -h $HOME/.emacs ] && rm -f $HOME/.emacs
-[ -e $HOME/.emacs ] && (echo "Backing up your current .emacs:"; mv -Tbv $HOME/.emacs $HOME/.emacs.orig.bak)
+[ -e $HOME/.emacs ] && (echo "Backing up your current .emacs:"; rm -rf $HOME/.emacs.orig.bak; mv -v $HOME/.emacs $HOME/.emacs.orig.bak)
 
 TARGET_DIR=$HOME/.emacs.d.dot-emacs
 
