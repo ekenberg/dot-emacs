@@ -4,7 +4,7 @@
 
 ** Skip site-init
 
-*** TODO is this relevant anymore?
+On legacy systems site-init can mess up local configuration
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-default-init t)
