@@ -51,23 +51,18 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 
 #+BEGIN_SRC emacs-lisp
   (require 'package)
+  (setq package-enable-at-startup nil)
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (package-initialize)
 #+END_SRC
 
-** Autoinstall required packages
-
-*** TODO replace with 'use-package'
+** Setup 'use-package'
 
 #+BEGIN_SRC emacs-lisp
-  (load-library "autopackage")
-  (unless (check-install-packages
-           '(smartparens web-mode smart-tab markdown-mode markdown-mode+ rainbow-delimiters
-                         rainbow-mode magit goto-last-change php-eldoc pandoc-mode
-                         material-theme neotree ivy smex try swiper ox-twbs org-bullets))
-    (save-buffers-kill-terminal))
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
 #+END_SRC
-
 
 
 * Global keybinds and custom functions
@@ -147,9 +142,10 @@ Pipe region to shell command derived from [[http://stackoverflow.com/questions/2
 ** Go to last change
 
 #+BEGIN_SRC emacs-lisp
-  (autoload 'goto-last-change "goto-last-change"
-    "Set point to the position of the last change." t)
-  (global-set-key (kbd "\C-x \C-u") 'goto-last-change)
+  (use-package goto-last-change
+    :ensure t
+    :commands (goto-last-change)
+    :bind ("C-x C-u" . goto-last-change))
 #+END_SRC
 
 
@@ -158,7 +154,9 @@ Pipe region to shell command derived from [[http://stackoverflow.com/questions/2
 ** Magit
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "\C-x g") 'magit-status)
+  (use-package magit
+    :ensure t
+    :bind ("C-x g" . magit-status))
 #+END_SRC
 
 ** Smex
@@ -166,9 +164,11 @@ Pipe region to shell command derived from [[http://stackoverflow.com/questions/2
 M-x replacement
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command) ;; old M-x
+  (use-package smex
+    :ensure t
+    :bind (("M-x" . smex)
+           ("M-X" . smex-major-mode-commands)
+           ("C-c C-c M-x" . execute-extended-command))) ;; old M-x
 #+END_SRC
 
 ** Ivy
@@ -176,10 +176,17 @@ M-x replacement
 Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
 
 #+BEGIN_SRC emacs-lisp
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (define-key ivy-mode-map "\C-h" 'ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
-  (global-set-key "\C-s" 'swiper) ;; replace default search
+  (use-package ivy
+    :ensure swiper
+    :demand t
+    :init
+    (setq ivy-use-virtual-buffers t)
+    :config
+    (ivy-mode 1)
+    :bind (("C-s" . swiper) ;; replace default search
+           :map ivy-mode-map
+           ("C-h" . ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
+           ))
 #+END_SRC
 
 ** Org-mode
@@ -187,6 +194,9 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
 *** Pretty header bullets
 
 #+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t)
+
   (add-hook 'org-mode-hook
             (lambda ()
               (org-bullets-mode t)))
@@ -231,7 +241,8 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
 *** Twitter bootstrap exporting [[https://github.com/marsmining/ox-twbs]['ow-twbs']]
 
 #+BEGIN_SRC emacs-lisp
-  (require 'ox-twbs)
+  (use-package ox-twbs
+    :ensure t)
 #+END_SRC
 
 *** Skip footer in html exports
@@ -263,8 +274,29 @@ Toggle with M-o
 ** Neotree
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key [f8] 'neotree-toggle)
-  (setq neo-smart-open t)
+  (use-package neotree
+    :ensure t
+      :init
+      (setq neo-smart-open t)
+      :bind ([f8] . neotree-toggle))
+#+END_SRC
+
+** Smart-tab
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smart-tab
+    :ensure t
+    :demand t
+    :config
+    (global-smart-tab-mode 1)
+    )
+#+END_SRC
+
+** Try (test packages without permanent install)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package try
+    :ensure t)
 #+END_SRC
 
 
@@ -329,8 +361,11 @@ Specially important using sudo or su
 Rainbow delimiters
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
-  (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode)
+  (use-package rainbow-delimiters
+    :ensure t
+    :config
+    (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
+    (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 
 ** Smartparens
@@ -338,72 +373,91 @@ Rainbow delimiters
 Auto-complete ([{ etc
 
 #+BEGIN_SRC emacs-lisp
-  (require 'smartparens-config)
-  (add-hook 'prog-mode-hook 'smartparens-mode)
-  (add-hook 'prog-mode-hook 'show-paren-mode)
-  (add-hook 'markdown-mode-hook 'smartparens-mode)
-  (add-hook 'gfm-mode-hook 'smartparens-mode)
+  (use-package smartparens
+    :ensure t
+    :config
+    (require 'smartparens-config)
+    (add-hook 'prog-mode-hook 'smartparens-mode)
+    (add-hook 'prog-mode-hook 'show-paren-mode)
+    (add-hook 'markdown-mode-hook 'smartparens-mode)
+    (add-hook 'gfm-mode-hook 'smartparens-mode))
 #+END_SRC
 
 ** Web-mode
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.phpclass'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (use-package web-mode
+    :ensure t
+    :mode ("\\.phpclass\\'"
+           "\\.php\\'"
+           "\\.js\\'"
+           "\\.css\\'"
+           "\\.html?\\'")
+    :config
+    (defun my-web-mode-hook ()
+      "My settings for Web mode."
+      (setq web-mode-markup-indent-offset 3)
+      (setq web-mode-css-indent-offset 3)
+      (setq web-mode-code-indent-offset 3)
 
-  (defun my-web-mode-hook ()
-    "My settings for Web mode."
-    ;; indents = 4 spaces
-    (setq web-mode-markup-indent-offset 3)
-    (setq web-mode-css-indent-offset 3)
-    (setq web-mode-code-indent-offset 3)
+      ;; Get colors from active theme
+      (set-face-attribute 'web-mode-html-tag-face nil :foreground
+                          (face-attribute 'font-lock-function-name-face :foreground))
+      (set-face-attribute 'web-mode-html-attr-name-face nil :foreground
+                          (face-attribute 'font-lock-type-face :foreground))
+      (set-face-attribute 'web-mode-html-attr-value-face nil :foreground
+                          (face-attribute 'font-lock-string-face :foreground))
 
-    ;; Get colors from active theme
-    (set-face-attribute 'web-mode-html-tag-face nil :foreground
-                        (face-attribute 'font-lock-function-name-face :foreground))
-    (set-face-attribute 'web-mode-html-attr-name-face nil :foreground
-                        (face-attribute 'font-lock-type-face :foreground))
-    (set-face-attribute 'web-mode-html-attr-value-face nil :foreground
-                        (face-attribute 'font-lock-string-face :foreground))
+      ;; Disable auto-pairing (Conflicts with smartparens-mode)
+      (setq web-mode-disable-auto-pairing t)
+      )
+    (add-hook 'web-mode-hook  'my-web-mode-hook)
 
-    ;; Disable auto-pairing (Conflicts with smartparens-mode)
-    (setq web-mode-disable-auto-pairing t)
-    )
-  (add-hook 'web-mode-hook  'my-web-mode-hook)
-
-  ;; Make smartparens-mode play nice with web-mode, skip auto-completing <> inside code context
-  (defun sp-webmode-is-code-context (id action context)
-    (when (and (eq action 'insert)
-               (not (or (get-text-property (point) 'part-side) (get-text-property (point) 'block-side))))
-      t))
-  (sp-local-pair 'web-mode "<" nil :when '(sp-webmode-is-code-context))
+    ;; Make smartparens-mode play nice with web-mode, skip auto-completing <> inside code context
+    (defun sp-webmode-is-code-context (id action context)
+      (when (and (eq action 'insert)
+                 (not (or (get-text-property (point) 'part-side) (get-text-property (point) 'block-side))))
+        t))
+    (sp-local-pair 'web-mode "<" nil :when '(sp-webmode-is-code-context)))
 #+END_SRC
-
 
 
 ** Markdown-mode
 
 #+BEGIN_SRC emacs-lisp
-  (autoload 'markdown-mode "markdown-mode"
-    "Major mode for editing Markdown files" t)
+  (use-package markdown-mode
+    :ensure t
+    :mode (("\\.text\\'" . markdown-mode)
+           ("\\.markdown\\'" . markdown-mode)
+           ("\\.md\\'" . markdown-mode)
+           ("README\\.md\\'" . gfm-mode)
+           ("\\.txt\\'" . gfm-mode))
+    :config
+    (defun markdown-custom ()
+      "my-markdown-mode-hook"
+      (setq markdown-open-command "~/local/bin/marked")
+      ;; gfm = git-flavoured-markdown; http://github.com/alampros/Docter
+      (setq markdown-command      "~/local/bin/gfm"))
 
-  (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-  ;; gfm-mode = Markdown GIT flavor
-  (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-  (add-to-list 'auto-mode-alist '("\\.txt\\'" . gfm-mode))
+    (add-hook 'markdown-mode-hook 'markdown-custom))
 
-  (defun markdown-custom ()
-    "my-markdown-mode-hook"
-    (setq markdown-open-command "~/local/bin/marked")
-    ;; gfm = git-flavoured-markdown; http://github.com/alampros/Docter
-    (setq markdown-command      "~/local/bin/gfm"))
+  ;; (autoload 'markdown-mode "markdown-mode"
+  ;;   "Major mode for editing Markdown files" t)
 
-  (add-hook 'markdown-mode-hook 'markdown-custom)
+  ;; (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+  ;; ;; gfm-mode = Markdown GIT flavor
+  ;; (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.txt\\'" . gfm-mode))
+
+  ;; (defun markdown-custom ()
+  ;;   "my-markdown-mode-hook"
+  ;;   (setq markdown-open-command "~/local/bin/marked")
+  ;;   ;; gfm = git-flavoured-markdown; http://github.com/alampros/Docter
+  ;;   (setq markdown-command      "~/local/bin/gfm"))
+
+  ;; (add-hook 'markdown-mode-hook 'markdown-custom)
 #+END_SRC
 
 ** Slime (lisp)
@@ -444,9 +498,10 @@ use c-mode for nqc files
 ** Lua-mode
 
 #+BEGIN_SRC emacs-lisp
-  (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
-  (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-  (add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+  (use-package lua-mode
+    :ensure t
+    :mode "\\.lua$"
+    :interpreter "lua")
 #+END_SRC
 
 
@@ -455,7 +510,11 @@ use c-mode for nqc files
 ** Default theme
 
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'material t)
+  (use-package material-theme
+    :ensure t
+    :load-path "themes"
+    :config
+    (load-theme 'material t))
 #+END_SRC
 
 ** Window manager operations (Mac/Linux)
@@ -484,12 +543,13 @@ use c-mode for nqc files
           )))
 #+END_SRC
 
-*** Hide menubar/scrollbar
+*** Hide toolbar/menubar/scrollbar
 
 #+BEGIN_SRC emacs-lisp
   (if window-system
       (progn
         (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+        (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
         (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))))
 #+END_SRC
 
