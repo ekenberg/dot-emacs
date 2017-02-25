@@ -546,11 +546,10 @@ use c-mode for nqc files
 *** Hide toolbar/menubar/scrollbar
 
 #+BEGIN_SRC emacs-lisp
-  (if window-system
-      (progn
-        (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-        (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-        (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))))
+  (tool-bar-mode 0)
+  (menu-bar-mode 0)
+  (when window-system
+    (scroll-bar-mode -1))
 #+END_SRC
 
 *** Title bar shows buffer name
