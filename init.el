@@ -22,7 +22,6 @@
    (quote
     ("98cc377af705c0f2133bb6d340bf0becd08944a588804ee655809da5d8140de6" "5dc0ae2d193460de979a463b907b4b2c6d2c9c4657b2e9e66b8898d2592e3de5" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(hl-sexp-background-color "#1c1f26")
- '(ns-right-alternate-modifier (quote meta))
  '(package-selected-packages
    (quote
     (solarized-theme ox-twbs org-babel-eval-in-repl org-bullets counsel swiper try smex ivy neotree material-theme sws-mode swift-mode smart-tab slime scss-mode rainbow-mode rainbow-delimiters php-mode php-eldoc pandoc-mode markdown-mode+ magit-find-file json-mode jedi jade-mode helm graphene goto-last-change feature-mode f))))

@@ -81,6 +81,14 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
   (global-set-key (kbd "M-+") 'help) ;; can't make C-+ work on Mac in terminal
 #+END_SRC
 
+** Mac Meta Keymap
+
+Right alt-key as meta
+
+#+BEGIN_SRC emacs-lisp
+  (setq ns-right-alternate-modifier (quote meta))
+#+END_SRC
+
 ** Swap content between two windows
 
 #+BEGIN_SRC emacs-lisp
@@ -567,7 +575,6 @@ use c-mode for nqc files
       (progn
         (global-set-key "\C-z" (lambda () (interactive) (message "Zzzzzz...")))))
 #+END_SRC
-
 
 ** Highlight current line
 
