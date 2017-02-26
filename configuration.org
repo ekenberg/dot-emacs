@@ -130,6 +130,13 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
   (global-set-key (kbd "\C-x 5") 'rotate-frame-split)
 #+END_SRC
 
+** Swap content between two windows
+
+#+BEGIN_SRC emacs-lisp
+  (load-library "swap-windows")
+  (global-set-key (kbd "\C-x 6") 'swap-windows)
+#+END_SRC
+
 ** Save buffer as new name but stay on old buffer
 
 #+BEGIN_SRC emacs-lisp
