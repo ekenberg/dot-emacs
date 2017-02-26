@@ -1,5 +1,17 @@
 #+TITLE: Emacs Configuration
 
+* About
+
+Based on ideas from [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
+
+
+* TODO:
+
+** TODO Can Emacs regularly remind me to update packages?
+
+Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
+
+
 * Basic sanity, startup and paths
 
 ** Skip site-init
