@@ -576,6 +576,8 @@ use c-mode for nqc files
 
 ** Default theme
 
+Material theme
+
 #+BEGIN_SRC emacs-lisp
   (use-package material-theme
     :ensure t
@@ -589,7 +591,7 @@ use c-mode for nqc files
 *** Save / restore window-sizes
 
 #+BEGIN_SRC emacs-lisp
-  (if window-system
+  (if (display-graphic-p)
       (progn
         (load-library "restore-framegeometry")
         (add-hook 'after-init-hook 'load-framegeometry)
@@ -599,7 +601,7 @@ use c-mode for nqc files
 *** Mac/Linux fonts
 
 #+BEGIN_SRC emacs-lisp
-  (if window-system
+  (if (display-graphic-p)
       (progn
         (if (string-equal (window-system) "x")  ; x = linux, ns = cocoa
             (progn
@@ -615,14 +617,14 @@ use c-mode for nqc files
 #+BEGIN_SRC emacs-lisp
   (tool-bar-mode 0)
   (menu-bar-mode 0)
-  (when window-system
+  (when (display-graphic-p)
     (scroll-bar-mode -1))
 #+END_SRC
 
 *** Title bar shows buffer name
 
 #+BEGIN_SRC emacs-lisp
-  (if window-system
+  (if (display-graphic-p)
       (progn
         (setq frame-title-format '(buffer-file-name "Emacs: %b" ))))
 #+END_SRC
@@ -630,7 +632,7 @@ use c-mode for nqc files
 *** Disable Ctrl-z
 
 #+BEGIN_SRC emacs-lisp
-  (if window-system
+  (if (display-graphic-p)
       (progn
         (global-set-key "\C-z" (lambda () (interactive) (message "Zzzzzz...")))))
 #+END_SRC
