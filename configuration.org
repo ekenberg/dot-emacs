@@ -102,11 +102,25 @@ Right alt-key as meta
   (setq ns-right-alternate-modifier (quote meta)) ;; make right send 'meta (left is still alt-key)
 #+END_SRC
 
-** Swap content between two windows
+** Switch windows when splitting
+
+Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer to do that manually as needed.
 
 #+BEGIN_SRC emacs-lisp
-  (load-library "swap-windows")
-  (global-set-key (kbd "\C-x 6") 'swap-windows)
+  (defun hrs/split-window-below-and-switch ()
+    "Split the window horizontally, then switch to the new pane."
+    (interactive)
+    (split-window-below)
+    (other-window 1))
+
+  (defun hrs/split-window-right-and-switch ()
+    "Split the window vertically, then switch to the new pane."
+    (interactive)
+    (split-window-right)
+    (other-window 1))
+
+  (global-set-key (kbd "C-x 2") 'hrs/split-window-below-and-switch)
+  (global-set-key (kbd "C-x 3") 'hrs/split-window-right-and-switch)
 #+END_SRC
 
 ** Toggle vertical/horizontal split of two windows
