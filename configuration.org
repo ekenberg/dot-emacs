@@ -638,7 +638,16 @@ use c-mode for nqc files
 ** Highlight current line
 
 #+BEGIN_SRC emacs-lisp
+  ;; Always highlight current line
   (global-hl-line-mode)
+
+  ;; Except in terminal-modes
+  (add-hook 'term-mode-hook
+            (lambda()
+              (setq-local global-hl-line-mode nil)))
+  (add-hook 'eshell-mode-hook
+            (lambda()
+              (setq-local global-hl-line-mode nil)))
 #+END_SRC
 
 ** Vertical splits by default
