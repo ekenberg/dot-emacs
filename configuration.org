@@ -437,6 +437,7 @@ Auto-complete ([{ etc
     (add-hook 'prog-mode-hook 'smartparens-mode)
     (add-hook 'prog-mode-hook 'show-paren-mode)
     (add-hook 'markdown-mode-hook 'smartparens-mode)
+    (add-hook 'dart-mode-hook 'smartparens-mode)
     (add-hook 'gfm-mode-hook 'smartparens-mode))
 #+END_SRC
 
@@ -477,7 +478,6 @@ Auto-complete ([{ etc
         t))
     (sp-local-pair 'web-mode "<" nil :when '(sp-webmode-is-code-context)))
 #+END_SRC
-
 
 ** Markdown-mode
 
