@@ -561,6 +561,16 @@ use c-mode for nqc files
     :interpreter "lua")
 #+END_SRC
 
+** Dart-mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package dart-mode
+    :init (require 'compile)
+    :ensure t
+    :mode ("\\.dart\\'")
+    :interpreter "dart")
+#+END_SRC
+
 
 * Themes, fonts and visual
 
