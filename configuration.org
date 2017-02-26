@@ -232,6 +232,21 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
 #+END_SRC
 
 ** Org-mode
+*** Custom colors
+
+#+BEGIN_SRC emacs-lisp
+(defun my-org-custom-faces ()
+  (setq default-background (face-attribute 'default :background))
+  (set-face-attribute 'org-block-begin-line nil :background default-background :foreground "#b3e5fc" :box nil)
+  (set-face-attribute 'org-block-end-line   nil :background default-background :foreground "#b3e5fc" :box nil)
+  (set-face-attribute 'org-level-1 nil :inherit 'outline-1 :foreground "DarkOrange2"
+                      :background default-background :box nil :weight 'bold :height 1.3)
+  (set-face-attribute 'org-level-2 nil :inherit 'outline-2 :foreground "RoyalBlue1"
+                      :background default-background :box nil :height 1.2))
+
+
+(add-hook 'org-mode-hook 'my-org-custom-faces)
+#+END_SRC
 
 *** Pretty header bullets
 
