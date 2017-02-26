@@ -98,7 +98,8 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 Right alt-key as meta
 
 #+BEGIN_SRC emacs-lisp
-  (setq ns-right-alternate-modifier (quote meta))
+  (setq ns-alternate-modifier nil) ;; make both work as alt-key
+  (setq ns-right-alternate-modifier (quote meta)) ;; make right send 'meta (left is still alt-key)
 #+END_SRC
 
 ** Swap content between two windows
