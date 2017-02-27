@@ -113,6 +113,15 @@ Right alt-key as meta
   (setq ns-right-alternate-modifier (quote meta)) ;; make right send 'meta (left is still alt-key)
 #+END_SRC
 
+** Mac Toggle Fullscreen <F9>
+
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'darwin)
+      (global-set-key [f9] 'toggle-frame-fullscreen))
+
+
+#+END_SRC
+
 ** Switch windows when splitting
 
 Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer to do that manually as needed.
