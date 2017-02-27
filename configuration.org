@@ -87,6 +87,7 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
     )
 #+END_SRC
 
+
 * Global keybinds and custom functions
 
 ** Backspace and C-h
@@ -525,6 +526,14 @@ Auto-complete ([{ etc
   ;;   (setq markdown-command      "~/local/bin/gfm"))
 
   ;; (add-hook 'markdown-mode-hook 'markdown-custom)
+#+END_SRC
+
+** Yaml-mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :ensure t
+    :mode "\\.yml\\'")
 #+END_SRC
 
 ** Slime (lisp)
