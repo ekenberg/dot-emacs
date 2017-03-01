@@ -249,6 +249,16 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
            ))
 #+END_SRC
 
+** Avy
+
+Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
+
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :ensure t
+    :bind (("M-s" . avy-goto-char-2)))
+#+END_SRC
+
 ** Org-mode
 *** Custom colors
 
