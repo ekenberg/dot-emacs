@@ -2,7 +2,7 @@
 
 * About
 
-Based on ideas from [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
+Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
 
 * TODO:
