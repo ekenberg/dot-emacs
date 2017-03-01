@@ -118,8 +118,6 @@ Right alt-key as meta
 #+BEGIN_SRC emacs-lisp
   (if (eq system-type 'darwin)
       (global-set-key [f9] 'toggle-frame-fullscreen))
-
-
 #+END_SRC
 
 ** Switch windows when splitting
@@ -332,6 +330,12 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
 
 #+BEGIN_SRC emacs-lisp
   (define-key global-map "\C-cl" 'org-store-link)
+#+END_SRC
+
+*** Export to octopress
+
+#+BEGIN_SRC emacs-lisp
+  (load-library "octorgopress")
 #+END_SRC
 
 ** Dired-x
