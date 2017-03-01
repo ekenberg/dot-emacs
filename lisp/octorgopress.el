@@ -1,1 +1,1 @@
-/Users/johan/projects/octorgopress/octorgopress.el
+../../projects/octorgopress/octorgopress.el
