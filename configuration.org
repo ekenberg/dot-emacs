@@ -619,12 +619,20 @@ use c-mode for nqc files
 ** Default theme
 
 #+BEGIN_SRC emacs-lisp
-    (use-package material-theme
-      :ensure t)
+  (setq jee/loaded-default-theme nil)
+  (defun jee/load-default-theme()
+    (unless jee/loaded-default-theme
+      (load-theme 'material t)            ;; <--- set default theme here
+      (setq jee/loaded-default-theme t)))
 
-    (use-package eclipse-theme
-      :ensure t
-      :disabled t)
+  (use-package material-theme
+    :ensure t
+    :init (jee/load-default-theme))
+
+  (use-package eclipse-theme
+    :ensure t
+    :init (jee/load-default-theme))
+
 #+END_SRC
 
 ** Powerline
