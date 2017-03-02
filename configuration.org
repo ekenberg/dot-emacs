@@ -106,11 +106,20 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 
 ** Mac Meta Keymap
 
-Right alt-key as meta
+In iTerm2: Settings -> Profiles -> Keys set the alt-key you want to use to send 'ESC+'
+
+*** Right alt-key as meta
 
 #+BEGIN_SRC emacs-lisp
-  (setq ns-alternate-modifier nil) ;; make both work as alt-key
-  (setq ns-right-alternate-modifier (quote meta)) ;; make right send 'meta (left is still alt-key)
+;;  (setq ns-alternate-modifier nil) ;; make both work as alt-key
+;;  (setq ns-right-alternate-modifier (quote meta)) ;; make right send 'meta (left is still alt-key)
+#+END_SRC
+
+*** Left alt-key as meta
+
+#+BEGIN_SRC emacs-lisp
+  (setq ns-alternate-modifier (quote meta)) ;; make both work as meta
+  (setq ns-right-alternate-modifier nil) ;; set right back to alt-key, left still sends meta
 #+END_SRC
 
 ** Mac Toggle Fullscreen <F9>
