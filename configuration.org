@@ -638,12 +638,14 @@ use c-mode for nqc files
 ** Powerline
 
 #+BEGIN_SRC emacs-lisp
-    (use-package powerline
-      :ensure t
-      :demand
-      :init (setq powerline-default-separator 'arrow-fade)
-      ;; alternate arrow arrow-fade bar box brace butt chamfer contour curve rounded roundstub slant wave zigzag utf8
-      :config (powerline-default-theme))
+  (if (display-graphic-p) ;; no powerline in terminal
+      (progn
+        (use-package powerline
+          :ensure t
+          :demand
+          :init (setq powerline-default-separator 'arrow-fade)
+          ;; alternate arrow arrow-fade bar box brace butt chamfer contour curve rounded roundstub slant wave zigzag utf8
+          :config (powerline-default-theme))))
 #+END_SRC
 
 ** Window manager operations (Mac/Linux)
