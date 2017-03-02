@@ -618,13 +618,24 @@ use c-mode for nqc files
 
 ** Default theme
 
-Material theme
+#+BEGIN_SRC emacs-lisp
+    (use-package material-theme
+      :ensure t)
+
+    (use-package eclipse-theme
+      :ensure t
+      :disabled t)
+#+END_SRC
+
+** Powerline
 
 #+BEGIN_SRC emacs-lisp
-  (use-package material-theme
-    :ensure t
-    :config
-    (load-theme 'material t))
+    (use-package powerline
+      :ensure t
+      :demand
+      :init (setq powerline-default-separator 'arrow-fade)
+      ;; alternate arrow arrow-fade bar box brace butt chamfer contour curve rounded roundstub slant wave zigzag utf8
+      :config (powerline-default-theme))
 #+END_SRC
 
 ** Window manager operations (Mac/Linux)
