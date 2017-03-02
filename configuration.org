@@ -623,7 +623,6 @@ Material theme
 #+BEGIN_SRC emacs-lisp
   (use-package material-theme
     :ensure t
-    :load-path "themes"
     :config
     (load-theme 'material t))
 #+END_SRC
