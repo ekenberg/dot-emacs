@@ -129,6 +129,15 @@ In iTerm2: Settings -> Profiles -> Keys set the alt-key you want to use to send 
       (global-set-key [f9] 'toggle-frame-fullscreen))
 #+END_SRC
 
+** Mac Disable Print Keybind
+
+Because I press it by accident, the popup is annoying and Emacs crashes if I accept to print...
+
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'darwin)
+      (global-unset-key (kbd "s-p")))
+#+END_SRC
+
 ** Switch windows when splitting
 
 Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer to do that manually as needed.
