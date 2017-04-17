@@ -623,6 +623,15 @@ use c-mode for nqc files
     :interpreter "lua")
 #+END_SRC
 
+** Haskell-mode
+
+#+BEGIN_SRC emacs-lisp
+  (use-package haskell-mode
+    :ensure t
+    :mode "\\.hs$"
+    :interpreter "ghc")
+#+END_SRC
+
 ** Dart-mode
 
 #+BEGIN_SRC emacs-lisp
