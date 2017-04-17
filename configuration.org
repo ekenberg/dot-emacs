@@ -338,6 +338,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
      (ruby . t)
      (emacs-lisp . t)
      (perl . t)
+     (java . t)
+     (haskell . t)
      (sh . t)))
 #+END_SRC
 
