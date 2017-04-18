@@ -195,6 +195,27 @@ Closing man-pages, help, warnings etc
   (global-set-key (kbd "\C-x 4 k") 'kill-buffer-other-window)
 #+END_SRC
 
+** Open current file in external program
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-open-current-file-in-external-program ()
+    "Open underlying file of current buffer in external program"
+    (interactive)
+    (when buffer-file-name
+      (shell-command (concat
+                      (if (eq system-type 'darwin)
+                          "open"
+                        (read-shell-command "Open current file with: "))
+                      " "
+                      buffer-file-name
+                      ))))
+
+  (global-set-key (kbd "C-c o") 'my-open-current-file-in-external-program)
+#+END_SRC
+
+#+RESULTS:
+: my-open-current-file-in-external-program
+
 ** Smart shell command
 
 Pipe region to shell command derived from [[http://stackoverflow.com/questions/206806/filtering-text-through-a-shell-command-in-emacs][this question on stackoverflow]]
