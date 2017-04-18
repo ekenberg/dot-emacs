@@ -382,6 +382,12 @@ Toggle with M-o
   (setq-default dired-omit-files-p t)
 #+END_SRC
 
+** Auctex
+
+#+BEGIN_SRC emacs-lisp
+  (use-package tex
+    :ensure auctex)
+#+END_SRC
 ** Neotree
 
 #+BEGIN_SRC emacs-lisp
