@@ -294,6 +294,21 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (add-hook 'org-mode-hook 'my-org-custom-faces)
 #+END_SRC
 
+*** Latex export code syntax hightlighting (minted)
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-org-latex-export-syntax-highlighting ()
+    (setq org-latex-listings 'minted
+          org-latex-packages-alist '(("" "minted"))
+          org-latex-pdf-process
+          '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+    )
+
+  (add-hook 'org-mode-hook 'my-org-latex-export-syntax-highlighting)
+#+END_SRC
+
 *** Pretty header bullets
 
 #+BEGIN_SRC emacs-lisp
