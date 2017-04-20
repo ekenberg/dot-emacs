@@ -306,6 +306,12 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-default-notes-file (concat org-directory "/Capture.org"))
 #+END_SRC
 
+*** Exernal applications
+#+BEGIN_SRC emacs-lisp
+  ;; open directory links in dired and not Finder (mac)
+  (add-to-list 'org-file-apps '(directory . emacs))
+#+END_SRC
+
 *** Global keybinds for org-mode
 #+BEGIN_SRC emacs-lisp
   ;; (bind-key installed as dependency from use-package, overrides any key using a hidden minor-mode)
