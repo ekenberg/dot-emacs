@@ -341,25 +341,6 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (add-hook 'org-mode-hook 'my-org-custom-faces)
 #+END_SRC
 
-*** Latex export code syntax hightlighting (minted)
-
-#+BEGIN_SRC emacs-lisp
-  (defun my-org-latex-export-syntax-highlighting ()
-    (setq org-latex-listings 'minted
-          org-latex-pdf-process
-          '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-    (add-to-list 'org-latex-packages-alist '("" "minted"))
-
-    ;; Must change to imagemagick or formula preview images won't work with minted :/
-    ;; imagemagick process is much slower since it converts by way of -> pdf -> png
-    (setq org-latex-create-formula-image-program 'imagemagick)
-    )
-
-  (add-hook 'org-mode-hook 'my-org-latex-export-syntax-highlighting)
-#+END_SRC
-
 *** Pretty header bullets
 
 #+BEGIN_SRC emacs-lisp
@@ -407,6 +388,25 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
      (java . t)
      (haskell . t)
      (sh . t)))
+#+END_SRC
+
+*** Latex export code syntax hightlighting (minted)
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-org-latex-export-syntax-highlighting ()
+    (setq org-latex-listings 'minted
+          org-latex-pdf-process
+          '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+    (add-to-list 'org-latex-packages-alist '("" "minted"))
+
+    ;; Must change to imagemagick or formula preview images won't work with minted :/
+    ;; imagemagick process is much slower since it converts by way of -> pdf -> png
+    (setq org-latex-create-formula-image-program 'imagemagick)
+    )
+
+  (add-hook 'org-mode-hook 'my-org-latex-export-syntax-highlighting)
 #+END_SRC
 
 *** Twitter bootstrap exporting [[https://github.com/marsmining/ox-twbs]['ow-twbs']]
