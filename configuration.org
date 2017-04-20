@@ -306,8 +306,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-default-notes-file (concat org-directory "/Capture.org"))
 #+END_SRC
 
-*** Keybinds various
-
+*** Global keybinds for org-mode
 #+BEGIN_SRC emacs-lisp
   ;; (bind-key installed as dependency from use-package, overrides any key using a hidden minor-mode)
   ;; https://emacs.stackexchange.com/questions/352/how-to-override-major-mode-bindings/360#360
@@ -423,6 +422,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 #+BEGIN_SRC emacs-lisp
   (load-library "octorgopress")
 #+END_SRC
+
 
 ** Dired-x
 
