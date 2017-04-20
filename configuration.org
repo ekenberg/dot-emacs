@@ -320,6 +320,9 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
   ;; Save link to current file and line
   (global-set-key (kbd "C-c l") 'org-store-link)
+
+  ;; Sort entries (TODO lists etc)
+  (global-set-key (kbd "C-c s") 'org-sort-entries)
 #+END_SRC
 
 *** Capture templates
