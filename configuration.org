@@ -302,12 +302,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
 *** Directories
 #+BEGIN_SRC emacs-lisp
-  (defun my-org-directories ()
-    (setq org-directory "~/Dropbox/org")
-    (setq org-default-notes-file (concat org-directory "/Capture.org"))
-    )
-
-  (add-hook 'org-mode-hook 'my-org-directories)
+  (setq org-directory "~/Dropbox/org")
+  (setq org-default-notes-file (concat org-directory "/Capture.org"))
 #+END_SRC
 
 *** Keybinds various
