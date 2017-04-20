@@ -329,6 +329,11 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
            "* %T %?\n  %l")))
 #+END_SRC
 
+*** Archiving
+#+BEGIN_SRC emacs-lisp
+  (setq org-archive-location (concat org-directory "/Archive.org::* From %s"))
+#+END_SRC
+
 *** Custom colors
 
 #+BEGIN_SRC emacs-lisp
