@@ -7,7 +7,7 @@ Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org
 
 * TODO:
 
-** TODO Can Emacs regularly remind me to update packages?
+** DONE Can Emacs regularly remind me to update packages?
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
 
