@@ -299,6 +299,32 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 #+END_SRC
 
 ** Org-mode
+
+*** Directories
+#+BEGIN_SRC emacs-lisp
+  (defun my-org-directories ()
+    (setq org-directory "~/Dropbox/org")
+    (setq org-default-notes-file (concat org-directory "/Capture.org"))
+    )
+
+  (add-hook 'org-mode-hook 'my-org-directories)
+#+END_SRC
+
+*** Keybinds various
+
+#+BEGIN_SRC emacs-lisp
+  ;; (bind-key installed as dependency from use-package, overrides any key using a hidden minor-mode)
+  ;; https://emacs.stackexchange.com/questions/352/how-to-override-major-mode-bindings/360#360
+
+  ;; These are global, ie not dependent on org-mode loaded:
+
+  ;; Org Capture (using bind-key to override org-mode mapping:)
+  (bind-key* (kbd "C-c C-x c") 'org-capture)
+
+  ;; Save link to current file and line
+  (global-set-key (kbd "C-c l") 'org-store-link)
+#+END_SRC
+
 *** Custom colors
 
 #+BEGIN_SRC emacs-lisp
@@ -394,12 +420,6 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
 #+BEGIN_SRC emacs-lisp
   (setq org-html-postamble nil)
-#+END_SRC
-
-*** Save link to current file and line
-
-#+BEGIN_SRC emacs-lisp
-  (define-key global-map "\C-cl" 'org-store-link)
 #+END_SRC
 
 *** Export to octopress
