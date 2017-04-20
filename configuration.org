@@ -1,16 +1,15 @@
 #+TITLE: Emacs Configuration
+#+STARTUP OVERVIEW
 
 * About
 
 Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
+* Todo [100%]:
 
-* TODO:
-
-** DONE Can Emacs regularly remind me to update packages?
+** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
-
 
 * Basic sanity, startup and paths
 
@@ -56,7 +55,6 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
   (setq vc-handled-backends ())
 #+END_SRC
 
-
 * Package management
 
 ** Use Melpa
@@ -86,7 +84,6 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
     (setq auto-package-update-interval 3) ;; days
     )
 #+END_SRC
-
 
 * Global keybinds and custom functions
 
@@ -246,7 +243,6 @@ Pipe region to shell command derived from [[http://stackoverflow.com/questions/2
     :commands (goto-last-change)
     :bind ("C-x C-u" . goto-last-change))
 #+END_SRC
-
 
 * Package settings and keybinds
 
@@ -492,7 +488,6 @@ Toggle with M-o
     :ensure t)
 #+END_SRC
 
-
 * Programming options and packages
 
 ** Use spaces for indent
@@ -723,7 +718,6 @@ use c-mode for nqc files
     :mode ("\\.dart\\'")
     :interpreter "dart")
 #+END_SRC
-
 
 * Themes, fonts and visual
 
