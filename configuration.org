@@ -404,6 +404,16 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
      (sh . t)))
 #+END_SRC
 
+*** CDLatex minor mode
+[[http://orgmode.org/manual/CDLaTeX-mode.html#CDLaTeX-mode][org-manual cdlatex-mode]]
+#+BEGIN_SRC emacs-lisp
+  (use-package cdlatex
+    :ensure t)
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (org-cdlatex-mode t)))
+#+END_SRC
 *** Latex export code syntax hightlighting (minted)
 
 #+BEGIN_SRC emacs-lisp
