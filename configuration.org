@@ -204,7 +204,7 @@ Closing man-pages, help, warnings etc
                           "open"
                         (read-shell-command "Open current file with: "))
                       " "
-                      buffer-file-name
+                      (shell-quote-argument buffer-file-name)
                       ))))
 
   (global-set-key (kbd "C-c o") 'my-open-current-file-in-external-program)
