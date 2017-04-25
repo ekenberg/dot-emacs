@@ -404,6 +404,21 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
      (sh . t)))
 #+END_SRC
 
+*** Latex document classes
+#+BEGIN_SRC emacs-lisp
+  (defun my-org-custom-latex-classes ()
+    ;; use: #+LaTeX_CLASS: koma-article
+    (add-to-list 'org-latex-classes
+                 '("koma-article"
+                   "\\documentclass{scrartcl}"
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+    )
+  (add-hook 'org-mode-hook 'my-org-custom-latex-classes)
+#+END_SRC
 *** CDLatex minor mode
 [[http://orgmode.org/manual/CDLaTeX-mode.html#CDLaTeX-mode][org-manual cdlatex-mode]]
 #+BEGIN_SRC emacs-lisp
