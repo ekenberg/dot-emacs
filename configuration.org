@@ -199,19 +199,15 @@ Closing man-pages, help, warnings etc
     "Open underlying file of current buffer in external program"
     (interactive)
     (when buffer-file-name
-      (shell-command (concat
-                      (if (eq system-type 'darwin)
-                          "open"
-                        (read-shell-command "Open current file with: "))
-                      " "
-                      (shell-quote-argument buffer-file-name)
-                      ))))
+      (call-process
+       (if (eq system-type 'darwin)
+           "open"
+         (read-shell-command "Open current file with: "))
+       nil 0 nil buffer-file-name
+       )))
 
   (global-set-key (kbd "C-c o") 'my-open-current-file-in-external-program)
 #+END_SRC
-
-#+RESULTS:
-: my-open-current-file-in-external-program
 
 ** Smart shell command
 
