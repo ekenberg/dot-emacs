@@ -298,7 +298,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-default-notes-file (concat org-directory "/Capture.org"))
 #+END_SRC
 
-*** Exernal applications
+*** External applications
 #+BEGIN_SRC emacs-lisp
   ;; open directory links in dired and not Finder (mac)
   (add-to-list 'org-file-apps '(directory . emacs))
@@ -380,6 +380,10 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-src-tab-acts-natively t)
 #+END_SRC
 
+*** Enable resize inline images
+#+BEGIN_SRC emacs-lisp
+  (setq org-image-actual-width nil)
+#+END_SRC
 *** Code edit in same window
 
 #+BEGIN_SRC emacs-lisp
