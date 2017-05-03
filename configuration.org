@@ -55,6 +55,10 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
   (setq vc-handled-backends ())
 #+END_SRC
 
+** Localized calendar (Swedish)
+#+BEGIN_SRC emacs-lisp
+  (load "sv-kalender")
+#+END_SRC
 * Package management
 
 ** Use Melpa
