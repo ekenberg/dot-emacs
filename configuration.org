@@ -501,11 +501,11 @@ Toggle with M-o
 ** Neotree
 
 #+BEGIN_SRC emacs-lisp
-  (use-package neotree
-    :ensure t
-      :init
-      (setq neo-smart-open t)
-      :bind ([f8] . neotree-toggle))
+  ;;(use-package neotree
+  ;;  :ensure t
+  ;;    :init
+  ;;    (setq neo-smart-open t)
+  ;;    :bind ([f8] . neotree-toggle))
 #+END_SRC
 
 ** Smart-tab
