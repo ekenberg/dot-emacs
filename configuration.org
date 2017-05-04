@@ -619,7 +619,8 @@ Auto-complete ([{ etc
     (add-hook 'markdown-mode-hook 'smartparens-mode)
     (add-hook 'dart-mode-hook 'smartparens-mode)
     (add-hook 'gfm-mode-hook 'smartparens-mode)
-    (add-hook 'org-mode-hook 'smartparens-mode))
+    (add-hook 'org-mode-hook 'smartparens-mode
+    (add-hook 'gnuplot-mode-hook 'smartparens-mode)))
 #+END_SRC
 
 ** Web-mode
