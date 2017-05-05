@@ -326,6 +326,15 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (global-set-key (kbd "C-c s") 'org-sort-entries)
 #+END_SRC
 
+*** org-drill flashcard spaced repetition
+#+BEGIN_SRC emacs-lisp
+  (require 'org-drill)
+  ;; göm headings för varje card:
+  (setq org-drill-hide-item-headings-p t)
+  (setq org-drill-add-random-noise-to-intervals-p t)
+  (setq org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
+#+END_SRC
+
 *** Capture templates
 #+BEGIN_SRC emacs-lisp
   (defun my-org-default-drill-capture-format ()
@@ -494,14 +503,6 @@ Visually wrap text in org-mode
               (visual-line-mode)))
 #+END_SRC
 
-*** org-drill flashcard spaced repetition
-#+BEGIN_SRC emacs-lisp
-  (require 'org-drill)
-  ;; göm headings för varje card:
-  (setq org-drill-hide-item-headings-p t)
-  (setq org-drill-add-random-noise-to-intervals-p t)
-  (setq org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
-#+END_SRC
 ** Dired-x
 
 #+BEGIN_SRC emacs-lisp
