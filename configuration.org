@@ -300,6 +300,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 #+BEGIN_SRC emacs-lisp
   (setq org-directory "~/Dropbox/org")
   (setq org-default-notes-file (concat org-directory "/Capture.org"))
+  (setq org-default-drill-file (concat org-directory "/Drill/Drill.org"))
 #+END_SRC
 
 *** External applications
@@ -327,13 +328,24 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
 *** Capture templates
 #+BEGIN_SRC emacs-lisp
+  (defun my-org-default-drill-capture-format ()
+    "Basic drill template"
+    (concat "** Fact:          :"
+            (format "%s" org-drill-question-tag)
+            ":\n:PROPERTIES:\n:DATE_ADDED: %<%Y-%m-%d>\n:END:\n\n%i%?\n\n*** Svar\n\n")
+    )
   (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
-           "* TODO %?\n  %i\n  %l")
+        `(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
+           "* TODO %?\n  %i\n" :prepend t)
           ("n" "Note" entry (file+headline org-default-notes-file "Notes")
-           "* %T %?\n  %l")))
+           "* %T %?\n  %l")
+          ;; org-drill ----------------------
+          ("a" "Algebra Drill" entry (file+headline org-default-drill-file "Algebra och Diskret Matematik")
+           ,(my-org-default-drill-capture-format) :empty-lines 1)
+          ("d" "Drill (Blandat)" entry (file+headline org-default-drill-file "Blandat")
+           ,(my-org-default-drill-capture-format) :empty-lines 1)
+          ))
 #+END_SRC
-
 *** Archiving
 #+BEGIN_SRC emacs-lisp
   (setq org-archive-location (concat org-directory "/Archive.org::* From %s"))
@@ -482,6 +494,14 @@ Visually wrap text in org-mode
               (visual-line-mode)))
 #+END_SRC
 
+*** org-drill flashcard spaced repetition
+#+BEGIN_SRC emacs-lisp
+  (require 'org-drill)
+  ;; göm headings för varje card:
+  (setq org-drill-hide-item-headings-p t)
+  (setq org-drill-add-random-noise-to-intervals-p t)
+  (setq org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
+#+END_SRC
 ** Dired-x
 
 #+BEGIN_SRC emacs-lisp
