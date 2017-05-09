@@ -333,6 +333,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-drill-hide-item-headings-p t)
   (setq org-drill-add-random-noise-to-intervals-p t)
   (setq org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
+  (setq org-drill-learn-fraction 0.4) ; repetera frågor lite oftare, default = 0.5
 #+END_SRC
 
 *** Capture templates
