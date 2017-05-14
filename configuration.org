@@ -202,13 +202,23 @@ Closing man-pages, help, warnings etc
   (defun my-open-current-file-in-external-program ()
     "Open underlying file of current buffer in external program"
     (interactive)
-    (when buffer-file-name
-      (call-process
-       (if (eq system-type 'darwin)
-           "open"
-         (read-shell-command "Open current file with: "))
-       nil 0 nil buffer-file-name
-       )))
+
+    ;; normal-type file buffer:
+    (if buffer-file-name
+        (progn
+          (call-process
+           (if (eq system-type 'darwin)
+               "open"
+             (read-shell-command "Open current file with: "))
+           nil 0 nil buffer-file-name
+           ))
+
+      ;; else link/image/current-url in w3m:
+      (if (string= major-mode "w3m-mode")
+          (let (url)
+            (setq url (or (w3m-anchor) (w3m-image) w3m-current-url))
+            (when url
+              (browse-url-default-browser url))))))
 
   (global-set-key (kbd "C-c o") 'my-open-current-file-in-external-program)
 #+END_SRC
