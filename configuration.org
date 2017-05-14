@@ -801,6 +801,7 @@ use c-mode for nqc files
       (setq haskell-process-suggest-remove-import-lines t)
       (setq haskell-process-auto-import-loaded-modules t)
       (setq haskell-process-log t)
+      (define-key haskell-mode-map (kbd "C-c h") 'haskell-hoogle)
       (interactive-haskell-mode))
     (add-hook 'haskell-mode-hook 'my-haskell-config))
 #+END_SRC
