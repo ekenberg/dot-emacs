@@ -527,6 +527,10 @@ Toggle with M-o
 
 #+BEGIN_SRC emacs-lisp
   (setq-default dired-omit-files-p t)
+  (setq dired-omit-files
+          (concat dired-omit-files "\\|^\\.DS_Store$"))
+  (add-hook 'dired-mode-hook '(lambda ()
+                                (local-set-key (kbd "M-o") 'dired-omit-mode)))
 #+END_SRC
 
 ** Auctex
