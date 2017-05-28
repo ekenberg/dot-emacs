@@ -319,7 +319,17 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   ;; open directory links in dired and not Finder (mac)
   (add-to-list 'org-file-apps '(directory . emacs))
 #+END_SRC
-
+*** Handle http-links
+#+BEGIN_SRC emacs-lisp
+  ;; C-c C-o öppnar inom emacs (w3m)
+  ;; C-u C-c C-o öppnar med extern browser
+  (defun my-org-open-at-point (&optional arg)
+    (interactive "P")
+    (if (not arg)
+        (org-open-at-point)
+      (let ((browse-url-browser-function 'browse-url-default-browser))
+        (org-open-at-point))))
+#+END_SRC
 *** Global keybinds for org-mode
 #+BEGIN_SRC emacs-lisp
   ;; (bind-key installed as dependency from use-package, overrides any key using a hidden minor-mode)
@@ -335,6 +345,9 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
   ;; Sort entries (TODO lists etc)
   (global-set-key (kbd "C-c s") 'org-sort-entries)
+
+  ;; Wrap org-open-at-point
+  (bind-key* (kbd "C-c C-o") 'my-org-open-at-point)
 #+END_SRC
 
 *** org-drill flashcard spaced repetition
