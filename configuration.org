@@ -361,6 +361,19 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-drill-maximum-duration 40) ; 40m
 #+END_SRC
 
+*** org-journal
+#+BEGIN_SRC emacs-lisp
+  (use-package org-journal
+    :ensure t
+    :init
+    (setq org-journal-dir (concat org-directory "/Journal"))
+    (setq org-journal-file-format "%Y%m%d.org") ;; they are org-files after all
+    (setq org-journal-hide-entries-p nil) ;; nil => like #+STARTUP: showall
+    (setq org-journal-date-format "%A - %x\n\n** Studielogg")
+    (setq org-journal-time-format "")
+    (setq org-journal-time-prefix "*** ")
+    :bind (("C-c C-x j" . org-journal-new-entry)))
+#+END_SRC
 *** Capture templates
 #+BEGIN_SRC emacs-lisp
   (defun my-org-default-drill-capture-format ()
