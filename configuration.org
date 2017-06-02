@@ -369,10 +369,15 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
     (setq org-journal-dir (concat org-directory "/Journal"))
     (setq org-journal-file-format "%Y%m%d.org") ;; they are org-files after all
     (setq org-journal-hide-entries-p nil) ;; nil => like #+STARTUP: showall
-    (setq org-journal-date-format "%A - %x\n\n** Studielogg")
+    (setq org-journal-date-format
+          (let ((system-time-locale "sv_SE")) ;; swedish name of day
+            (format-time-string "%A - %Y-%m-%d\n\n** Studielogg")))
     (setq org-journal-time-format "")
     (setq org-journal-time-prefix "*** ")
-    :bind (("C-c C-x j" . org-journal-new-entry)))
+    :bind (("C-c C-x j j" . org-journal-new-entry)
+           ("C-c C-x j f" . org-journal-open-next-entry)
+           ("C-c C-x j b" . org-journal-open-previous-entry)
+           ))
 #+END_SRC
 *** Capture templates
 #+BEGIN_SRC emacs-lisp
