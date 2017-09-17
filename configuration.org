@@ -140,20 +140,6 @@ Because I press it by accident, the popup is annoying and Emacs crashes if I acc
       (global-unset-key (kbd "s-p")))
 #+END_SRC
 
-** Ediff in dired + ediff config
-
-[[https://oremacs.com/2017/03/18/dired-ediff/][Oremacs dired-ediff]]
-
--- markera två filer i dired, tryck sen 'e'
-
-#+BEGIN_SRC emacs-lisp
-  (load-library "ora-ediff-files")
-  (define-key dired-mode-map "e" 'ora-ediff-files)
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  (setq ediff-split-window-function 'split-window-horizontally)
-  (setq ediff-diff-options "-w")
-#+END_SRC
-
 ** Switch windows when splitting
 
 Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer to do that manually as needed.
@@ -569,6 +555,20 @@ Visually wrap text in org-mode
 
 #+BEGIN_SRC emacs-lisp
   (require 'dired-x)
+#+END_SRC
+
+** Ediff in dired + ediff config
+
+[[https://oremacs.com/2017/03/18/dired-ediff/][Oremacs dired-ediff]]
+
+-- markera två filer i dired, tryck sen 'e'
+
+#+BEGIN_SRC emacs-lisp
+  (load-library "ora-ediff-files")
+  (define-key dired-mode-map "e" 'ora-ediff-files)
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  (setq ediff-split-window-function 'split-window-horizontally)
+  (setq ediff-diff-options "-w")
 #+END_SRC
 
 *** [[http://www.emacswiki.org/emacs/DiredOmitMode][Omit Mode]]
