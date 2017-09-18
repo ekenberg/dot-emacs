@@ -935,7 +935,8 @@ use c-mode for nqc files
       (progn
         (if (string-equal (window-system) "x")  ; x = linux, ns = cocoa
             (progn
-              (set-default-font "Bitstream Vera Sans Mono-10" )) ; Linux
+              (when (member "Bitstream Vera Sans Mono" (font-family-list))
+                (set-default-font "Bitstream Vera Sans Mono-10" )))  ; Linux
 
           (progn
             (set-default-font "Menlo 13")) ; Mac
