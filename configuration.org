@@ -255,6 +255,11 @@ Pipe region to shell command derived from [[http://stackoverflow.com/questions/2
     :bind ("C-x C-u" . goto-last-change))
 #+END_SRC
 
+** Align regexp
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x a r") 'align-regexp)
+#+END_SRC
+
 * Package settings and keybinds
 
 ** Magit
