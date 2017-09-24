@@ -683,6 +683,17 @@ Toggle with M-o
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 
+** Highlight long text (80 column rule)
+
+   www.github.com/jordonbiondo/column-enforce-mode
+   To customize behavior, see `column-enforce-column' and `column-enforce-face'
+
+#+BEGIN_SRC emacs-lisp
+  (use-package column-enforce-mode
+    :ensure t
+    :config (add-hook 'prog-mode-hook 'column-enforce-mode))
+#+END_SRC
+
 ** Always end files with a newline
 
 #+BEGIN_SRC emacs-lisp
