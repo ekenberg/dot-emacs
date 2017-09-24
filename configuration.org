@@ -883,7 +883,11 @@ use c-mode for nqc files
       (setq haskell-process-log t)
       (define-key haskell-mode-map (kbd "C-c h") 'haskell-hoogle) ;; in the editor
       (interactive-haskell-mode)
-      (define-key haskell-interactive-mode-map (kbd "C-c h") 'haskell-hoogle) ;; in the repl
+      (define-key haskell-interactive-mode-map
+        (kbd "C-c h") 'haskell-hoogle) ;; in the repl
+      (define-key haskell-mode-map (kbd "M-n")     'haskell-goto-next-error)
+      (define-key haskell-mode-map (kbd "M-p")     'haskell-goto-prev-error)
+      (define-key haskell-mode-map (kbd "C-c M-p") 'haskell-goto-first-error)
       )
     (add-hook 'haskell-mode-hook 'my-haskell-config))
 #+END_SRC
