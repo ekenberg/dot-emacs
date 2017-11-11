@@ -615,6 +615,37 @@ Toggle with M-o
     )
 #+END_SRC
 
+** Octave-mode
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
+
+  ;; Emulate matlab-behaviour of sending current section, limited by %% comments
+  (defun my-octave-send-section ()
+    (interactive)
+    (save-mark-and-excursion
+     (re-search-backward "^\\s-*%%" nil -1)
+     (push-mark nil t t)
+     (move-end-of-line nil)
+     (re-search-forward "^\\s-*%%" nil -1)
+     (my-octave-source-region (region-beginning) (region-end))))
+
+  (defun my-octave-source-region (start end)
+    (interactive)
+    (let* ((temporary-file-directory (or default-directory
+                                         (file-name-directory buffer-file-name)))
+           (tmp-file-name (make-temp-file ".octave-mode-source-region-")))
+      (write-region start end tmp-file-name nil -1)
+      (octave-source-file tmp-file-name)
+      (run-at-time "5 sec" nil #'delete-file tmp-file-name)
+      ))
+
+  (defun my-octave-setup ()
+    (local-set-key (kbd "C-c RET") 'my-octave-send-section)
+    )
+
+  (add-hook 'octave-mode-hook 'my-octave-setup)
+
+#+END_SRC
 ** Gnuplot
 #+BEGIN_SRC emacs-lisp
   (use-package gnuplot
