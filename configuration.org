@@ -630,7 +630,6 @@ Toggle with M-o
      (my-octave-source-region (region-beginning) (region-end))))
 
   (defun my-octave-source-region (start end)
-    (interactive)
     (let* ((temporary-file-directory (or default-directory
                                          (file-name-directory buffer-file-name)))
            (tmp-file-name (make-temp-file ".octave-mode-source-region-")))
@@ -641,7 +640,20 @@ Toggle with M-o
 
   (defun my-octave-setup ()
     (local-set-key (kbd "C-c RET") 'my-octave-send-section)
-    )
+
+    (setq octave-comment-char ?%)
+    (setq comment-start "%")
+    (setq comment-add 0)
+
+    ;; redefine octave-indent-comment for better matlab-compatibility
+    ;; see https://github.com/hos/emacs.d/blob/master/site-lisp/init-octave.el
+    (defun octave-indent-comment ()
+      "A function for `smie-indent-functions' (which see)."
+      (save-excursion
+        (back-to-indentation)
+        (cond
+         ((octave-in-string-or-comment-p) nil)
+         ((looking-at-p "\\(\\s<\\)\\1\\{2,\\}") 0)))))
 
   (add-hook 'octave-mode-hook 'my-octave-setup)
 
