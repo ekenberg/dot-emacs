@@ -941,11 +941,11 @@ use c-mode for nqc files
 ** Dart-mode
 
 #+BEGIN_SRC emacs-lisp
-  (use-package dart-mode
-    :init (require 'compile)
-    :ensure t
-    :mode ("\\.dart\\'")
-    :interpreter "dart")
+  ;; (use-package dart-mode
+  ;;   :init (require 'compile)
+  ;;   :ensure t
+  ;;   :mode ("\\.dart\\'")
+  ;;   :interpreter "dart")
 #+END_SRC
 
 * Themes, fonts and visual
