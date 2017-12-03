@@ -588,6 +588,13 @@ Toggle with M-o
                                 (local-set-key (kbd "M-o") 'dired-omit-mode)))
 #+END_SRC
 
+** Abbrev-mode settings
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default abbrev-mode t) ;; globally enabled
+  (setq abbrev-file-name "~/Dropbox/emacs_shared/abbrev_defs")
+#+END_SRC
+
 ** Auctex
 
 #+BEGIN_SRC emacs-lisp
