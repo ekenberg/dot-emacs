@@ -652,6 +652,8 @@ Toggle with M-o
     (setq comment-start "%")
     (setq comment-add 0)
 
+    (hi-lock-mode) ;; helps to see section separators %%
+
     ;; redefine octave-indent-comment for better matlab-compatibility
     ;; see https://github.com/hos/emacs.d/blob/master/site-lisp/init-octave.el
     (defun octave-indent-comment ()
