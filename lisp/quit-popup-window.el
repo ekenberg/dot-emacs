@@ -5,7 +5,10 @@
   (if (and (eq (count-windows) 2)
            (member (with-current-buffer (window-buffer (next-window)) major-mode)
                    '(help-mode
-                     debugger-mode)))
+                     debugger-mode
+                     compilation-mode
+                     grep-mode
+                     Buffer-menu-mode)))
       (quit-restore-window (next-window))
 
     (message "Cannot find a popup-window to quit")))
