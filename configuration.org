@@ -188,13 +188,13 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
   (global-set-key (kbd "\C-x p") '(lambda () (interactive) (other-window -1)))
 #+END_SRC
 
-** Kill buffer in other (next) window
+** Quit popup in other (next) window
 
 Closing man-pages, help, warnings etc
 
 #+BEGIN_SRC emacs-lisp
-  (load-library "kill-buffer-other-window")
-  (global-set-key (kbd "\C-x 4 k") 'kill-buffer-other-window)
+  (load-library "quit-popup-window")
+  (global-set-key (kbd "\C-c q") 'quit-popup-window)
 #+END_SRC
 
 ** Open current file in external program
