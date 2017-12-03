@@ -722,8 +722,8 @@ Toggle with M-o
     ;;  (yas-reload-all) -- om man inte vill använda yas globalt,
     ;; isåfall (yas-reload-all) och (add-hook 'prog-mode-hook #'yas-minor-mode)
     ;; https://github.com/joaotavora/yasnippet/blob/master/README.mdown
-    (yas-global-mode 1)
     (setq yas-snippet-dirs '("~/Dropbox/emacs_shared/snippets"))
+    (yas-global-mode 1)
     (define-key yas-minor-mode-map (kbd "<tab>") nil) ;; undefine default
     (define-key yas-minor-mode-map (kbd "TAB") nil)   ;; undefine default
     (define-key yas-minor-mode-map (kbd "C-o") #'yas-expand)
