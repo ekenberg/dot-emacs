@@ -287,13 +287,15 @@ M-x replacement
 Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
 
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy
+  (use-package counsel
+  ;;(use-package ivy
     :ensure swiper
     :demand t
     :init
     (setq ivy-use-virtual-buffers t)
     :config
     (ivy-mode 1)
+    (setq counsel-find-file-ignore-regexp "\(?:\`[#.]\)\|\(?:[#~]\'\)")
     :bind (("C-s" . swiper) ;; replace default search
            :map ivy-mode-map
            ("C-h" . ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
