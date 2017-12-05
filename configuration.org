@@ -272,14 +272,14 @@ Pipe region to shell command derived from [[http://stackoverflow.com/questions/2
 
 ** Smex
 
-M-x replacement
+M-x replacement - bortkommenterad för testar counsel-M-x istället
 
 #+BEGIN_SRC emacs-lisp
-  (use-package smex
-    :ensure t
-    :bind (("M-x" . smex)
-           ("M-X" . smex-major-mode-commands)
-           ("C-c C-c M-x" . execute-extended-command))) ;; old M-x
+  ;; (use-package smex
+  ;;   :ensure t
+  ;;   :bind (("M-x" . smex)
+  ;;          ("M-X" . smex-major-mode-commands)
+  ;;          ("C-c C-c M-x" . execute-extended-command))) ;; old M-x
 #+END_SRC
 
 ** Ivy
@@ -288,15 +288,18 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
 
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
-  ;;(use-package ivy
-    :ensure swiper
+    :ensure t
     :demand t
     :init
     (setq ivy-use-virtual-buffers t)
     :config
     (ivy-mode 1)
-    (setq counsel-find-file-ignore-regexp "\(?:\`[#.]\)\|\(?:[#~]\'\)")
+    ;; Använd M-x re-builder  C-c C-w för att konvertera och kopiera
+    ;; https://www.masteringemacs.org/article/re-builder-interactive-regexp-builder
+    (setq counsel-find-file-ignore-regexp "^.*\\(~\\|#\\|.class\\)$")
     :bind (("C-s" . swiper) ;; replace default search
+           ("C-x C-f" . counsel-find-file)
+           ("M-x" . counsel-M-x)
            :map ivy-mode-map
            ("C-h" . ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
            ))
