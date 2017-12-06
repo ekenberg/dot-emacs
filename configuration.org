@@ -633,6 +633,11 @@ Toggle with M-o
   (setq abbrev-file-name "~/Dropbox/emacs_shared/abbrev_defs")
 #+END_SRC
 
+** Bookmarks folder
+#+BEGIN_SRC emacs-lisp
+  (setq bookmark-default-file "~/Dropbox/emacs_shared/bookmarks")
+#+END_SRC
+
 ** Auctex
 
 #+BEGIN_SRC emacs-lisp
