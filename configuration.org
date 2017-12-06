@@ -342,14 +342,15 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 #+END_SRC
 *** Handle http-links
 #+BEGIN_SRC emacs-lisp
-  ;; C-c C-o öppnar inom emacs (w3m)
-  ;; C-u C-c C-o öppnar med extern browser
+  ;; C-x C-o öppnar med extern browser
+  ;; C-u C-x C-o öppnar inom emacs (w3m)
   (defun my-org-open-at-point (&optional arg)
     (interactive "P")
     (if (not arg)
-        (org-open-at-point)
       (let ((browse-url-browser-function 'browse-url-default-browser))
-        (org-open-at-point))))
+        (org-open-at-point))
+      (org-open-at-point)))
+
 #+END_SRC
 *** Global keybinds for org-mode
 #+BEGIN_SRC emacs-lisp
@@ -368,7 +369,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (global-set-key (kbd "C-c s") 'org-sort-entries)
 
   ;; Wrap org-open-at-point
-  (bind-key* (kbd "C-c C-o") 'my-org-open-at-point)
+  (bind-key* (kbd "C-x C-o") 'my-org-open-at-point)
 #+END_SRC
 
 *** org-drill flashcard spaced repetition
