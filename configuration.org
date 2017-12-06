@@ -113,6 +113,12 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
   (global-set-key (kbd "M-+") 'help) ;; can't make C-+ work on Mac in terminal
 #+END_SRC
 
+** Use IBuffer by default
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+#+END_SRC
+
 ** Mac Meta Keymap
 
 In iTerm2: Settings -> Profiles -> Keys set the alt-key you want to use to send 'ESC+'
