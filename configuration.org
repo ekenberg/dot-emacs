@@ -90,6 +90,13 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
     )
 #+END_SRC
 
+** Diminish to hide/change minor-mode modelines
+
+#+BEGIN_SRC emacs-lisp
+  (use-package diminish
+    :ensure t)
+#+END_SRC
+
 * Global keybinds and custom functions
 
 ** Backspace and C-h
@@ -194,6 +201,7 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
 #+BEGIN_SRC emacs-lisp
   (use-package workgroups
     :ensure t
+    :diminish workgroups-mode
     :init
     (setq wg-prefix-key (kbd "C-z"))
     (setq wg-switch-on-load nil)
@@ -312,6 +320,7 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
   (use-package counsel
     :ensure t
     :demand t
+    :diminish ivy-mode
     :init
     (setq ivy-use-virtual-buffers t)
     :config
@@ -543,7 +552,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 [[http://orgmode.org/manual/CDLaTeX-mode.html#CDLaTeX-mode][org-manual cdlatex-mode]]
 #+BEGIN_SRC emacs-lisp
   (use-package cdlatex
-    :ensure t)
+    :ensure t
+    :diminish org-cdlatex-mode)
 
   (add-hook 'org-mode-hook
             (lambda ()
@@ -595,6 +605,8 @@ Visually wrap text in org-mode
   (add-hook 'org-mode-hook
             (lambda ()
               (visual-line-mode)))
+
+  (diminish 'visual-line-mode)
 #+END_SRC
 
 ** Dired-x
@@ -634,6 +646,7 @@ Toggle with M-o
 #+BEGIN_SRC emacs-lisp
   (setq-default abbrev-mode t) ;; globally enabled
   (setq abbrev-file-name "~/Dropbox/emacs_shared/abbrev_defs")
+  (diminish 'abbrev-mode)
 #+END_SRC
 
 ** Bookmarks folder
@@ -663,6 +676,7 @@ Toggle with M-o
   (use-package smart-tab
     :ensure t
     :demand t
+    :diminish smart-tab-mode
     :config
     (global-smart-tab-mode 1)
     )
@@ -764,6 +778,7 @@ Toggle with M-o
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :ensure t
+    :diminish yas-minor-mode
     :config
     ;;  (yas-reload-all) -- om man inte vill använda yas globalt,
     ;; isåfall (yas-reload-all) och (add-hook 'prog-mode-hook #'yas-minor-mode)
@@ -874,6 +889,7 @@ Auto-complete ([{ etc
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
     :ensure t
+    :diminish smartparens-mode
     :config
     (require 'smartparens-config)
     (add-hook 'prog-mode-hook 'smartparens-mode)
