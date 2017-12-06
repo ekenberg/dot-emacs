@@ -774,6 +774,14 @@ Toggle with M-o
     )
 #+END_SRC
 
+** Wgrep
+   Edit grep (and other) buffers directly, saving results
+   https://oremacs.com/2017/11/18/dired-occur/
+
+#+BEGIN_SRC emacs-lisp
+  (use-package wgrep
+    :ensure t)
+#+END_SRC
 * Programming options and packages
 
 ** Use spaces for indent
