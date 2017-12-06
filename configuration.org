@@ -319,11 +319,14 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
     ;; Använd M-x re-builder  C-c C-w för att konvertera och kopiera
     ;; https://www.masteringemacs.org/article/re-builder-interactive-regexp-builder
     (setq counsel-find-file-ignore-regexp "^.*\\(~\\|#\\|.class\\)$")
+    (setq ivy-use-selectable-prompt t) ;; C-p on first item = 'use what I write and don't complete'
     :bind (("C-s" . swiper) ;; replace default search
            ("C-x C-f" . counsel-find-file)
            ("M-x" . counsel-M-x)
+           ("C-c a" . counsel-ag)
            :map ivy-mode-map
            ("C-h" . ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
+           ("C-c C-o" . ivy-occur)
            ))
 #+END_SRC
 
