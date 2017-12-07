@@ -914,7 +914,7 @@ Auto-complete ([{ etc
     :ensure t
     :mode ("\\.phpclass\\'"
            "\\.php\\'"
-           "\\.js\\'"
+           ;; "\\.js\\'"
            "\\.css\\'"
            "\\.html?\\'")
     :config
@@ -943,6 +943,24 @@ Auto-complete ([{ etc
                  (not (or (get-text-property (point) 'part-side) (get-text-property (point) 'block-side))))
         t))
     (sp-local-pair 'web-mode "<" nil :when '(sp-webmode-is-code-context)))
+#+END_SRC
+
+** Indium (javascript)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :mode ("\\.js")
+    :interpreter "node"
+    :bind (:map js2-mode-map
+           ("C-c C-p" . indium-run-node)
+           ("C-c C-l" . indium-eval-buffer)
+           ("C-c C-r" . indium-eval-region))
+    :ensure t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+    (use-package indium
+      :ensure t)
 #+END_SRC
 
 ** Markdown-mode
