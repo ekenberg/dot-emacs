@@ -948,19 +948,21 @@ Auto-complete ([{ etc
 ** Indium (javascript)
 
 #+BEGIN_SRC emacs-lisp
-  (use-package js2-mode
-    :mode ("\\.js")
-    :interpreter "node"
-    :bind (:map js2-mode-map
-           ("C-c C-p" . indium-run-node)
-           ("C-c C-l" . indium-eval-buffer)
-           ("C-c C-r" . indium-eval-region))
-    :ensure t)
+  (when (not (version< emacs-version "25")) ;; requires emacs 25
+    (use-package js2-mode
+      :mode ("\\.js")
+      :interpreter "node"
+      :bind (:map js2-mode-map
+                  ("C-c C-p" . indium-run-node)
+                  ("C-c C-l" . indium-eval-buffer)
+                  ("C-c C-r" . indium-eval-region))
+      :ensure t))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
+  (when (not (version< emacs-version "25")) ;; requires emacs 25
     (use-package indium
-      :ensure t)
+      :ensure t))
 #+END_SRC
 
 ** Markdown-mode
