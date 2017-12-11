@@ -6,6 +6,7 @@
            (member (with-current-buffer (window-buffer (next-window)) major-mode)
                    '(help-mode
                      Info-mode
+                     Man-mode
                      debugger-mode
                      compilation-mode
                      grep-mode
