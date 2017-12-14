@@ -480,7 +480,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
                         :background default-background :box nil :weight 'bold :height 1.3)
     (set-face-attribute 'org-level-2 nil :inherit 'outline-2 :foreground "YellowGreen"
                         :background default-background :box nil :height 1.1)
-    (set-face-attribute 'org-level-3 nil :foreground "CornflowerBlue" :background default-background))
+    (set-face-attribute 'org-level-3 nil :foreground "CornflowerBlue" :background default-background)
+    (set-face-attribute 'org-todo nil :background "chocolate4" :foreground "#ffab91" :weight 'bold))
 
   (add-hook 'org-mode-hook 'my-org-custom-faces)
 #+END_SRC
