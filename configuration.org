@@ -1046,6 +1046,12 @@ use c-mode for nqc files
     :mode "\\.hs$"
     :interpreter "ghc"
     :config
+    (defun my-haskell-process-cd ()
+      (interactive)
+      (let ((session (haskell-interactive-session)))
+        (haskell-process-change-dir session
+                                    (haskell-interactive-process)
+                                    default-directory)))
     (defun my-haskell-config ()
       "my haskell config hook"
       (setq haskell-process-suggest-remove-import-lines t)
@@ -1058,7 +1064,8 @@ use c-mode for nqc files
       (define-key haskell-mode-map (kbd "M-n")     'haskell-goto-next-error)
       (define-key haskell-mode-map (kbd "M-p")     'haskell-goto-prev-error)
       (define-key haskell-mode-map (kbd "C-c M-p") 'haskell-goto-first-error)
-      )
+      (define-key haskell-mode-map (kbd "C-c C-d") 'my-haskell-process-cd))
+
     (add-hook 'haskell-mode-hook 'my-haskell-config))
 #+END_SRC
 
