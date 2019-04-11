@@ -154,7 +154,7 @@ Because I press it by accident, the popup is annoying and Emacs crashes if I acc
 #+END_SRC
 
 ** Disable Ctrl-z
-   This has to be here before workgroups-mode because of C-z used by that mode
+
 #+BEGIN_SRC emacs-lisp
   (if (display-graphic-p)
       (progn
@@ -203,19 +203,18 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
   (global-set-key "\C-c\C-w" 'save-copy-as)
 #+END_SRC
 
-** Workgroups
+** Eyebrowse
 #+BEGIN_SRC emacs-lisp
-  (use-package workgroups
+  (use-package eyebrowse
     :ensure t
-    :diminish workgroups-mode
-    :init
-    (setq wg-prefix-key (kbd "C-z"))
-    (setq wg-switch-on-load nil)
-    (setq wg-session-file "~/Dropbox/emacs_shared/workgroups")
+    ; :diminish eyebrowse-mode
     :config
-    (workgroups-mode t)
-    (wg-load "~/Dropbox/emacs_shared/workgroups")
-    )
+    (define-key eyebrowse-mode-map (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
+    (define-key eyebrowse-mode-map (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
+    (define-key eyebrowse-mode-map (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
+    (define-key eyebrowse-mode-map (kbd "M-4") 'eyebrowse-switch-to-window-config-4)
+    (eyebrowse-mode t)
+    (setq eyebrowse-new-workspace t))
 #+END_SRC
 
 ** Go to previous window anti-clockwise
