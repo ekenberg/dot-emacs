@@ -1151,9 +1151,19 @@ use c-mode for nqc files
 *** Title bar shows buffer name
 
 #+BEGIN_SRC emacs-lisp
+  (defun my-title-bar-format()
+    (let* ((current-slot (eyebrowse--get 'current-slot))
+           (window-configs (eyebrowse--get 'window-configs))
+           (window-config (assoc current-slot window-configs))
+           (window-config-name (nth 2 window-config))
+           (num-slots (length window-configs)))
+      (concat window-config-name " [" (number-to-string current-slot)
+              "/" (number-to-string num-slots) "] | " "%b")))
+
   (if (display-graphic-p)
       (progn
-        (setq frame-title-format '(buffer-file-name "Emacs: %b" ))))
+        (setq frame-title-format
+              '(:eval (my-title-bar-format)))))
 #+END_SRC
 
 ** Highlight current line
