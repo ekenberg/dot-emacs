@@ -320,7 +320,8 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
     :demand t
     :diminish ivy-mode
     :init
-    (setq ivy-use-virtual-buffers t)
+    (setq ivy-use-virtual-buffers t
+          ivy-count-format "%d/%d ")
     :config
     (ivy-mode 1)
     ;; Använd M-x re-builder  C-c C-w för att konvertera och kopiera
