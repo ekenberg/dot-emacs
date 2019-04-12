@@ -276,6 +276,8 @@ Pipe region to shell command derived from [[http://stackoverflow.com/questions/2
 
 ** Grep
 
+Also see counsel-ag later in this file (C-c a)
+
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "\C-c g") 'grep)
   (setq next-error-highlight-no-select t) ; permanent highlight for matches
@@ -291,6 +293,9 @@ Pipe region to shell command derived from [[http://stackoverflow.com/questions/2
 #+END_SRC
 
 ** Align regexp
+
+Use C-u prefix to customize the regexp
+
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x a r") 'align-regexp)
 #+END_SRC
@@ -1122,7 +1127,7 @@ use c-mode for nqc files
     (scroll-bar-mode -1))
 #+END_SRC
 
-*** Title bar shows buffer name
+*** Title bar shows Eyebrowse workspace + buffer name
 
 #+BEGIN_SRC emacs-lisp
   (defun my-title-bar-format()
