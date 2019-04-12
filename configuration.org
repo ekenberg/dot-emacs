@@ -821,6 +821,18 @@ Toggle with M-o
                                (local-set-key (kbd "RET") 'newline-and-indent)))
 #+END_SRC
 
+** Indent buffer for all programming modes
+#+BEGIN_SRC emacs-lisp
+  (defun indent-buffer ()
+    "Indent the current buffer"
+    (interactive)
+    (indent-region (point-min) (point-max)))
+
+  (add-hook 'prog-mode-hook '(lambda ()
+                               (local-set-key (kbd "C-c <tab>") 'indent-buffer)))
+
+#+END_SRC
+
 ** Make TAB smarter
 
 #+BEGIN_SRC emacs-lisp
