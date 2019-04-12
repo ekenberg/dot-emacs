@@ -200,7 +200,7 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
 
 #+BEGIN_SRC emacs-lisp
   (load-library "save-copy-as")
-  (global-set-key "\C-c\C-w" 'save-copy-as)
+  (global-set-key "\C-x\M-w" 'save-copy-as)
 #+END_SRC
 
 ** Eyebrowse
