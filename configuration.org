@@ -305,18 +305,6 @@ Pipe region to shell command derived from [[http://stackoverflow.com/questions/2
     :bind ("C-x g" . magit-status))
 #+END_SRC
 
-** Smex
-
-M-x replacement - bortkommenterad för testar counsel-M-x istället
-
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package smex
-  ;;   :ensure t
-  ;;   :bind (("M-x" . smex)
-  ;;          ("M-X" . smex-major-mode-commands)
-  ;;          ("C-c C-c M-x" . execute-extended-command))) ;; old M-x
-#+END_SRC
-
 ** Ivy
 
 Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
@@ -354,16 +342,6 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
     :bind (("C-." . avy-goto-char-2)))
 #+END_SRC
 
-** Hydra
-
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package hydra
-  ;;   :ensure t)
-
-  ;; (use-package ivy-hydra
-  ;;   :ensure t)
-#+END_SRC
-
 ** Org-mode
 
 *** Directories
@@ -379,6 +357,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   ;; open directory links in dired and not Finder (mac)
   (add-to-list 'org-file-apps '(directory . emacs))
 #+END_SRC
+
 *** Handle http-links
 #+BEGIN_SRC emacs-lisp
   ;; C-x C-o öppnar med extern browser
@@ -391,6 +370,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
       (org-open-at-point)))
 
 #+END_SRC
+
 *** Global keybinds for org-mode
 #+BEGIN_SRC emacs-lisp
   ;; (bind-key installed as dependency from use-package, overrides any key using a hidden minor-mode)
@@ -463,6 +443,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
            ,(my-org-default-drill-capture-format) :empty-lines 1)
           ))
 #+END_SRC
+
 *** Archiving
 #+BEGIN_SRC emacs-lisp
   (setq org-archive-location (concat org-directory "/Archive.org::* From %s"))
@@ -665,15 +646,6 @@ Toggle with M-o
 #+BEGIN_SRC emacs-lisp
   (use-package tex
     :ensure auctex)
-#+END_SRC
-** Neotree
-
-#+BEGIN_SRC emacs-lisp
-  ;;(use-package neotree
-  ;;  :ensure t
-  ;;    :init
-  ;;    (setq neo-smart-open t)
-  ;;    :bind ([f8] . neotree-toggle))
 #+END_SRC
 
 ** Smart-tab
@@ -1078,16 +1050,6 @@ use c-mode for nqc files
       (define-key haskell-mode-map (kbd "C-c C-d") 'my-haskell-process-cd))
 
     (add-hook 'haskell-mode-hook 'my-haskell-config))
-#+END_SRC
-
-** Dart-mode
-
-#+BEGIN_SRC emacs-lisp
-  ;; (use-package dart-mode
-  ;;   :init (require 'compile)
-  ;;   :ensure t
-  ;;   :mode ("\\.dart\\'")
-  ;;   :interpreter "dart")
 #+END_SRC
 
 * Themes, fonts and visual
