@@ -831,10 +831,8 @@ Toggle with M-o
 #+BEGIN_SRC emacs-lisp
   (use-package column-enforce-mode
     :ensure t
-    :config (add-hook 'prog-mode-hook 'column-enforce-mode))
-
-  ;; use wider lines for java
-  (add-hook 'java-mode-hook (lambda () (setq column-enforce-column 99)))
+    :hook ((prog-mode . column-enforce-mode)
+           (java-mode . (lambda () (setq column-enforce-column 99)))))
 #+END_SRC
 
 ** Always end files with a newline
@@ -873,9 +871,7 @@ Rainbow delimiters
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :ensure t
-    :config
-    (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
-    (add-hook 'lisp-mode-hook 'rainbow-delimiters-mode))
+    :hook ((emacs-lisp-mode lisp-mode) . rainbow-delimiters-mode))
 #+END_SRC
 
 ** Smartparens
@@ -885,16 +881,11 @@ Auto-complete ([{ etc
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
     :ensure t
+    :hook (((prog-mode markdown-mode gfm-mode org-mode gnuplot-mode) . smartparens-mode)
+           (prog-mode . show-paren-mode))
     :diminish smartparens-mode
     :config
-    (require 'smartparens-config)
-    (add-hook 'prog-mode-hook 'smartparens-mode)
-    (add-hook 'prog-mode-hook 'show-paren-mode)
-    (add-hook 'markdown-mode-hook 'smartparens-mode)
-    (add-hook 'dart-mode-hook 'smartparens-mode)
-    (add-hook 'gfm-mode-hook 'smartparens-mode)
-    (add-hook 'org-mode-hook 'smartparens-mode
-    (add-hook 'gnuplot-mode-hook 'smartparens-mode)))
+    (require 'smartparens-config))
 #+END_SRC
 
 ** Web-mode
