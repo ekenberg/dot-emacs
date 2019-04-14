@@ -1049,6 +1049,60 @@ use c-mode for nqc files
     (add-hook 'haskell-mode-hook 'my-haskell-config))
 #+END_SRC
 
+** Flycheck
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :config (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+    :hook (prog-mode . flycheck-mode))
+#+END_SRC
+
+** LSP
+
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :commands lsp
+    :hook (lsp-mode . lsp-ui-mode)
+    :config (require 'lsp-clients)
+    (setq lsp-prefer-flymake nil))
+
+
+  (use-package lsp-ui
+    :ensure t
+    :config (setq lsp-ui-doc-enable t
+                  lsp-ui-doc-use-childframe t
+                  lsp-ui-doc-position 'top
+                  lsp-ui-doc-include-signature t
+                  lsp-ui-sideline-enable nil
+                  lsp-ui-flycheck-enable t
+                  lsp-ui-flycheck-list-position 'right
+                  lsp-ui-flycheck-live-reporting t
+                  lsp-ui-peek-enable t
+                  lsp-ui-peek-list-width 60
+                  lsp-ui-peek-peek-height 25))
+#+END_SRC
+
+** Rust
+
+#+BEGIN_SRC emacs-lisp
+  (use-package toml-mode
+    :ensure t)
+
+  (use-package rust-mode
+    :ensure t
+    :hook (rust-mode . lsp))
+
+  ;; Cargo keybindings
+  (use-package cargo
+    :ensure t
+    :hook (rust-mode . cargo-minor-mode))
+
+  (use-package flycheck-rust
+    :ensure t
+    :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+#+END_SRC
+
 * Themes, fonts and visual
 
 ** Default theme
