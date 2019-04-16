@@ -59,6 +59,18 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 #+BEGIN_SRC emacs-lisp
   (load "sv-kalender")
 #+END_SRC
+
+** Uniquify (better names for same-name-buffers)
+#+BEGIN_SRC emacs-lisp
+  (require 'uniquify)
+  (setq uniquify-buffer-name-style 'forward)
+#+END_SRC
+
+** Saveplace (save point for each file)
+#+BEGIN_SRC emacs-lisp
+  (save-place-mode 1)
+#+END_SRC
+
 * Package management
 
 ** Use Melpa
