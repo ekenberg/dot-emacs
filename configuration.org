@@ -796,6 +796,15 @@ Toggle with M-o
   (use-package wgrep
     :ensure t)
 #+END_SRC
+
+** IELM
+   Elisp REPL
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'ielm-mode-hook 'smartparens-mode)
+  (add-hook 'ielm-mode-hook 'rainbow-delimiters-mode)
+#+END_SRC
+
 * Programming options and packages
 
 ** Use spaces for indent
