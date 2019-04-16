@@ -1124,6 +1124,29 @@ use c-mode for nqc files
     :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 #+END_SRC
 
+** Clojure
+#+BEGIN_SRC emacs-lisp
+  (use-package clojure-mode
+    :ensure t
+    :mode (("\\.clj\\'" . clojure-mode)
+           ("\\.edn\\'" . clojure-mode))
+    )
+
+  (use-package cider
+    :ensure t
+    :defer t
+    :config
+    (setq nrepl-log-messages t
+          cider-repl-display-in-current-window t
+          cider-repl-display-help-banner nil
+          cider-repl-use-clojure-font-lock t
+          cider-prompt-save-file-on-load 'always-save
+          cider-font-lock-dynamically '(macro core function var)
+          nrepl-hide-special-buffers t
+          cider-overlays-use-font-lock t)
+    (cider-repl-toggle-pretty-printing))
+#+END_SRC
+
 * Themes, fonts and visual
 
 ** Default theme
