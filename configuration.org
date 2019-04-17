@@ -797,13 +797,6 @@ Toggle with M-o
     :ensure t)
 #+END_SRC
 
-** IELM
-   Elisp REPL
-
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'ielm-mode-hook 'smartparens-mode)
-  (add-hook 'ielm-mode-hook 'rainbow-delimiters-mode)
-#+END_SRC
 
 * Programming options and packages
 
@@ -885,14 +878,14 @@ Specially important using sudo or su
   (setq c-toggle-hungry-state t)
 #+END_SRC
 
-** Lisp-mode
+** Rainbow delimiters
 
 Rainbow delimiters
 
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :ensure t
-    :hook ((emacs-lisp-mode lisp-mode) . rainbow-delimiters-mode))
+    :hook ((emacs-lisp-mode lisp-mode ielm-mode cider-repl-mode) . rainbow-delimiters-mode))
 #+END_SRC
 
 ** Smartparens
@@ -902,7 +895,8 @@ Auto-complete ([{ etc
 #+BEGIN_SRC emacs-lisp
   (use-package smartparens
     :ensure t
-    :hook (((prog-mode markdown-mode gfm-mode org-mode gnuplot-mode) . smartparens-mode)
+    :hook (((prog-mode markdown-mode gfm-mode org-mode
+                       gnuplot-mode ielm-mode cider-repl-mode) . smartparens-mode)
            (prog-mode . show-paren-mode))
     :diminish smartparens-mode
     :config
