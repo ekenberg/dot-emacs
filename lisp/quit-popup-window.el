@@ -33,7 +33,8 @@
     ivy-occur-mode
     ivy-occur-grep-mode
     cargo-process-mode
-    cider-stacktrace-mode))
+    cider-stacktrace-mode
+    cider-docview-mode))
 
 (defun major-popup-p (other-window)
   "Is major-mode of other-window in our list of popup-major-modes?"
