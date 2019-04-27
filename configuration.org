@@ -797,7 +797,6 @@ Toggle with M-o
     :ensure t)
 #+END_SRC
 
-
 * Programming options and packages
 
 ** Use spaces for indent
@@ -1141,6 +1140,12 @@ use c-mode for nqc files
     (cider-repl-toggle-pretty-printing))
 #+END_SRC
 
+** ESS / R
+#+BEGIN_SRC emacs-lisp
+  (use-package ess-site
+    :ensure ess)
+
+#+END_SRC
 * Themes, fonts and visual
 
 ** Default theme
