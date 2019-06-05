@@ -639,6 +639,39 @@ Visually wrap text in org-mode
   (require 'dired-x)
 #+END_SRC
 
+*** [[http://www.emacswiki.org/emacs/DiredOmitMode][Omit Mode]]
+
+Toggle with M-o
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default dired-omit-files-p t)
+  (setq dired-omit-files
+        (concat dired-omit-files "\\|^\\.DS_Store$"))
+
+  (add-hook 'dired-mode-hook '(lambda ()
+                                (local-set-key (kbd "M-o") 'dired-omit-mode)))
+
+  ;; toggle hidden files starting with .
+  (defun dired-dotfiles-toggle ()
+    "Show/hide dot-files"
+    (interactive)
+    (when (equal major-mode 'dired-mode)
+      (if (or (not (boundp 'dired-dotfiles-show-p)) dired-dotfiles-show-p) ; if currently showing
+          (progn
+            (set (make-local-variable 'dired-dotfiles-show-p) nil)
+            (message "h")
+            (dired-mark-files-regexp "^\\\.")
+            (dired-do-kill-lines))
+        (progn (revert-buffer) ; otherwise just revert to re-show
+               (set (make-local-variable 'dired-dotfiles-show-p) t)))))
+
+  ;; keybind C-x . to toggle hidden files in dired
+  (add-hook 'dired-mode-hook '(lambda ()
+                                (local-set-key (kbd "C-x .") 'dired-dotfiles-toggle)))
+
+#+END_SRC
+
+
 ** Ediff in dired + ediff config
 
 [[https://oremacs.com/2017/03/18/dired-ediff/][Oremacs dired-ediff]]
@@ -651,18 +684,6 @@ Visually wrap text in org-mode
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-diff-options "-w")
-#+END_SRC
-
-*** [[http://www.emacswiki.org/emacs/DiredOmitMode][Omit Mode]]
-
-Toggle with M-o
-
-#+BEGIN_SRC emacs-lisp
-  (setq-default dired-omit-files-p t)
-  (setq dired-omit-files
-          (concat dired-omit-files "\\|^\\.DS_Store$"))
-  (add-hook 'dired-mode-hook '(lambda ()
-                                (local-set-key (kbd "M-o") 'dired-omit-mode)))
 #+END_SRC
 
 ** Abbrev-mode settings
