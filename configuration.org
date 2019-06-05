@@ -314,6 +314,13 @@ Use C-u prefix to customize the regexp
 
 * Package settings and keybinds
 
+** Tramp
+#+BEGIN_SRC emacs-lisp
+  ;; https://www.emacswiki.org/emacs/TrampMode
+  ;; ssh is faster than scp
+  (setq tramp-default-method "ssh")
+#+END_SRC
+
 ** Magit
 
 #+BEGIN_SRC emacs-lisp
