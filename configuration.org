@@ -639,7 +639,7 @@ Visually wrap text in org-mode
   (require 'dired-x)
 #+END_SRC
 
-*** [[http://www.emacswiki.org/emacs/DiredOmitMode][Omit Mode]]
+** Dired [[http://www.emacswiki.org/emacs/DiredOmitMode][Omit Mode]]
 
 Toggle with M-o
 
@@ -670,7 +670,6 @@ Toggle with M-o
                                 (local-set-key (kbd "C-x .") 'dired-dotfiles-toggle)))
 
 #+END_SRC
-
 
 ** Ediff in dired + ediff config
 
