@@ -1083,7 +1083,7 @@ use c-mode for nqc files
   (use-package haskell-mode
     :ensure t
     :mode "\\.hs$"
-    :interpreter "ghc"
+  ;  :interpreter "stack runghc"
     :config
     (defun my-haskell-process-cd ()
       (interactive)
@@ -1093,6 +1093,7 @@ use c-mode for nqc files
                                     default-directory)))
     (defun my-haskell-config ()
       "my haskell config hook"
+      (setq haskell-process-type 'stack-ghci)
       (setq haskell-process-suggest-remove-import-lines t)
       (setq haskell-process-auto-import-loaded-modules t)
       (setq haskell-process-log t)
