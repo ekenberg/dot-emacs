@@ -35,6 +35,7 @@ On legacy systems site-init can mess up local configuration
 #+END_SRC
 
 ** Path to custom functions and themes
+   NB: $PATH is copied to emacs from environment, see exec-path-from-shell further down
 
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/lisp")
@@ -107,6 +108,15 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :ensure t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :if (memq window-system '(mac ns x))
+    :config
+    (exec-path-from-shell-initialize)
+    )
 #+END_SRC
 
 * Global keybinds and custom functions
