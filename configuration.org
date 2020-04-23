@@ -711,7 +711,8 @@ Toggle with M-o
 
 ** Bookmarks folder
 #+BEGIN_SRC emacs-lisp
-  (setq bookmark-default-file "~/Dropbox/emacs_shared/bookmarks")
+  (when (file-directory-p "~/Dropbox/emacs_shared")
+    (setq bookmark-default-file "~/Dropbox/emacs_shared/bookmarks"))
 #+END_SRC
 
 ** Auctex
