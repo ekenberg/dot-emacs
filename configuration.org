@@ -1269,16 +1269,19 @@ use c-mode for nqc files
 *** Mac/Linux fonts
 
 #+BEGIN_SRC emacs-lisp
-  (if (display-graphic-p)
-      (progn
-        (if (string-equal (window-system) "x")  ; x = linux, ns = cocoa
-            (progn
-              (when (member "Bitstream Vera Sans Mono" (font-family-list))
-                (set-default-font "Bitstream Vera Sans Mono-10" )))  ; Linux
+  (when (display-graphic-p)
+    (cond ((string-equal (window-system) "x")   ; Linux
+           (progn
+             (when (member "Bitstream Vera Sans Mono" (font-family-list))
+               (set-default-font "Bitstream Vera Sans Mono-10" ))))
+          ((string-equal (window-system) "w32") ; Windows
+           (set-default-font "Menlo 10"))
+          ((t)                                  ; Mac
+           (set-default-font "Menlo 13"))))
 
-          (progn
-            (set-default-font "Menlo 13")) ; Mac
-          )))
+
+
+  ;; w32
 #+END_SRC
 
 *** Hide toolbar/menubar/scrollbar
