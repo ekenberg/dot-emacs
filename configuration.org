@@ -1218,7 +1218,11 @@ use c-mode for nqc files
 #+BEGIN_SRC emacs-lisp
   (use-package ess-site
     :ensure ess)
-
+#+END_SRC
+** Docker
+#+BEGIN_SRC emacs-lisp
+  (use-package dockerfile-mode
+    :ensure t)
 #+END_SRC
 * Themes, fonts and visual
 
