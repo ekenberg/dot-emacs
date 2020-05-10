@@ -1276,7 +1276,7 @@ use c-mode for nqc files
                (set-default-font "Bitstream Vera Sans Mono-10" ))))
           ((string-equal (window-system) "w32") ; Windows
            (set-default-font "Menlo 10"))
-          ((t)                                  ; Mac
+          (t                                    ; Mac
            (set-default-font "Menlo 13"))))
 
 
