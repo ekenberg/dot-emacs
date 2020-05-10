@@ -399,9 +399,9 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
 *** Directories
 #+BEGIN_SRC emacs-lisp
-  (setq org-directory "~/Dropbox/org")
+  (setq org-directory "~/ownCloud/org")
   (setq org-default-notes-file (concat org-directory "/Capture.org"))
-  (setq datavetenskap-todo-file "~/Dropbox/Datavetenskap/PLAN.org")
+  (setq datavetenskap-todo-file "~/ownCloud/Datavetenskap/PLAN.org")
   (setq org-default-drill-file (concat org-directory "/Drill/Drill.org"))
 #+END_SRC
 
@@ -705,14 +705,14 @@ Toggle with M-o
 
 #+BEGIN_SRC emacs-lisp
   (setq-default abbrev-mode t) ;; globally enabled
-  (setq abbrev-file-name "~/Dropbox/emacs_shared/abbrev_defs")
+  (setq abbrev-file-name "~/ownCloud/emacs_shared/abbrev_defs")
   (diminish 'abbrev-mode)
 #+END_SRC
 
 ** Bookmarks folder
 #+BEGIN_SRC emacs-lisp
-  (when (file-directory-p "~/Dropbox/emacs_shared")
-    (setq bookmark-default-file "~/Dropbox/emacs_shared/bookmarks"))
+  (when (file-directory-p "~/ownCloud/emacs_shared")
+    (setq bookmark-default-file "~/ownCloud/emacs_shared/bookmarks"))
 #+END_SRC
 
 ** Auctex
@@ -837,7 +837,7 @@ Toggle with M-o
   ;;   ;;  (yas-reload-all) -- om man inte vill använda yas globalt,
   ;;   ;; isåfall (yas-reload-all) och (add-hook 'prog-mode-hook #'yas-minor-mode)
   ;;   ;; https://github.com/joaotavora/yasnippet/blob/master/README.mdown
-  ;;   (setq yas-snippet-dirs '("~/Dropbox/emacs_shared/snippets"))
+  ;;   (setq yas-snippet-dirs '("~/ownCloud/emacs_shared/snippets"))
   ;;   (yas-global-mode 1)
   ;;   (define-key yas-minor-mode-map (kbd "<tab>") nil) ;; undefine default
   ;;   (define-key yas-minor-mode-map (kbd "TAB") nil)   ;; undefine default
