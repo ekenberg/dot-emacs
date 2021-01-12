@@ -932,7 +932,7 @@ Specially important using sudo or su
 
 #+BEGIN_SRC emacs-lisp
   (setq c-default-style "linux"
-        c-basic-offset 4)
+        c-basic-offset 3)
   (setq c-toggle-hungry-state t)
 #+END_SRC
 
