@@ -79,7 +79,7 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 #+BEGIN_SRC emacs-lisp
   (require 'package)
   (setq package-enable-at-startup nil)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
   (package-initialize)
 #+END_SRC
 
