@@ -1017,6 +1017,8 @@ Auto-complete ([{ etc
 
 #+BEGIN_SRC emacs-lisp
   (when (not (version< emacs-version "25")) ;; requires emacs 25
+    (use-package indium
+      :ensure t)
     (use-package js2-mode
       :mode ("\\.js")
       :interpreter "node"
@@ -1024,12 +1026,6 @@ Auto-complete ([{ etc
                   ("C-c C-p" . indium-run-node)
                   ("C-c C-l" . indium-eval-buffer)
                   ("C-c C-r" . indium-eval-region))
-      :ensure t))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (when (not (version< emacs-version "25")) ;; requires emacs 25
-    (use-package indium
       :ensure t))
 #+END_SRC
 
@@ -1159,9 +1155,10 @@ use c-mode for nqc files
     :ensure t
     :commands lsp
     :hook (lsp-mode . lsp-ui-mode)
-    :config (require 'lsp-clients)
-    (setq lsp-prefer-flymake nil))
+    ;;  (setq lsp-prefer-flymake nil)
+    )
 
+  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 
   (use-package lsp-ui
     :ensure t
