@@ -342,7 +342,11 @@ Use C-u prefix to customize the regexp
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t
-    :bind ("C-x g" . magit-status))
+    :bind ("C-x g" . magit-status)
+    :config
+    ;; gör ändrad whitespace synlig i diff vid stage/commit
+    (setq magit-diff-paint-whitespace-lines "all"))
+
 #+END_SRC
 
 ** Ivy
