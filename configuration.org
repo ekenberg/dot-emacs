@@ -183,6 +183,11 @@ Because I press it by accident, the popup is annoying and Emacs crashes if I acc
         (global-set-key "\C-z" (lambda () (interactive) (message "Zzzzzz...")))))
 #+END_SRC
 
+** Keybind fixup-whitespace
+#+BEGIN_SRC emacs-lisp
+  (global-set-key "\M-z" 'fixup-whitespace)
+#+END_SRC
+
 ** Switch windows when splitting
 
 Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer to do that manually as needed.
