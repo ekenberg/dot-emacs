@@ -183,6 +183,14 @@ Because I press it by accident, the popup is annoying and Emacs crashes if I acc
         (global-set-key "\C-z" (lambda () (interactive) (message "Zzzzzz...")))))
 #+END_SRC
 
+** Confirm quit when not in terminal
+#+BEGIN_SRC emacs-lisp
+  (if (display-graphic-p)
+      (progn
+        (setq confirm-kill-emacs 'yes-or-no-p)))
+
+#+END_SRC
+
 ** Keybind fixup-whitespace
 #+BEGIN_SRC emacs-lisp
   (global-set-key "\M-z" 'fixup-whitespace)
