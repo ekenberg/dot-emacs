@@ -950,7 +950,7 @@ Specially important using sudo or su
 
 #+BEGIN_SRC emacs-lisp
   (setq c-default-style "linux"
-        c-basic-offset 3)
+        c-basic-offset 4)
   (setq c-toggle-hungry-state t)
 #+END_SRC
 
@@ -987,7 +987,7 @@ Auto-complete ([{ etc
       :config
       (defun my-php-mode-hook ()
         "My settings for php mode."
-        (setq-local c-basic-offset 3))
+        (setq-local c-basic-offset 4))
       (add-hook 'php-mode-hook 'my-php-mode-hook)
       :ensure t)
 
@@ -1006,9 +1006,9 @@ Auto-complete ([{ etc
     :config
     (defun my-web-mode-hook ()
       "My settings for Web mode."
-      (setq web-mode-markup-indent-offset 3)
-      (setq web-mode-css-indent-offset 3)
-      (setq web-mode-code-indent-offset 3)
+      (setq web-mode-markup-indent-offset 4)
+      (setq web-mode-css-indent-offset 4)
+      (setq web-mode-code-indent-offset 4)
 
       ;; Get colors from active theme
       (set-face-attribute 'web-mode-html-tag-face nil :foreground
