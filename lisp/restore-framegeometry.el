@@ -11,6 +11,15 @@
         (framegeometry-file (expand-file-name "~/.emacs.d/framegeometry"))
         )
 
+    (when (not (number-or-marker-p framegeometry-top))
+      (setq framegeometry-top 0))
+    (when (not (number-or-marker-p framegeometry-left))
+      (setq framegeometry-left 0))
+    (when (not (number-or-marker-p framegeometry-width))
+      (setq framegeometry-width 0))
+    (when (not (number-or-marker-p framegeometry-height))
+      (setq framegeometry-height 0))
+
     (with-temp-buffer
       (insert
        ";;; This is the previous emacs frame's geometry.\n"
