@@ -672,6 +672,17 @@ Visually wrap text in org-mode
   (require 'dired-x)
 #+END_SRC
 
+** Dired Subtree
+[[http://pragmaticemacs.com/emacs/tree-style-directory-views-in-dired-with-dired-subtree/][Dired Subtree - Pragmatic Emacs Blog]]
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-subtree
+    :ensure t
+    :config
+    (bind-keys :map dired-mode-map
+               ("i" . dired-subtree-insert)
+               (";" . dired-subtree-remove)))
+#+END_SRC
+
 ** Dired [[http://www.emacswiki.org/emacs/DiredOmitMode][Omit Mode]]
 
 Toggle with M-o
