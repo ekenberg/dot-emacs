@@ -872,6 +872,17 @@ Toggle with M-o
     :ensure t)
 #+END_SRC
 
+** PDF-tools
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :load-path "site-lisp/pdf-tools/lisp"
+    :magic ("%PDF" . pdf-view-mode)
+    :config
+    (pdf-tools-install :no-query)
+    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward-regexp))
+#+END_SRC
+
 * Programming options and packages
 
 ** Use spaces for indent
