@@ -5,11 +5,13 @@
 
 Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
-* Todo [100%]:
-
+* Todo [25%]:
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
+** TODO Fix C-c C-o in org-mode -> org-open-at-point (not ivy-occur)
+** TODO Fix C-. in php-mode -> avy-goto-char-2
+** TODO in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
 
 * Basic sanity, startup and paths
 
@@ -683,6 +685,14 @@ Visually wrap text in org-mode
                (";" . dired-subtree-remove)))
 #+END_SRC
 
+** Dired Narrow
+[[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][Dired Narrow - Pragmatic Emacs Blog]]
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-narrow
+    :ensure t
+    :bind (:map dired-mode-map
+                ("/" . dired-narrow)))
+#+END_SRC
 ** Dired [[http://www.emacswiki.org/emacs/DiredOmitMode][Omit Mode]]
 
 Toggle with M-o
@@ -891,9 +901,20 @@ Toggle with M-o
     :magic ("%PDF" . pdf-view-mode)
     :config
     (pdf-tools-install :no-query)
-    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward-regexp))
+    (setq-default pdf-view-display-size 'fit-page)
+    (setq pdf-annot-activate-created-annotations t)
+    (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward-regexp)
+    :custom
+    (pdf-annot-activate-created-annotations t "automatically annotate highlights"))
 #+END_SRC
 
+** SQL-mode
+https://unix.stackexchange.com/a/392171/32165
+#+BEGIN_SRC emacs-lisp
+  (require 'sql)
+  (sql-set-product-feature 'mysql :prompt-regexp "^\\(MariaDB\\|MySQL\\) \\[[_a-zA-Z]*\\]> ")
+
+#+END_SRC
 * Programming options and packages
 
 ** Use spaces for indent
