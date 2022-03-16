@@ -437,7 +437,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (defun my-org-open-at-point (&optional arg)
     (interactive "P")
     (if (not arg)
-      (let ((browse-url-browser-function 'browse-url-default-browser))
+        ;; (let ((browse-url-browser-function 'browse-url-default-browser))
+        (let ((browse-url-browser-function 'browse-url-chromium))
         (org-open-at-point))
       (org-open-at-point)))
 
