@@ -5,14 +5,14 @@
 
 Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
-* Todo [25%]:
+* Todo [40%]:
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
 ** TODO Fix C-c C-o in org-mode -> org-open-at-point (not ivy-occur)
 ** TODO Fix C-. in php-mode -> avy-goto-char-2
 ** TODO in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
-
+** DONE nqc (c-mode) should not use flycheck, unless it can be setup with nqc compiler
 * Basic sanity, startup and paths
 
 ** Skip site-init
@@ -1148,10 +1148,17 @@ Disable << HEREDOC auto-completion
 
 ** nqc (Lego RCX)
 
-use c-mode for nqc files
+Use c-mode for nqc/nqh files, but disable flycheck
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.nqc\\'" . c-mode))
+  (defun my-c-mode-without-flycheck ()
+    (c-mode)
+    (flycheck-mode 0))
+
+  (add-to-list 'auto-mode-alist
+               '("\\.nqc\\'" . my-c-mode-without-flycheck))
+  (add-to-list 'auto-mode-alist
+               '("\\.nqh\\'" . my-c-mode-without-flycheck))
 #+END_SRC
 
 ** Lua-mode
