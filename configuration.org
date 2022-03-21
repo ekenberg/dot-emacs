@@ -5,13 +5,15 @@
 
 Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
-* Todo [40%]:
+* Todo [60%]:
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
 ** TODO Fix C-c C-o in org-mode -> org-open-at-point (not ivy-occur)
-** TODO Fix C-. in php-mode -> avy-goto-char-2
 ** TODO in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
+verkar inte finnas någon hook för toggle-frame-fullscreen, blir isf göra en egen funktion
+och binda den till F11/F9 (sista på macen, minns inte varför)
+** DONE Fix C-. in php-mode -> avy-goto-char-2
 ** DONE nqc (c-mode) should not use flycheck, unless it can be setup with nqc compiler
 * Basic sanity, startup and paths
 
@@ -1028,13 +1030,14 @@ Auto-complete ([{ etc
 #+BEGIN_SRC emacs-lisp
     (use-package php-mode
       :mode ("\\.php\\'")
+      :bind (:map php-mode-map
+                  ("C-." . avy-goto-char-2))
       :config
       (defun my-php-mode-hook ()
         "My settings for php mode."
         (setq-local c-basic-offset 4))
       (add-hook 'php-mode-hook 'my-php-mode-hook)
       :ensure t)
-
 #+END_SRC
 
 ** Web-mode
