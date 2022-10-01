@@ -5,14 +5,17 @@
 
 Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
-* Todo [25%]:
+* Todo [60%]:
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
-** TODO Fix C-c C-o in org-mode -> org-open-at-point (not ivy-occur)
-** TODO Fix C-. in php-mode -> avy-goto-char-2
 ** TODO in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
-
+verkar inte finnas någon hook för toggle-frame-fullscreen, blir isf göra en egen funktion
+och binda den till F11/F9 (F9 på macen, minns inte varför)
+** WONTFIX Fix C-c C-o in org-mode -> org-open-at-point (not ivy-occur)
+krock med ivy, använd C-x C-o istället
+** DONE Fix C-. in php-mode -> avy-goto-char-2
+** DONE nqc (c-mode) should not use flycheck, unless it can be setup with nqc compiler
 * Basic sanity, startup and paths
 
 ** Skip site-init
@@ -444,7 +447,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (defun my-org-open-at-point (&optional arg)
     (interactive "P")
     (if (not arg)
-      (let ((browse-url-browser-function 'browse-url-default-browser))
+        ;; (let ((browse-url-browser-function 'browse-url-default-browser))
+        (let ((browse-url-browser-function 'browse-url-chromium))
         (org-open-at-point))
       (org-open-at-point)))
 
@@ -465,9 +469,17 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
   ;; Sort entries (TODO lists etc)
   (global-set-key (kbd "C-c s") 'org-sort-entries)
+#+END_SRC
 
+*** org-mode keybinds
+#+BEGIN_SRC emacs-lisp
   ;; Wrap org-open-at-point
-  (bind-key* (kbd "C-x C-o") 'my-org-open-at-point)
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (define-key org-mode-map (kbd "C-x C-o") 'my-org-open-at-point)))
+
+
 #+END_SRC
 
 *** org-drill flashcard spaced repetition
@@ -972,6 +984,8 @@ https://unix.stackexchange.com/a/392171/32165
     :hook ((prog-mode . column-enforce-mode)
            (web-mode  . (lambda () (setq column-enforce-column 120)))
            (php-mode  . (lambda () (setq column-enforce-column 120)))
+           (perl-mode  . (lambda () (setq column-enforce-column 120)))
+           (sh-mode  . (lambda () (setq column-enforce-column 120)))
            (java-mode . (lambda () (setq column-enforce-column 99)))))
 #+END_SRC
 
@@ -1034,13 +1048,14 @@ Auto-complete ([{ etc
 #+BEGIN_SRC emacs-lisp
     (use-package php-mode
       :mode ("\\.php\\'")
+      :bind (:map php-mode-map
+                  ("C-." . avy-goto-char-2))
       :config
       (defun my-php-mode-hook ()
         "My settings for php mode."
         (setq-local c-basic-offset 4))
       (add-hook 'php-mode-hook 'my-php-mode-hook)
       :ensure t)
-
 #+END_SRC
 
 ** Web-mode
@@ -1154,10 +1169,17 @@ Disable << HEREDOC auto-completion
 
 ** nqc (Lego RCX)
 
-use c-mode for nqc files
+Use c-mode for nqc/nqh files, but disable flycheck
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.nqc\\'" . c-mode))
+  (defun my-c-mode-without-flycheck ()
+    (c-mode)
+    (flycheck-mode 0))
+
+  (add-to-list 'auto-mode-alist
+               '("\\.nqc\\'" . my-c-mode-without-flycheck))
+  (add-to-list 'auto-mode-alist
+               '("\\.nqh\\'" . my-c-mode-without-flycheck))
 #+END_SRC
 
 ** Lua-mode
