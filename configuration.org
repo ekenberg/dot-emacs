@@ -16,6 +16,7 @@ och binda den till F11/F9 (F9 på macen, minns inte varför)
 krock med ivy, använd C-x C-o istället
 ** DONE Fix C-. in php-mode -> avy-goto-char-2
 ** DONE nqc (c-mode) should not use flycheck, unless it can be setup with nqc compiler
+** TODO in dired, make 'i' do dired-subtree-toggle instead of dired-subtree-insert
 * Basic sanity, startup and paths
 
 ** Skip site-init
@@ -360,10 +361,17 @@ Use C-u prefix to customize the regexp
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t
-    :bind ("C-x g" . magit-status)
+    :bind (
+           ;; I magit-diff buffer, låt RET öppna filen i annat fönster
+           :map magit-file-section-map
+                ("RET" . magit-diff-visit-file-other-window)
+                :map magit-hunk-section-map
+                ("RET" . magit-diff-visit-file-other-window)
+                ("C-x g" . magit-status))
     :config
     ;; gör ändrad whitespace synlig i diff vid stage/commit
     (setq magit-diff-paint-whitespace-lines "all"))
+
 
 #+END_SRC
 
