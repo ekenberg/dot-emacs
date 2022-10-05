@@ -586,7 +586,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 *** Code edit in same window
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-src-window-setup 'current-window)
+  ;(setq org-src-window-setup 'current-window)
+  ;(setq org-src-window-setup 'reorganize-frame)
 #+END_SRC
 
 *** Babel code evaluation
