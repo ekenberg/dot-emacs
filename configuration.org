@@ -5,7 +5,7 @@
 
 Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
-* Todo [60%]:
+* Todo [80%]:
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
@@ -16,7 +16,7 @@ och binda den till F11/F9 (F9 på macen, minns inte varför)
 krock med ivy, använd C-x C-o istället
 ** DONE Fix C-. in php-mode -> avy-goto-char-2
 ** DONE nqc (c-mode) should not use flycheck, unless it can be setup with nqc compiler
-** TODO in dired, make 'i' do dired-subtree-toggle instead of dired-subtree-insert
+** DONE in dired, make 'i' do dired-subtree-toggle instead of dired-subtree-insert
 * Basic sanity, startup and paths
 
 ** Skip site-init
@@ -702,7 +702,8 @@ Visually wrap text in org-mode
     :ensure t
     :config
     (bind-keys :map dired-mode-map
-               ("i" . dired-subtree-insert)
+               ;("i" . dired-subtree-insert)
+               ("i" . dired-subtree-toggle)
                (";" . dired-subtree-remove)))
 #+END_SRC
 
