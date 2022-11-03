@@ -1064,41 +1064,41 @@ Auto-complete ([{ etc
 ** Web-mode
 
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-    :ensure t
-    :mode (;; "\\.phpclass\\'"
-           ;; "\\.php\\'"
-           ;; "\\.js\\'"
-           "\\.css\\'"
-           "\\.html?\\'")
+    (use-package web-mode
+      :ensure t
+      :mode (;; "\\.phpclass\\'"
+             ;; "\\.php\\'"
+             ;; "\\.js\\'"
+             "\\.css\\'"
+             "\\.html?\\'")
       :bind (:map web-mode-map
                   ("C-c C-f" . php-search-documentation))
-    :config
-    (defun my-web-mode-hook ()
-      "My settings for Web mode."
-      (setq web-mode-markup-indent-offset 4)
-      (setq web-mode-css-indent-offset 4)
-      (setq web-mode-code-indent-offset 4)
+      :config
+      (defun my-web-mode-hook ()
+        "My settings for Web mode."
+        (setq web-mode-markup-indent-offset 4)
+        (setq web-mode-css-indent-offset 4)
+        (setq web-mode-code-indent-offset 4)
 
-      ;; Get colors from active theme
-      (set-face-attribute 'web-mode-html-tag-face nil :foreground
-                          (face-attribute 'font-lock-function-name-face :foreground))
-      (set-face-attribute 'web-mode-html-attr-name-face nil :foreground
-                          (face-attribute 'font-lock-type-face :foreground))
-      (set-face-attribute 'web-mode-html-attr-value-face nil :foreground
-                          (face-attribute 'font-lock-string-face :foreground))
+        ;; Get colors from active theme
+        (set-face-attribute 'web-mode-html-tag-face nil :foreground
+                            (face-attribute 'font-lock-function-name-face :foreground))
+        (set-face-attribute 'web-mode-html-attr-name-face nil :foreground
+                            (face-attribute 'font-lock-type-face :foreground))
+        (set-face-attribute 'web-mode-html-attr-value-face nil :foreground
+                            (face-attribute 'font-lock-string-face :foreground))
 
-      ;; Disable auto-pairing (Conflicts with smartparens-mode)
-      (setq web-mode-disable-auto-pairing t)
-      )
-    (add-hook 'web-mode-hook  'my-web-mode-hook)
+        ;; Disable auto-pairing (Conflicts with smartparens-mode)
+        (setq web-mode-disable-auto-pairing t)
+        )
+      (add-hook 'web-mode-hook  'my-web-mode-hook)
 
-    ;; Make smartparens-mode play nice with web-mode, skip auto-completing <> inside code context
-    (defun sp-webmode-is-code-context (id action context)
-      (when (and (eq action 'insert)
-                 (not (or (get-text-property (point) 'part-side) (get-text-property (point) 'block-side))))
-        t))
-    (sp-local-pair 'web-mode "<" nil :when '(sp-webmode-is-code-context)))
+      ;; Make smartparens-mode play nice with web-mode, skip auto-completing <> inside code context
+      (defun sp-webmode-is-code-context (id action context)
+        (when (and (eq action 'insert)
+                   (not (or (get-text-property (point) 'part-side) (get-text-property (point) 'block-side))))
+          t))
+      (sp-local-pair 'web-mode "<" nil :when '(sp-webmode-is-code-context)))
 #+END_SRC
 
 ** Indium (javascript)
