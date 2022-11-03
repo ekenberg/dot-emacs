@@ -985,8 +985,8 @@ https://unix.stackexchange.com/a/392171/32165
   (use-package column-enforce-mode
     :ensure t
     :hook ((prog-mode . column-enforce-mode)
-           (web-mode  . (lambda () (setq column-enforce-column 120)))
-           (php-mode  . (lambda () (setq column-enforce-column 120)))
+           ;(web-mode  . (lambda () (setq column-enforce-column 120)))
+           ;(php-mode  . (lambda () (setq column-enforce-column 120)))
            (perl-mode  . (lambda () (setq column-enforce-column 120)))
            (sh-mode  . (lambda () (setq column-enforce-column 120)))
            (java-mode . (lambda () (setq column-enforce-column 99)))))
@@ -1071,6 +1071,8 @@ Auto-complete ([{ etc
            ;; "\\.js\\'"
            "\\.css\\'"
            "\\.html?\\'")
+      :bind (:map web-mode-map
+                  ("C-c C-f" . php-search-documentation))
     :config
     (defun my-web-mode-hook ()
       "My settings for Web mode."
