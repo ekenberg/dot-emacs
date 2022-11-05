@@ -982,14 +982,14 @@ https://unix.stackexchange.com/a/392171/32165
    To customize behavior, see `column-enforce-column' and `column-enforce-face'
 
 #+BEGIN_SRC emacs-lisp
-  (use-package column-enforce-mode
-    :ensure t
-    :hook ((prog-mode . column-enforce-mode)
-           ;(web-mode  . (lambda () (setq column-enforce-column 120)))
-           ;(php-mode  . (lambda () (setq column-enforce-column 120)))
-           (perl-mode  . (lambda () (setq column-enforce-column 120)))
-           (sh-mode  . (lambda () (setq column-enforce-column 120)))
-           (java-mode . (lambda () (setq column-enforce-column 99)))))
+  ;; (use-package column-enforce-mode
+  ;;   :ensure t
+  ;;   :hook ((prog-mode . column-enforce-mode)
+  ;;          ;(web-mode  . (lambda () (setq column-enforce-column 120)))
+  ;;          ;(php-mode  . (lambda () (setq column-enforce-column 120)))
+  ;;          (perl-mode  . (lambda () (setq column-enforce-column 120)))
+  ;;          (sh-mode  . (lambda () (setq column-enforce-column 120)))
+  ;;          (java-mode . (lambda () (setq column-enforce-column 99)))))
 #+END_SRC
 
 ** Always end files with a newline
