@@ -598,6 +598,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   ;(setq org-src-window-setup 'reorganize-frame)
 #+END_SRC
 
+
 *** Babel code evaluation
 
 #+BEGIN_SRC emacs-lisp
@@ -688,6 +689,15 @@ Visually wrap text in org-mode
               (visual-line-mode)))
 
   (diminish 'visual-line-mode)
+#+END_SRC
+*** Babel restclient
+#+BEGIN_SRC emacs-lisp
+  (use-package ob-restclient
+    :ensure t
+    :after (org)
+    :init
+    (org-babel-do-load-languages 'org-babel-load-languages
+               '((restclient . t))))
 #+END_SRC
 
 ** Dired-x
@@ -1323,6 +1333,12 @@ Use c-mode for nqc/nqh files, but disable flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode
     :ensure t)
+#+END_SRC
+** Restclient
+#+BEGIN_SRC emacs-lisp
+  (use-package restclient
+    :ensure t
+    :mode(("\\.http\\'" . restclient-mode)))
 #+END_SRC
 * Themes, fonts and visual
 
