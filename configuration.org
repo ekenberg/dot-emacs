@@ -397,6 +397,7 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
            ("C-x C-f" . counsel-find-file)
            ("M-x" . counsel-M-x)
            ("C-c a" . counsel-ag)
+           ("C-c f" . counsel-file-jump)
            :map ivy-mode-map
            ("C-h" . ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
            ("C-c C-o" . ivy-occur)
