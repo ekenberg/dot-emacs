@@ -251,6 +251,8 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
     :ensure t
     :diminish eyebrowse-mode
     :config
+    (define-key eyebrowse-mode-map (kbd "C-.") 'eyebrowse-next-window-config)
+    (define-key eyebrowse-mode-map (kbd "C-,") 'eyebrowse-prev-window-config)
     (define-key eyebrowse-mode-map (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
     (define-key eyebrowse-mode-map (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
     (define-key eyebrowse-mode-map (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
