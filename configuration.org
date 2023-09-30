@@ -15,6 +15,7 @@ och binda den till F11/F9 (F9 på macen, minns inte varför)
 ** WONTFIX Fix C-c C-o in org-mode -> org-open-at-point (not ivy-occur)
 krock med ivy, använd C-x C-o istället
 ** DONE Fix C-. in php-mode -> avy-goto-char-2
+   later changed to M-.
 ** DONE nqc (c-mode) should not use flycheck, unless it can be setup with nqc compiler
 ** DONE in dired, make 'i' do dired-subtree-toggle instead of dired-subtree-insert
 * Basic sanity, startup and paths
@@ -431,7 +432,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 #+BEGIN_SRC emacs-lisp
   (use-package avy
     :ensure t
-    :bind (("C-." . avy-goto-char-2)))
+    :bind (("M-." . avy-goto-char-2)))
 #+END_SRC
 
 ** Org-mode
@@ -1070,16 +1071,14 @@ Auto-complete ([{ etc
 ** PHP-mode
    Web-mode får svårt med större php-filer, kanske php-mode är bättre?
 #+BEGIN_SRC emacs-lisp
-    (use-package php-mode
-      :mode ("\\.php\\'")
-      :bind (:map php-mode-map
-                  ("C-." . avy-goto-char-2))
-      :config
-      (defun my-php-mode-hook ()
-        "My settings for php mode."
-        (setq-local c-basic-offset 4))
-      (add-hook 'php-mode-hook 'my-php-mode-hook)
-      :ensure t)
+  (use-package php-mode
+    :mode ("\\.php\\'")
+    :config
+    (defun my-php-mode-hook ()
+      "My settings for php mode."
+      (setq-local c-basic-offset 4))
+    (add-hook 'php-mode-hook 'my-php-mode-hook)
+    :ensure t)
 #+END_SRC
 
 ** Web-mode
