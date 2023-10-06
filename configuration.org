@@ -958,7 +958,7 @@ Toggle with M-o
 https://unix.stackexchange.com/a/392171/32165
 #+BEGIN_SRC emacs-lisp
   (require 'sql)
-  (sql-set-product-feature 'mysql :prompt-regexp "\\(MariaDB\\|MySQL\\) \\[[_a-zA-Z]*\\]> ")
+  (sql-set-product-feature 'mysql :prompt-regexp "\\(MariaDB\\|MySQL\\) \\[[_a-zA-Z\\(\\)]*\\]> ")
 
 #+END_SRC
 * Programming options and packages
