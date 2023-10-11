@@ -348,6 +348,13 @@ Use C-u prefix to customize the regexp
   (global-set-key (kbd "C-x a r") 'align-regexp)
 #+END_SRC
 
+** Enable narrow-to-region
+
+Use C-x n n to narrow, C-x n w to widen
+
+#+begin_src emacs-lisp
+  (put 'narrow-to-region 'disabled nil)
+#+end_src
 * Package settings and keybinds
 
 ** Tramp
