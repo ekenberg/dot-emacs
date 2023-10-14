@@ -968,6 +968,15 @@ https://unix.stackexchange.com/a/392171/32165
   (sql-set-product-feature 'mysql :prompt-regexp "\\(MariaDB\\|MySQL\\) \\[[_a-zA-Z\\(\\)]*\\]> ")
 
 #+END_SRC
+** epa-file (encrypt files with gnupg)
+   # -*- epa-file-encrypt-to: ("johan.ekenberg@gmail.com") -*-
+   # -*- mode:org; epa-file-encrypt-to: ("johan.ekenberg@gmail.com") -*-
+   filenames must end with .gpg
+
+#+begin_src emacs-lisp
+  (use-package epa-file
+    :ensure nil)
+#+end_src
 * Programming options and packages
 
 ** Use spaces for indent
