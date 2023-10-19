@@ -419,6 +419,9 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
            :map ivy-mode-map
            ("C-h" . ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
            ("C-c C-o" . ivy-occur)
+           :map ivy-occur-grep-mode-map
+           ("n" . next-error)
+           ("p" . previous-error)
            ))
 
   ;; Hide ivy-backward-delete-char in term-mode, it messes up C-h in ansi-term
@@ -431,7 +434,6 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
                 (define-key newmap (kbd "C-h") nil)
                 (make-local-variable 'minor-mode-overriding-map-alist)
                 (push `(ivy-mode . ,newmap) minor-mode-overriding-map-alist))))
-
 #+END_SRC
 
 ** Avy
