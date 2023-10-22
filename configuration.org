@@ -806,6 +806,11 @@ Toggle with M-o
   (global-auto-revert-mode 1)
   (add-hook 'dired-mode-hook 'auto-revert-mode)
 #+end_src
+** Multiple cursors mode
+#+begin_src emacs-lisp
+  (use-package multiple-cursors
+    :ensure t)
+#+end_src
 ** Which-key mode
 #+begin_src emacs-lisp
   (use-package which-key
