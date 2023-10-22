@@ -1073,6 +1073,11 @@ Rainbow delimiters
     :hook ((emacs-lisp-mode lisp-mode ielm-mode cider-repl-mode) . rainbow-delimiters-mode))
 #+END_SRC
 
+** Rainbow mode
+#+begin_src emacs-lisp
+  (use-package rainbow-mode
+    :ensure t)
+#+end_src
 ** Smartparens
 
 Auto-complete ([{ etc
