@@ -774,6 +774,9 @@ Toggle with M-o
         (progn (revert-buffer) ; otherwise just revert to re-show
                (set (make-local-variable 'dired-dotfiles-show-p) t)))))
 
+  ;; enable omit-mode by default
+  (add-hook 'dired-mode-hook (lambda () (dired-omit-mode)))
+
   ;; keybind C-x . to toggle hidden files in dired
   (add-hook 'dired-mode-hook '(lambda ()
                                 (local-set-key (kbd "C-x .") 'dired-dotfiles-toggle)))
