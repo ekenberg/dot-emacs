@@ -801,7 +801,11 @@ Toggle with M-o
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-diff-options "-w")
 #+END_SRC
-
+** Which-key mode
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t)
+#+end_src
 ** Abbrev-mode settings
 
 #+BEGIN_SRC emacs-lisp
