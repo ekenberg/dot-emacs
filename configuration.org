@@ -1379,19 +1379,21 @@ Use c-mode for nqc/nqh files, but disable flycheck
 ** Default theme
 
 #+BEGIN_SRC emacs-lisp
-  (setq jee/loaded-default-theme nil)
-  (defun jee/load-default-theme()
-    (unless jee/loaded-default-theme
-      (load-theme 'material t)            ;; <--- set default theme here
-      (setq jee/loaded-default-theme t)))
+    (setq jee/loaded-default-theme nil)
+    (defun jee/load-default-theme()
+      (unless jee/loaded-default-theme
+        (load-theme 'material t)            ;; <--- set default theme here
+        (setq jee/loaded-default-theme t)))
 
-  (use-package material-theme
-    :ensure t
-    :init (jee/load-default-theme))
+    (use-package material-theme
+      :ensure t
+      :init (jee/load-default-theme))
 
-  (use-package eclipse-theme
-    :ensure t
-    :init (jee/load-default-theme))
+    (use-package eclipse-theme
+      :ensure t
+      :init (jee/load-default-theme))
+
+  (set-face-background 'secondary-selection "DarkSlateGrey")
 
 #+END_SRC
 
