@@ -1396,7 +1396,7 @@ Use c-mode for nqc/nqh files, but disable flycheck
       :ensure t
       :init (jee/load-default-theme))
 
-  (set-face-background 'secondary-selection "DarkSlateGrey")
+  (set-face-background 'secondary-selection "CornFlowerBlue")
 
 #+END_SRC
 
