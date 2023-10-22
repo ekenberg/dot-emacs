@@ -1169,19 +1169,19 @@ Auto-complete ([{ etc
 #+END_SRC
 
 ** Indium (javascript)
-
+  - 2023-10-23: commented out, indium cannot be loaded and development seems to have stalled
 #+BEGIN_SRC emacs-lisp
-  (when (not (version< emacs-version "25")) ;; requires emacs 25
-    (use-package indium
-      :ensure t)
-    (use-package js2-mode
-      :mode ("\\.js")
-      :interpreter "node"
-      :bind (:map js2-mode-map
-                  ("C-c C-p" . indium-run-node)
-                  ("C-c C-l" . indium-eval-buffer)
-                  ("C-c C-r" . indium-eval-region))
-      :ensure t))
+  ;; (when (not (version< emacs-version "25")) ;; requires emacs 25
+  ;;   (use-package indium
+  ;;     :ensure t)
+  ;;   (use-package js2-mode
+  ;;     :mode ("\\.js")
+  ;;     :interpreter "node"
+  ;;     :bind (:map js2-mode-map
+  ;;                 ("C-c C-p" . indium-run-node)
+  ;;                 ("C-c C-l" . indium-eval-buffer)
+  ;;                 ("C-c C-r" . indium-eval-region))
+  ;;     :ensure t))
 #+END_SRC
 
 ** Markdown-mode
