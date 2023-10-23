@@ -759,6 +759,7 @@ Toggle with M-o
 
 #+BEGIN_SRC emacs-lisp
   (setq-default dired-omit-files-p t)
+  (setq-default dired-omit-size-limit 60000)
   (setq dired-omit-files
         (concat dired-omit-files "\\|^\\.DS_Store$"))
 
