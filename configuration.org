@@ -810,7 +810,25 @@ Toggle with M-o
 ** Multiple cursors mode
 #+begin_src emacs-lisp
   (use-package multiple-cursors
-    :ensure t)
+    :ensure t
+    :config
+    (define-key mc/keymap (kbd "<return>") nil)
+    (setq-default mc/insert-numbers-default 1)
+    :bind (("M-n" . my-mc-mark-next-like-this)))
+
+  (defun my-mc-mark-next-like-this (arg)
+    "Like mc/mark-next-like-this but use prefix argument > 1
+  to instead run mc/unmark-next-like-this like an undo"
+    (interactive "p")
+    (if (> arg 1)
+        (let ((cursor (mc/furthest-cursor-after-point)))
+          (if cursor
+              (mc/remove-fake-cursor cursor)
+            (error "No cursors to be unmarked %d" arg)))
+      (if (region-active-p)
+          (mc/mark-more-like-this (= arg 0) 'forwards)
+        (mc/mark-lines arg 'forwards))
+      (mc/maybe-multiple-cursors-mode)))
 #+end_src
 ** Which-key mode
 #+begin_src emacs-lisp
