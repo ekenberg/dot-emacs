@@ -322,12 +322,12 @@ Pipe region to shell command derived from [[http://stackoverflow.com/questions/2
   (global-set-key (kbd "<f1> ,") 'man-follow)
 #+END_SRC
 
-** Grep
+** Counsel Git Grep
 
 Also see counsel-ag later in this file (C-c a)
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "\C-c g") 'grep)
+  (global-set-key (kbd "\C-c g") 'counsel-git-grep)
   (setq next-error-highlight-no-select t) ; permanent highlight for matches
 #+END_SRC
 
