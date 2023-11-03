@@ -727,6 +727,13 @@ Visually wrap text in org-mode
                '((restclient . t))))
 #+END_SRC
 
+** org-download
+#+begin_src emacs-lisp
+  (use-package org-download
+       :ensure t
+       :config (add-hook 'dired-mode-hook 'org-download-enable)
+       (setq-default org-download-image-dir "~/ownCloud/org/images"))
+#+end_src
 ** Dired-x
 
 #+BEGIN_SRC emacs-lisp
