@@ -355,19 +355,28 @@ Use C-x n n to narrow, C-x n w to widen
 #+begin_src emacs-lisp
   (put 'narrow-to-region 'disabled nil)
 #+end_src
-** Append-copy and append-kill
+** Append-copy, append-kill and append-kill-region
 #+begin_src emacs-lisp
   (defun my-append-copy ()
+    "Copy region and append it to kill-ring"
     (interactive)
     (append-next-kill)
     (kill-ring-save 0 0 t))
   (global-set-key (kbd "M-W") 'my-append-copy)
 
   (defun my-append-kill ()
+    "Like kill-line but append killed line to kill-ring"
     (interactive)
     (append-next-kill)
     (kill-line))
   (global-set-key (kbd "C-S-k") 'my-append-kill)
+
+  (defun my-append-kill-region ()
+    "Like kill-region but append region to kill-ring"
+    (interactive)
+    (append-next-kill)
+    (kill-region 0 0 t))
+  (global-set-key (kbd "C-S-w") 'my-append-kill-region)
 #+end_src
 * Package settings and keybinds
 
