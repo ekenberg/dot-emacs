@@ -249,18 +249,20 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
 #+BEGIN_SRC emacs-lisp
   (use-package eyebrowse
     :ensure t
+    :demand t
     :diminish eyebrowse-mode
+    :bind (:map eyebrowse-mode-map
+                ("C-." . eyebrowse-next-window-config)
+                ("C-," . eyebrowse-prev-window-config)
+                ("M-1" . eyebrowse-switch-to-window-config-1)
+                ("M-2" . eyebrowse-switch-to-window-config-2)
+                ("M-3" . eyebrowse-switch-to-window-config-3)
+                ("M-4" . eyebrowse-switch-to-window-config-4)
+                ("M-5" . eyebrowse-switch-to-window-config-5)
+                ("M-6" . eyebrowse-switch-to-window-config-6)
+                ("M-7" . eyebrowse-switch-to-window-config-7)
+                ("M-8" . eyebrowse-switch-to-window-config-8))
     :config
-    (define-key eyebrowse-mode-map (kbd "C-.") 'eyebrowse-next-window-config)
-    (define-key eyebrowse-mode-map (kbd "C-,") 'eyebrowse-prev-window-config)
-    (define-key eyebrowse-mode-map (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
-    (define-key eyebrowse-mode-map (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
-    (define-key eyebrowse-mode-map (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
-    (define-key eyebrowse-mode-map (kbd "M-4") 'eyebrowse-switch-to-window-config-4)
-    (define-key eyebrowse-mode-map (kbd "M-5") 'eyebrowse-switch-to-window-config-5)
-    (define-key eyebrowse-mode-map (kbd "M-6") 'eyebrowse-switch-to-window-config-6)
-    (define-key eyebrowse-mode-map (kbd "M-7") 'eyebrowse-switch-to-window-config-7)
-    (define-key eyebrowse-mode-map (kbd "M-8") 'eyebrowse-switch-to-window-config-8)
     (eyebrowse-mode t)
     (setq eyebrowse-new-workspace t))
 #+END_SRC
