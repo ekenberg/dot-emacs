@@ -841,10 +841,11 @@ Toggle with M-o
 #+begin_src emacs-lisp
   (use-package multiple-cursors
     :ensure t
-    :config
-    (define-key mc/keymap (kbd "<return>") nil)
-    (setq-default mc/insert-numbers-default 1)
-    :bind (("M-n" . my-mc-mark-next-like-this)))
+    :demand t
+    :init (setq-default mc/insert-numbers-default 1)
+    :bind (("M-n" . my-mc-mark-next-like-this)
+           :map mc/keymap
+           ("<return>" . nil)))
 
   (defun my-mc-mark-next-like-this (arg)
     "Like mc/mark-next-like-this but use prefix argument > 1
