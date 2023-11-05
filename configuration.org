@@ -443,6 +443,7 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
         (setq ivy-use-selectable-prompt t) ;; C-p on first item = 'use what I write and don't complete'
         :bind (("C-s" . swiper) ;; replace default search
                ("C-x C-f" . counsel-find-file)
+               ("C-c C-f" . counsel-describe-function)
                ("M-x" . counsel-M-x)
                ("C-c a" . counsel-ag)
                ("C-c f" . counsel-file-jump)
