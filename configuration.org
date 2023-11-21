@@ -428,50 +428,55 @@ Use C-x n n to narrow, C-x n w to widen
 Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
 
 #+BEGIN_SRC emacs-lisp
-      (use-package counsel
-        :ensure t
-        :demand t
-        :diminish ivy-mode
-        :init
-        (setq ivy-use-virtual-buffers t
-              ivy-count-format "%d/%d ")
-        :config
-        (ivy-mode 1)
-        ;; Använd M-x re-builder  C-c C-w för att konvertera och kopiera
-        ;; https://www.masteringemacs.org/article/re-builder-interactive-regexp-builder
-        (setq counsel-find-file-ignore-regexp "^.*\\(~\\|#\\|.class\\)$")
-        (setq ivy-use-selectable-prompt t) ;; C-p on first item = 'use what I write and don't complete'
-        :bind (("C-s" . swiper) ;; replace default search
-               ("C-x C-f" . counsel-find-file)
-               ("C-c C-f" . counsel-describe-function)
-               ("M-x" . counsel-M-x)
-               ("C-c a" . counsel-ag)
-               ("C-c f" . counsel-file-jump)
-               :map ivy-mode-map
-               ("C-h" . ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
-               ("C-c C-o" . ivy-occur)
-               :map ivy-occur-grep-mode-map
-               ("n" . next-error)
-               ("p" . previous-error)
-               ("K" . ivy-occur-keep-lines)
-               ))
+  (use-package counsel
+    :ensure t
+    :demand t
+    :diminish ivy-mode
+    :init
+    (setq ivy-use-virtual-buffers t
+          ivy-count-format "%d/%d ")
+    :config
+    (ivy-mode 1)
+    ;; Använd M-x re-builder  C-c C-w för att konvertera och kopiera
+    ;; https://www.masteringemacs.org/article/re-builder-interactive-regexp-builder
+    (setq counsel-find-file-ignore-regexp "^.*\\(~\\|#\\|.class\\)$")
+    (setq ivy-use-selectable-prompt t) ;; C-p on first item = 'use what I write and don't complete'
+    :bind (("C-s" . swiper) ;; replace default search
+           ("C-x C-f" . counsel-find-file)
+           ("C-c C-f" . counsel-describe-function)
+           ("M-x" . counsel-M-x)
+           ("C-c a" . counsel-ag)
+           ("C-c f" . counsel-file-jump)
+           :map ivy-mode-map
+           ("C-h" . ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
+           ("C-c C-o" . ivy-occur)
+           :map ivy-occur-grep-mode-map
+           ("n" . next-error)
+           ("p" . previous-error)
+           ("K" . ivy-occur-keep-lines)
+           ))
 
-      (defun ivy-occur-keep-lines ()
-        "Delete lines NOT matching regex."
-        (interactive)
-        (let ((inhibit-read-only t))
-          (call-interactively 'keep-lines)))
+  (defun ivy-occur-keep-lines ()
+    "Delete lines NOT matching regex."
+    (interactive)
+    (let ((inhibit-read-only t))
+      (call-interactively 'keep-lines)))
 
-      ;; Hide ivy-backward-delete-char in term-mode, it messes up C-h in ansi-term
-      ;; https://stackoverflow.com/questions/13102494/buffer-locally-overriding-minor-mode-key-bindings-in-emacs
-      (add-hook 'term-mode-hook
-                (lambda ()
-                  (let ((oldmap (cdr (assoc 'ivy-mode minor-mode-map-alist)))
-                        (newmap (make-sparse-keymap)))
-                    (set-keymap-parent newmap oldmap)
-                    (define-key newmap (kbd "C-h") nil)
-                    (make-local-variable 'minor-mode-overriding-map-alist)
-                    (push `(ivy-mode . ,newmap) minor-mode-overriding-map-alist))))
+  ;; ivy action for counsel-file-jump, idea from https://emacs.stackexchange.com/questions/50404/open-directory-containing-file-during-counsel-file-jump
+  (ivy-add-actions
+   #'counsel-file-jump
+   '(("j" find-file-other-window "other window")))
+
+  ;; Hide ivy-backward-delete-char in term-mode, it messes up C-h in ansi-term
+  ;; https://stackoverflow.com/questions/13102494/buffer-locally-overriding-minor-mode-key-bindings-in-emacs
+  (add-hook 'term-mode-hook
+            (lambda ()
+              (let ((oldmap (cdr (assoc 'ivy-mode minor-mode-map-alist)))
+                    (newmap (make-sparse-keymap)))
+                (set-keymap-parent newmap oldmap)
+                (define-key newmap (kbd "C-h") nil)
+                (make-local-variable 'minor-mode-overriding-map-alist)
+                (push `(ivy-mode . ,newmap) minor-mode-overriding-map-alist))))
 
 #+END_SRC
 
