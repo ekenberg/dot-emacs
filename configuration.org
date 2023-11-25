@@ -663,7 +663,6 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   ;(setq org-src-window-setup 'reorganize-frame)
 #+END_SRC
 
-
 *** Babel code evaluation
 
 #+BEGIN_SRC emacs-lisp
@@ -681,21 +680,6 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
      (shell . t)))
 #+END_SRC
 
-*** Latex document classes
-#+BEGIN_SRC emacs-lisp
-  (defun my-org-custom-latex-classes ()
-    ;; use: #+LaTeX_CLASS: koma-article
-    (add-to-list 'org-latex-classes
-                 '("koma-article"
-                   "\\documentclass{scrartcl}"
-                   ("\\section{%s}" . "\\section*{%s}")
-                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-    )
-  (add-hook 'org-mode-hook 'my-org-custom-latex-classes)
-#+END_SRC
 *** CDLatex minor mode
 [[http://orgmode.org/manual/CDLaTeX-mode.html#CDLaTeX-mode][org-manual cdlatex-mode]]
 #+BEGIN_SRC emacs-lisp
@@ -707,24 +691,108 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
             (lambda ()
               (org-cdlatex-mode t)))
 #+END_SRC
-*** Latex export code syntax hightlighting (minted)
 
+*** LaTeX
+**** General setup
+#+begin_src emacs-lisp
+   (add-to-list 'org-latex-packages-alist '("" "graphicx" t))
+   ;;(add-to-list 'org-latex-packages-alist '("" "longtable" nil))
+   ;;(add-to-list 'org-latex-packages-alist '("" "float" nil))
+#+end_src
+
+**** Syntax highlighting
 #+BEGIN_SRC emacs-lisp
   (defun my-org-latex-export-syntax-highlighting ()
     (setq org-latex-listings 'minted
-          org-latex-pdf-process
-          '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-            "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-    (add-to-list 'org-latex-packages-alist '("" "minted"))
+          ;; bortkommenterat pga användning av mklatex
+          ;; org-latex-pdf-process
+          ;; '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          ;;   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+          ;;   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")
+          )
+    ;; (add-to-list 'org-latex-packages-alist '("" "minted"))
+    (add-to-list 'org-latex-packages-alist '("newfloat" "minted")) ; test om newfloat är bra, annars använd ovanstående
 
     ;; Must change to imagemagick or formula preview images won't work with minted :/
     ;; imagemagick process is much slower since it converts by way of -> pdf -> png
-    (setq org-latex-create-formula-image-program 'imagemagick)
-    )
+    (setq org-latex-create-formula-image-program 'imagemagick))
 
   (add-hook 'org-mode-hook 'my-org-latex-export-syntax-highlighting)
 #+END_SRC
+
+**** Document classes
+ #+BEGIN_SRC emacs-lisp
+   (defun my-org-custom-latex-classes ()
+     ;; use: #+LaTeX_CLASS: koma-article
+     (add-to-list 'org-latex-classes
+                  '("koma-article"
+                    "\\documentclass{scrartcl}"
+                    ("\\section{%s}" . "\\section*{%s}")
+                    ("\\subsection{%s}" . "\\subsection*{%s}")
+                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+     ;; use: #+LaTeX_CLASS: mem-article
+     (add-to-list 'org-latex-classes
+                  '("mem-article"
+                    "\\documentclass[11pt,oneside,article]{memoir}"
+                    ("\\section{%s}" . "\\section*{%s}")
+                    ("\\subsection{%s}" . "\\subsection*{%s}")
+                    ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                    ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                    ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+     )
+   (add-hook 'org-mode-hook 'my-org-custom-latex-classes)
+ #+END_SRC
+
+**** PDF export
+ #+begin_src emacs-lisp
+   ;; Detta är ett pågående experiment
+   ;; infört xelatex pga fontspec som inte finns i pdflatex
+   ;; oklart om pdflatex längre behövs
+   ;; latexmk är ett perlscript som kör tex xelatex i flera omgångar
+   (defun my-auto-tex-cmd (backend)
+     "When exporting from .org with latex,
+     automatically run latex, pdflatex, or xelatex as appropriate,
+     using latexmk."
+     (let ((texcmd)
+           (latex-cmd))
+       (save-restriction
+         (widen)
+         (setq latex-cmd
+               (if (string-match "LATEX_CMD: +\\([a-z]+\\)" (buffer-string))
+                   (match-string 1 (buffer-string))
+                 "xelatex"))) ;; default
+       (if (equal latex-cmd "pdflatex")
+           (progn
+             (setq texcmd "latexmk -pdf -pdflatex='pdflatex -file-line-error --shell-escape -synctex=1' %f")
+             (setq org-latex-default-packages-alist
+                   '(("AUTO" "inputenc" t)
+                     ("T1"   "fontenc"   t)
+                     (""     "fixltx2e"  nil)
+                     (""     "wrapfig"   nil)
+                     (""     "soul"      t)
+                     (""     "textcomp"  t)
+                     (""     "marvosym"  t)
+                     (""     "wasysym"   t)
+                     (""     "latexsym"  t)
+                     (""     "amssymb"   t)
+                     (""     "hyperref"  nil)))))
+       (if (equal latex-cmd "xelatex")
+           (progn
+             (setq texcmd "latexmk -pdflatex='xelatex -file-line-error --shell-escape -synctex=1' -pdf %f")
+             (setq org-latex-default-packages-alist
+                   '(("" "fontspec" t)
+                     ("" "xunicode" t)
+                     ("" "url" t)
+                     ("svgnames" "xcolor" t)
+                     ("" "soul" t)
+                     ("xetex, colorlinks=true, urlcolor=FireBrick, plainpages=false, pdfpagelabels, bookmarksnumbered" "hyperref" nil)))))
+
+       (setq org-latex-pdf-process (list texcmd))))
+
+   (add-hook 'org-export-before-parsing-hook 'my-auto-tex-cmd)
+ #+end_src
 
 *** Twitter bootstrap exporting [[https://github.com/marsmining/ox-twbs]['ow-twbs']]
 
