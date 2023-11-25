@@ -1231,6 +1231,9 @@ Rainbow delimiters
 #+END_SRC
 
 ** Rainbow mode
+
+Minor mode to visualize color codes in the buffer, #RRGGBB etc
+
 #+begin_src emacs-lisp
   (use-package rainbow-mode
     :ensure t)
