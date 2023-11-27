@@ -1125,6 +1125,11 @@ https://unix.stackexchange.com/a/392171/32165
 #+BEGIN_SRC emacs-lisp
   (require 'sql)
   (sql-set-product-feature 'mysql :prompt-regexp "\\(MariaDB\\|MySQL\\) \\[[_a-zA-Z\\(\\)]*\\]> ")
+  (defun my-sql-attach-to-mariadb ()
+      "Set sql-mode, mariadb and connect to available sqli buffer"
+    (interactive)
+    (sql-set-product "mariadb")
+    (sql-set-sqli-buffer))
 
 #+END_SRC
 ** epa-file (encrypt files with gnupg)
