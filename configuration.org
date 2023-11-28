@@ -1130,6 +1130,11 @@ https://unix.stackexchange.com/a/392171/32165
     (interactive)
     (sql-set-product "mariadb")
     (sql-set-sqli-buffer))
+  (defun my-sql-attach-to-mysql ()
+      "Set sql-mode, mysql and connect to available sqli buffer"
+    (interactive)
+    (sql-set-product "mysql")
+    (sql-set-sqli-buffer))
 
 #+END_SRC
 ** epa-file (encrypt files with gnupg)
