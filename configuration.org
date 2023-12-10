@@ -869,7 +869,7 @@ Visually wrap text in org-mode
 #+END_SRC
 ** Dired [[http://www.emacswiki.org/emacs/DiredOmitMode][Omit Mode]]
 
-Toggle with M-o
+Toggle with M-o, hidden files with C-x .
 
 #+BEGIN_SRC emacs-lisp
   (setq-default dired-omit-files-p t)
