@@ -6,6 +6,7 @@ code-indent according to major mode if INDENT is given"
     (let ((orig-mode major-mode))
       (unwind-protect
           (progn
+            ;; speed up search-and-replace using fundamental-mode
             (fundamental-mode)
 
             ;; replace:
