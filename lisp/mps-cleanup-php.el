@@ -32,14 +32,13 @@
     (while (re-search-forward "\\\\\"" nil t)
       (replace-match "'"))
 
-    (add-to-history 'query-replace-defaults (cons "\\\"" "'"))
-
     ;; indent buffer
     (indent-region (point-min) (point-max))
 
     ;; swipe to onload/javascript which will probably need manual fixing of quotes
     (goto-char (point-min))
     (when (re-search-forward "onload\\|javascript")
-        (swiper "onload\\|javascript"))
+      (add-to-history 'query-replace-defaults (cons "\\\"" "'"))
+      (swiper "onload\\|javascript"))
 
     ))
