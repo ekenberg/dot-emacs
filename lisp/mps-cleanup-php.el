@@ -27,13 +27,21 @@ code-indent according to major mode if INDENT is given"
               (replace-match ") {"))
 
             ;; replace:
-            ;; }else{   =>
-            ;; }
+            ;; else{   =>
             ;; else {
-            (message "Fixing }else{")
+            (message "Fixing else{")
             (goto-char (point-min))
-            (while (re-search-forward "}[:blank:]*else[:blank:]*{" nil t)
-              (replace-match "}\nelse {"))
+            (while (search-forward "else{" nil t)
+              (replace-match "else {"))
+
+            ;; replace:
+            ;; }else   =>
+            ;; }
+            ;; else
+            (message "Fixing }else")
+            (goto-char (point-min))
+            (while (search-forward "}else" nil t)
+              (replace-match "}\nelse"))
 
             ;; replace:
             ;; \"   =>
