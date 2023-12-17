@@ -1,67 +1,48 @@
+
 (defun mps-cleanup-php (&optional indent)
   "Replace quotes \\\" -> ', format if/while/for/else constructs,
-code-indent according to major mode if INDENT is given"
+code-indent according to major mode if INDENT is given.
+Works on region if active, else entire buffer"
   (interactive "P")
   (save-restriction
-    (let ((orig-mode major-mode))
+    (let ((orig-mode major-mode)
+          (point-start (or (and (use-region-p) #'region-beginning) #'point-min))
+          (point-end   (or (and (use-region-p) #'region-end) #'point-max))
+          )
       (unwind-protect
           (progn
             ;; speed up search-and-replace using fundamental-mode
             (fundamental-mode)
 
-            ;; replace:
-            ;; if(...)  =>
-            ;; if (...)
-            ;; and so on with while/for/foreach
-            (message "Fixing if/while/for/foreach")
-            (goto-char (point-min))
-            (while (re-search-forward "\\(if\\|while\\|for\\|foreach\\)(" nil t)
-              (replace-match "\\1 ("))
+            ;; if(...)  =>  if (...)
+            ;; and so on with while/for/foreach/switch
+            (replace-regexp-in-region "\\(if\\|while\\|for\\|foreach\\|switch\\)(" "\\1 (" (funcall point-start) (funcall point-end))
 
-            ;; replace:
-            ;; (...){   =>
-            ;; (...) {
-            (message "Fixing ){")
-            (goto-char (point-min))
-            (while (search-forward "){" nil t)
-              (replace-match ") {"))
+            ;; (...){   =>  (...) {
+            (replace-string-in-region "){" ") {" (funcall point-start) (funcall point-end))
 
-            ;; replace:
-            ;; else{   =>
-            ;; else {
-            (message "Fixing else{")
-            (goto-char (point-min))
-            (while (search-forward "else{" nil t)
-              (replace-match "else {"))
+            ;; else{   =>  else {
+            (replace-string-in-region "else{" "else {" (funcall point-start) (funcall point-end))
 
-            ;; replace:
             ;; }else   =>
             ;; }
             ;; else
-            (message "Fixing }else")
-            (goto-char (point-min))
-            (while (search-forward "}else" nil t)
-              (replace-match "}\nelse"))
+            (replace-string-in-region "}else" "}\nelse" (funcall point-start) (funcall point-end))
 
-            ;; replace:
-            ;; \"   =>
-            ;; '
-            (message "Fixing quotes \\\" -> '")
-            (goto-char (point-min))
-            (while (search-forward "\\\"" nil t)
-              (replace-match "'"))
+            ;; \"   =>  '
+            (replace-string-in-region "\\\"" "'" (funcall point-start) (funcall point-end))
 
             ;; search-and-replace is done, restore original major mode
             (funcall orig-mode)
 
             ;; indent buffer
             (when indent
-              (message "Indenting buffer")
-              (indent-region (point-min) (point-max)))
+              (message "Indenting %s" (or (and (use-region-p) "region") "buffer"))
+              (indent-region (funcall point-start) (funcall point-end)))
 
-            ;; swipe to onload/javascript which will probably need manual fixing of quotes
-            (goto-char (point-min))
-            (when (re-search-forward "onload\\|javascript")
+            ;; swiper to onload/javascript which will probably need manual fixing of quotes
+            (goto-char (funcall point-start))
+            (when (re-search-forward "onload\\|javascript" (funcall point-end) t)
               (add-to-history 'query-replace-defaults (cons "\\\"" "'"))
               (swiper "onload\\|javascript"))
 
