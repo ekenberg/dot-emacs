@@ -1,3 +1,4 @@
+(require 'compat)
 
 (defun mps-cleanup-php (&optional indent)
   "Replace quotes \\\" -> ', format if/while/for/else constructs,
