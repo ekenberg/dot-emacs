@@ -1501,6 +1501,15 @@ Use c-mode for nqc/nqh files, but disable flycheck
     (add-hook 'haskell-mode-hook 'my-haskell-config))
 #+END_SRC
 
+#+begin_src emacs-lisp
+  (use-package company-ghci
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-ghci))
+  (add-hook 'haskell-mode-hook 'company-mode)
+  (add-hook 'haskell-interactive-mode-hook 'company-mode)
+#+end_src
+
 ** Flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
