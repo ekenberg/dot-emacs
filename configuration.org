@@ -1710,6 +1710,7 @@ Use c-mode for nqc/nqh files, but disable flycheck
 #+BEGIN_SRC emacs-lisp
   ;; Always highlight current line
   (global-hl-line-mode)
+  (set-face-background 'hl-line "DarkSlateGrey")
 
   ;; Except in terminal-modes
   (add-hook 'term-mode-hook
