@@ -9,6 +9,11 @@ Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
+** TODO Egen minor-mode med egna globala keyboard bindings
+   - Kanske prefix M-j (för johan) och sen egna saker, makron, egna funktioner osv
+   - Lägg i separat fil eller direkt här i denna filen?
+   - https://emacs.stackexchange.com/questions/352/how-to-override-major-mode-bindings
+   - https://nullprogram.com/blog/2013/02/06/
 ** TODO in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
 verkar inte finnas någon hook för toggle-frame-fullscreen, blir isf göra en egen funktion
 och binda den till F11/F9 (F9 på macen, minns inte varför)
