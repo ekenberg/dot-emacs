@@ -1164,6 +1164,45 @@ https://unix.stackexchange.com/a/392171/32165
 #+end_src
 * Programming options and packages
 
+** Auto-completion company-mode with ivy-posframe
+#+begin_src emacs-lisp
+  (use-package company
+    :ensure t
+    :diminish company-mode
+    :demand t
+    :init
+    (setq company-idle-delay nil ;; 0.1
+          company-minimum-prefix-length 1
+          company-require-match nil
+          company-dabbrev-downcase nil
+          company-dabbrev-ignore-case t)
+    :bind (:map company-active-map
+                ("C-M-i" . counsel-company)
+                :map prog-mode-map
+                ("C-M-i" . counsel-company))
+    )
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package ivy-posframe
+    :after ivy
+    :ensure t
+    :demand t
+    :diminish ivy-posframe
+    :custom-face
+    (ivy-posframe-border ((t (:background "#ffffff"))))
+    :config
+    (setq ivy-posframe-display-functions-alist
+          '((counsel-company . ivy-posframe-display-at-point)
+            (t               . ivy-display-function-fallback)) ; t = default
+          ivy-posframe-parameters '((internal-border-width . 1))
+          ;; ivy-posframe-height-alist '((t . 20))
+          ;; ivy-posframe-width 70
+          )
+    (ivy-posframe-mode +1))
+#+end_src
+
+
 ** Use spaces for indent
 
 #+BEGIN_SRC emacs-lisp
