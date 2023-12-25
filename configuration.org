@@ -480,6 +480,22 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
 
 #+END_SRC
 
+*** ivy-rich
+#+begin_src emacs-lisp
+  (use-package ivy-rich
+    :after ivy
+    :ensure t
+    :demand t
+    :custom
+    (ivy-virtual-abbreviate 'full
+                            ivy-rich-switch-buffer-align-virtual-buffer t
+                            ivy-rich-path-style 'abbrev)
+    :config
+    (ivy-rich-mode)
+    )
+
+#+end_src
+
 ** Avy
 
 Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
