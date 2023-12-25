@@ -547,7 +547,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   ;; These are global, ie not dependent on org-mode loaded:
 
   ;; Org Capture (using bind-key to override org-mode mapping:)
-  (bind-key* (kbd "C-c C-x c") 'org-capture)
+  (bind-key* (kbd "C-c C-x c") 'counsel-org-capture)
 
   ;; Save link to current file and line
   (global-set-key (kbd "C-c l") 'org-store-link)
