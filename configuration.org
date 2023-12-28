@@ -555,13 +555,10 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
 *** org-mode keybinds
 #+BEGIN_SRC emacs-lisp
-  ;; Wrap org-open-at-point
-
   (add-hook 'org-mode-hook
             (lambda ()
-              (define-key org-mode-map (kbd "C-x C-o") 'my-org-open-at-point)))
-
-
+              (define-key org-mode-map (kbd "C-x C-o") 'my-org-open-at-point)
+              (define-key org-mode-map (kbd "C-c C-q") 'counsel-org-tag)))
 #+END_SRC
 
 *** org-drill flashcard spaced repetition
