@@ -1732,3 +1732,24 @@ Use c-mode for nqc/nqh files, but disable flycheck
     :ensure t
     :demand)
 #+end_src
+
+* grebneke-mode
+#+begin_src emacs-lisp
+  (defun greb/insert-grebneke ()
+    (interactive)
+    (insert "grebneke"))
+
+  (define-minor-mode grebneke-mode
+    "Personal mode for personal keybinds"
+    :keymap
+    (let
+        ((gmap (make-sparse-keymap)))
+      (define-key gmap (kbd "M-j g") 'greb/insert-grebneke)
+      ;; use cons-cell to set display label for which-key-mode:
+      (define-key gmap (kbd "M-j p") '("HOPP" . (lambda() "HEPP" (interactive) (insert "HOPP"))))
+      gmap)
+    ;; body of defun goes here if needed
+    )
+
+  (grebneke-mode 1)
+#+end_src
