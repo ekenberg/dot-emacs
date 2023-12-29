@@ -1723,3 +1723,12 @@ Use c-mode for nqc/nqh files, but disable flycheck
   (setq split-height-threshold nil)
   (setq split-width-treshold 0)
 #+END_SRC
+** Adjust font size in all frames - default-text-scale
+   https://github.com/purcell/default-text-scale
+   Adjust font size globally in all frames
+
+#+begin_src emacs-lisp
+  (use-package default-text-scale
+    :ensure t
+    :demand)
+#+end_src
