@@ -1192,7 +1192,7 @@ https://unix.stackexchange.com/a/392171/32165
     :after ivy
     :ensure t
     :demand t
-    :diminish ivy-posframe
+    :diminish ivy-posframe-mode
     :custom-face
     (ivy-posframe-border ((t (:background "#ffffff"))))
     :config
@@ -1205,7 +1205,6 @@ https://unix.stackexchange.com/a/392171/32165
           )
     (ivy-posframe-mode +1))
 #+end_src
-
 
 ** Use spaces for indent
 
