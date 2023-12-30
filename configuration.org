@@ -9,6 +9,11 @@ Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
+** TODO Egen minor-mode med egna globala keyboard bindings
+   - Kanske prefix M-j (för johan) och sen egna saker, makron, egna funktioner osv
+   - Lägg i separat fil eller direkt här i denna filen?
+   - https://emacs.stackexchange.com/questions/352/how-to-override-major-mode-bindings
+   - https://nullprogram.com/blog/2013/02/06/
 ** TODO in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
 verkar inte finnas någon hook för toggle-frame-fullscreen, blir isf göra en egen funktion
 och binda den till F11/F9 (F9 på macen, minns inte varför)
@@ -117,6 +122,8 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
     :ensure t)
 #+END_SRC
 
+** Set path from shell
+   - NB! Need to set $PATH in .profile, it's not enough that it's set in .bashrc
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :ensure t
@@ -398,19 +405,19 @@ Use C-x n n to narrow, C-x n w to widen
 ** Magit
 
 #+BEGIN_SRC emacs-lisp
-;; Detta är en hot-fix 2023-09-22 pga bugg efter uppgradering av magit
-;; seq 2.21 är built-in men magit behöver 2.24/2.25 och även om den finns installerad via elpa så laddas den inte
-;; testa ta bort detta i en bättre framtid
-  (load-library "seq-25")
+  ;; Detta är en hot-fix 2023-09-22 pga bugg efter uppgradering av magit
+  ;; seq 2.21 är built-in men magit behöver 2.24/2.25 och även om den finns installerad via elpa så laddas den inte
+  ;; testa ta bort detta i en bättre framtid
+  ;; (load-library "seq-25")
   (use-package magit
     :ensure t
     :bind (
            ;; I magit-diff buffer, låt RET öppna filen i annat fönster
            :map magit-file-section-map
-                ("RET" . magit-diff-visit-file-other-window)
-                :map magit-hunk-section-map
-                ("RET" . magit-diff-visit-file-other-window)
-                ("C-x g" . magit-status))
+           ("RET" . magit-diff-visit-file-other-window)
+           :map magit-hunk-section-map
+           ("RET" . magit-diff-visit-file-other-window)
+           ("C-x g" . magit-status))
     :config
     ;; gör ändrad whitespace synlig i diff vid stage/commit
     (setq magit-diff-paint-whitespace-lines "all"))
@@ -418,11 +425,6 @@ Use C-x n n to narrow, C-x n w to widen
 
 #+END_SRC
 
-** Smex
-#+begin_src emacs-lisp
-  (use-package smex
-    :ensure t)
-#+end_src
 ** Ivy
 
 Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
@@ -444,6 +446,7 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
     :bind (("C-s" . swiper) ;; replace default search
            ("C-x C-f" . counsel-find-file)
            ("C-c C-f" . counsel-describe-function)
+           ("C-c C-v" . counsel-describe-variable)
            ("M-x" . counsel-M-x)
            ("C-c a" . counsel-ag)
            ("C-c f" . counsel-file-jump)
@@ -512,7 +515,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 #+BEGIN_SRC emacs-lisp
   (setq org-directory "~/ownCloud/org")
   (setq org-default-notes-file (concat org-directory "/Capture.org"))
-  (setq datavetenskap-todo-file "~/ownCloud/Datavetenskap/PLAN.org")
+  ;;(setq datavetenskap-todo-file "~/ownCloud/Datavetenskap/PLAN.org")
   (setq org-default-drill-file (concat org-directory "/Drill/Drill.org"))
 #+END_SRC
 
@@ -544,7 +547,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   ;; These are global, ie not dependent on org-mode loaded:
 
   ;; Org Capture (using bind-key to override org-mode mapping:)
-  (bind-key* (kbd "C-c C-x c") 'org-capture)
+  (bind-key* (kbd "C-c C-x c") 'counsel-org-capture)
 
   ;; Save link to current file and line
   (global-set-key (kbd "C-c l") 'org-store-link)
@@ -602,8 +605,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-capture-templates
         `(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
            "* TODO %?\n  %i\n" :prepend t)
-          ("c" "Datavetenskap Todo" entry (file+headline datavetenskap-todo-file "Blandade Uppgifter")
-           "* TODO %?\n" :prepend t)
+          ;; ("c" "Datavetenskap Todo" entry (file+headline datavetenskap-todo-file "Blandade Uppgifter")
+          ;;  "* TODO %?\n" :prepend t)
           ("n" "Note" entry (file+headline org-default-notes-file "Notes")
            "* %T %?\n  %l")
           ;; org-drill ----------------------
@@ -624,14 +627,18 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 #+BEGIN_SRC emacs-lisp
   (defun my-org-custom-faces ()
     (setq default-background (face-attribute 'default :background))
-    (set-face-attribute 'org-block-begin-line nil :background default-background :foreground "#b3e5fc" :box nil)
-    (set-face-attribute 'org-block-end-line   nil :background default-background :foreground "#b3e5fc" :box nil)
-    (set-face-attribute 'org-level-1 nil :inherit 'outline-1 :foreground "DarkOrange2"
-                        :background default-background :box nil :weight 'bold :height 1.3)
-    (set-face-attribute 'org-level-2 nil :inherit 'outline-2 :foreground "YellowGreen"
-                        :background default-background :box nil :height 1.1)
-    (set-face-attribute 'org-level-3 nil :foreground "CornflowerBlue" :background default-background)
-    (set-face-attribute 'org-todo nil :background "chocolate4" :foreground "#ffab91" :weight 'bold))
+    (let ((header-lvl-1-color "DarkOrange2")
+          (header-lvl-2-color "YellowGreen")
+          (header-lvl-3-color "CornflowerBlue")
+          )
+      (set-face-attribute 'org-block-begin-line nil :background default-background :foreground "#b3e5fc" :box nil)
+      (set-face-attribute 'org-block-end-line   nil :background default-background :foreground "#b3e5fc" :box nil)
+      (set-face-attribute 'org-level-1 nil :inherit 'outline-1 :foreground header-lvl-1-color
+                          :background default-background :box nil :weight 'bold :height 1.3)
+      (set-face-attribute 'org-level-2 nil :inherit 'outline-2 :foreground header-lvl-2-color
+                          :background default-background :box nil :weight 'normal :height 1.1)
+      (set-face-attribute 'org-level-3 nil :foreground header-lvl-3-color :background default-background)
+      (set-face-attribute 'org-todo nil :background "chocolate4" :foreground "#ffab91" :weight 'bold)))
 
   (add-hook 'org-mode-hook 'my-org-custom-faces)
 #+END_SRC
@@ -1628,7 +1635,7 @@ Use c-mode for nqc/nqh files, but disable flycheck
       :ensure t
       :init (jee/load-default-theme))
 
-  (set-face-background 'secondary-selection "CornFlowerBlue")
+  (set-face-background 'secondary-selection "DarkSlateGrey")
 
 #+END_SRC
 
@@ -1707,6 +1714,7 @@ Use c-mode for nqc/nqh files, but disable flycheck
 #+BEGIN_SRC emacs-lisp
   ;; Always highlight current line
   (global-hl-line-mode)
+  (set-face-background 'hl-line "DarkSlateGrey")
 
   ;; Except in terminal-modes
   (add-hook 'term-mode-hook
