@@ -1197,8 +1197,7 @@ https://unix.stackexchange.com/a/392171/32165
     (ivy-posframe-border ((t (:background "#ffffff"))))
     :config
     (setq ivy-posframe-display-functions-alist
-          '((counsel-company . ivy-posframe-display-at-point)
-            (t               . ivy-display-function-fallback)) ; t = default
+          '((counsel-company . ivy-posframe-display-at-point))
           ivy-posframe-parameters '((internal-border-width . 1))
           ;; ivy-posframe-height-alist '((t . 20))
           ;; ivy-posframe-width 70
