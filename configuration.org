@@ -516,7 +516,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-directory "~/ownCloud/org")
   (setq org-default-notes-file (concat org-directory "/Capture.org"))
   ;;(setq datavetenskap-todo-file "~/ownCloud/Datavetenskap/PLAN.org")
-  (setq org-default-drill-file (concat org-directory "/Drill/Drill.org"))
+  ;;(setq org-default-drill-file (concat org-directory "/Drill/Drill.org"))
 #+END_SRC
 
 *** External applications
@@ -566,13 +566,13 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
 *** org-drill flashcard spaced repetition
 #+BEGIN_SRC emacs-lisp
-  (require 'org-drill)
+;;  (require 'org-drill)
   ;; göm headings för varje card:
-  (setq org-drill-hide-item-headings-p t)
-  (setq org-drill-add-random-noise-to-intervals-p t)
-  (setq org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
-  (setq org-drill-learn-fraction 0.4) ; repetera frågor lite oftare, default = 0.5
-  (setq org-drill-maximum-duration 40) ; 40m
+ ;; (setq org-drill-hide-item-headings-p t)
+ ;; (setq org-drill-add-random-noise-to-intervals-p t)
+ ;; (setq org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
+ ;; (setq org-drill-learn-fraction 0.4) ; repetera frågor lite oftare, default = 0.5
+ ;; (setq org-drill-maximum-duration 40) ; 40m
 #+END_SRC
 
 *** org-journal
@@ -596,12 +596,12 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 #+END_SRC
 *** Capture templates
 #+BEGIN_SRC emacs-lisp
-  (defun my-org-default-drill-capture-format ()
-    "Basic drill template"
-    (concat "** Fact:          :"
-            (format "%s" org-drill-question-tag)
-            ":\n:PROPERTIES:\n:DATE_ADDED: %<%Y-%m-%d>\n:END:\n\n%i%?\n\n*** Svar\n\n")
-    )
+;;  (defun my-org-default-drill-capture-format ()
+;;    "Basic drill template"
+;;    (concat "** Fact:          :"
+;;            (format "%s" org-drill-question-tag)
+;;            ":\n:PROPERTIES:\n:DATE_ADDED: %<%Y-%m-%d>\n:END:\n\n%i%?\n\n*** Svar\n\n")
+;;    )
   (setq org-capture-templates
         `(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
            "* TODO %?\n  %i\n" :prepend t)
@@ -610,10 +610,10 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
           ("n" "Note" entry (file+headline org-default-notes-file "Notes")
            "* %T %?\n  %l")
           ;; org-drill ----------------------
-          ("a" "Algebra Drill" entry (file+headline org-default-drill-file "Algebra och Diskret Matematik")
-           ,(my-org-default-drill-capture-format) :empty-lines 1)
-          ("d" "Drill (Blandat)" entry (file+headline org-default-drill-file "Blandat")
-           ,(my-org-default-drill-capture-format) :empty-lines 1)
+;;          ("a" "Algebra Drill" entry (file+headline org-default-drill-file "Algebra och Diskret Matematik")
+;;           ,(my-org-default-drill-capture-format) :empty-lines 1)
+;;          ("d" "Drill (Blandat)" entry (file+headline org-default-drill-file "Blandat")
+;;           ,(my-org-default-drill-capture-format) :empty-lines 1)
           ))
 #+END_SRC
 
@@ -991,9 +991,7 @@ Toggle with M-o, hidden files with C-x .
   (use-package tex
     :ensure auctex)
 #+END_SRC
-
 ** Smart-tab
-
 #+BEGIN_SRC emacs-lisp
   (use-package smart-tab
     :ensure t
@@ -1003,7 +1001,6 @@ Toggle with M-o, hidden files with C-x .
     (global-smart-tab-mode 1)
     )
 #+END_SRC
-
 ** Octave-mode
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
