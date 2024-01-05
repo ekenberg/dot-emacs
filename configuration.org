@@ -993,15 +993,23 @@ Toggle with M-o, hidden files with C-x .
 #+END_SRC
 ** Smart-tab
 #+BEGIN_SRC emacs-lisp
+  (defun my-smart-tab-disable-in-org-src-block()
+    (when (org-in-src-block-p t)
+      (smart-tab-mode -1)))
+
+  (defun my-smart-tab-disabled-define-key(map key command)
+    (define-key map key `(lambda() (interactive)
+                           (my-smart-tab-disable-in-org-src-block)
+                           (,command))))
+
   (use-package smart-tab
     :ensure t
     :demand t
     :diminish smart-tab-mode
     :config
     (global-smart-tab-mode 1)
-    ;; for some reason, smart-tab makes RETURN enter double newlines in src code blocks in org-mode
-    ;; turning off electic-indent-mode locally in org-files reasonably solves the problem
-    (add-hook 'org-mode-hook (lambda () (electric-indent-local-mode -1)))
+    (add-hook 'org-mode-hook (lambda() (my-smart-tab-disabled-define-key org-mode-map (kbd "TAB") 'org-cycle)))
+    (add-hook 'org-mode-hook (lambda() (my-smart-tab-disabled-define-key org-mode-map (kbd "RET") #'org-return)))
     )
 #+END_SRC
 ** Octave-mode
