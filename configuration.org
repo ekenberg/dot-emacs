@@ -1012,7 +1012,7 @@ Toggle with M-o, hidden files with C-x .
     :config
     (global-smart-tab-mode 1)
     (add-hook 'org-mode-hook (lambda() (my-smart-tab-disabled-define-key org-mode-map (kbd "TAB") 'org-cycle)))
-    (add-hook 'org-mode-hook (lambda() (my-smart-tab-disabled-define-key org-mode-map (kbd "RET") #'org-return)))
+    (add-hook 'org-mode-hook (lambda() (my-smart-tab-disabled-define-key org-mode-map (kbd "RET") 'org-return)))
     )
 #+END_SRC
 ** Octave-mode
