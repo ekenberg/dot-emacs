@@ -1626,9 +1626,9 @@ Use c-mode for nqc/nqh files, but disable flycheck
       :ensure t
       :init (jee/load-default-theme))
 
-    (use-package eclipse-theme
-      :ensure t
-      :init (jee/load-default-theme))
+;;    (use-package eclipse-theme
+;;      :ensure t
+;;      :init (jee/load-default-theme))
 
   (set-face-background 'secondary-selection "DarkSlateGrey")
 
