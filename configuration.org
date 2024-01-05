@@ -999,6 +999,9 @@ Toggle with M-o, hidden files with C-x .
     :diminish smart-tab-mode
     :config
     (global-smart-tab-mode 1)
+    ;; for some reason, smart-tab makes RETURN enter double newlines in src code blocks in org-mode
+    ;; turning off electic-indent-mode locally in org-files reasonably solves the problem
+    (add-hook 'org-mode-hook (lambda () (electric-indent-local-mode -1)))
     )
 #+END_SRC
 ** Octave-mode
