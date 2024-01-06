@@ -1,6 +1,6 @@
 ; Från: http://rawsyntax.com/blog/learn-emacs-swap-windows
 
-(require 'cl)
+;;(require 'cl)
 
 (defun swap-windows ()
  "If you have 2 windows, it swaps them."

@@ -280,7 +280,7 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
 ** Go to previous window anti-clockwise
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "\C-x p") '(lambda () (interactive) (other-window -1)))
+  (global-set-key (kbd "\C-x p") (lambda () (interactive) (other-window -1)))
 #+END_SRC
 
 ** Quit popup in other (next) window
@@ -900,7 +900,7 @@ Toggle with M-o, hidden files with C-x .
   (setq dired-omit-files
         (concat dired-omit-files "\\|^\\.DS_Store$"))
 
-  (add-hook 'dired-mode-hook '(lambda ()
+  (add-hook 'dired-mode-hook (lambda ()
                                 (local-set-key (kbd "M-o") 'dired-omit-mode)))
 
   ;; toggle hidden files starting with .
@@ -921,7 +921,7 @@ Toggle with M-o, hidden files with C-x .
   (add-hook 'dired-mode-hook (lambda () (dired-omit-mode)))
 
   ;; keybind C-x . to toggle hidden files in dired
-  (add-hook 'dired-mode-hook '(lambda ()
+  (add-hook 'dired-mode-hook (lambda ()
                                 (local-set-key (kbd "C-x .") 'dired-dotfiles-toggle)))
 
 #+END_SRC
@@ -1225,7 +1225,7 @@ https://unix.stackexchange.com/a/392171/32165
 ** Auto-indent for all programming modes
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook '(lambda ()
+  (add-hook 'prog-mode-hook (lambda ()
                                (local-set-key (kbd "RET") 'newline-and-indent)))
 #+END_SRC
 
@@ -1236,7 +1236,7 @@ https://unix.stackexchange.com/a/392171/32165
     (interactive)
     (indent-region (point-min) (point-max)))
 
-  (add-hook 'prog-mode-hook '(lambda ()
+  (add-hook 'prog-mode-hook (lambda ()
                                (local-set-key (kbd "C-c <tab>") 'indent-buffer)))
 
 #+END_SRC
