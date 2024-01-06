@@ -564,7 +564,9 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (add-hook 'org-mode-hook
             (lambda ()
               (define-key org-mode-map (kbd "C-x C-o") 'my-org-open-at-point)
-              (define-key org-mode-map (kbd "C-c C-q") 'counsel-org-tag)))
+              (define-key org-mode-map (kbd "C-c C-q") 'counsel-org-tag)
+              ;; även om smart-tab-mode är avstängt i org så kan det ibland vara praktiskt för att komplettera långa ord man skriver flera gånger
+              (define-key org-mode-map (kbd "C-<tab>") 'smart-tab)))
 #+END_SRC
 
 *** org-drill flashcard spaced repetition
