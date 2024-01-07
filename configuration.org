@@ -665,6 +665,11 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-ellipsis "⤵")
 #+END_SRC
 
+*** Adapt indentation to headlines
+#+begin_src emacs-lisp
+  (setq org-adapt-indentation t)
+#+end_src
+
 *** Code block syntax highlighting when editing
 
 #+BEGIN_SRC emacs-lisp
