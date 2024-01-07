@@ -23,6 +23,7 @@
 (defun popup-major-modes ()
   "List of major modes considered to be popups"
   '(help-mode
+    special-mode
     Info-mode
     Man-mode
     debugger-mode
