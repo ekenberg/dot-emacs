@@ -113,6 +113,10 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package))
+
+  ;; Använd use-package-report för att visa statistik efter uppstart
+  (setq use-package-compute-statistics t)
+
 #+END_SRC
 
 ** Automatic package updates
