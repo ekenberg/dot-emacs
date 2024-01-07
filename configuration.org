@@ -82,7 +82,7 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 
 ** Localized calendar (Swedish)
 #+BEGIN_SRC emacs-lisp
-  (load "sv-kalender")
+  ;; (load "sv-kalender")
 #+END_SRC
 
 ** Uniquify (better names for same-name-buffers)
@@ -843,7 +843,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
 #+BEGIN_SRC emacs-lisp
   (use-package ox-twbs
-    :ensure t)
+    :ensure t
+    :defer t)
 #+END_SRC
 
 *** Skip footer in html exports
@@ -855,7 +856,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 *** Export to octopress
 
 #+BEGIN_SRC emacs-lisp
-  (load-library "octorgopress")
+  ;;(load-library "octorgopress")
 #+END_SRC
 
 *** visual line mode
@@ -1014,7 +1015,8 @@ Toggle with M-o, hidden files with C-x .
 
 #+BEGIN_SRC emacs-lisp
   (use-package tex
-    :ensure auctex)
+    :ensure auctex
+    :defer t)
 #+END_SRC
 ** Smart-tab
 #+BEGIN_SRC emacs-lisp
@@ -1533,10 +1535,13 @@ Use c-mode for nqc/nqh files, but disable flycheck
 #+begin_src emacs-lisp
   (use-package company-ghci
     :ensure t
+    :defer t
     :config
-    (add-to-list 'company-backends 'company-ghci))
-  (add-hook 'haskell-mode-hook 'company-mode)
-  (add-hook 'haskell-interactive-mode-hook 'company-mode)
+    (add-to-list 'company-backends 'company-ghci)
+    :hook ((haskell-mode . company-mode)
+           (haskell-interactive-mode . company-mode)))
+  ;;      (add-hook 'haskell-mode-hook 'company-mode)
+  ;;      (add-hook 'haskell-interactive-mode-hook 'company-mode)
 #+end_src
 
 ** Flycheck
@@ -1565,6 +1570,7 @@ Use c-mode for nqc/nqh files, but disable flycheck
 
   (use-package lsp-ui
     :ensure t
+    :defer t
     :config (setq lsp-ui-doc-enable t
                   lsp-ui-doc-use-childframe t
                   lsp-ui-doc-position 'top
@@ -1624,12 +1630,14 @@ Use c-mode for nqc/nqh files, but disable flycheck
 ** ESS / R
 #+BEGIN_SRC emacs-lisp
   (use-package ess-site
-    :ensure ess)
+    :ensure ess
+    :defer t)
 #+END_SRC
 ** Docker
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode
-    :ensure t)
+    :ensure t
+    :defer t)
 #+END_SRC
 ** Restclient
 #+BEGIN_SRC emacs-lisp
