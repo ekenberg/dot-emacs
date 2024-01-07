@@ -45,16 +45,19 @@ On legacy systems site-init can mess up local configuration
   (setq inhibit-default-init t)
 #+END_SRC
 
-** Require version 24 or higher
+** Require version 27 or higher
 
 #+BEGIN_SRC emacs-lisp
-  (when (version< emacs-version "24")
-    (let ((sleep-sec 4))
-      (while (> sleep-sec 0)
-        (message "This Emacs configuration requires major version 24 or higher! Exit in %d seconds" sleep-sec)
-        (sit-for 1)
-        (setq sleep-sec (1- sleep-sec)))
-      (save-buffers-kill-terminal))
+;; this is a guess
+  (let ((minv "27"))
+    (when (version< emacs-version minv)
+      (let ((sleep-sec 4))
+        (while (> sleep-sec 0)
+          (message "This Emacs configuration requires major version %s or higher! Exit in %d seconds" minv sleep-sec)
+          (sit-for 1)
+          (setq sleep-sec (1- sleep-sec)))
+        (save-buffers-kill-terminal))
+      )
     )
 #+END_SRC
 
