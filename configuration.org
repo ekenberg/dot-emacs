@@ -408,10 +408,6 @@ Use C-x n n to narrow, C-x n w to widen
 ** Magit
 
 #+BEGIN_SRC emacs-lisp
-  ;; Detta är en hot-fix 2023-09-22 pga bugg efter uppgradering av magit
-  ;; seq 2.21 är built-in men magit behöver 2.24/2.25 och även om den finns installerad via elpa så laddas den inte
-  ;; testa ta bort detta i en bättre framtid
-  ;; (load-library "seq-25")
   (use-package magit
     :ensure t
     :bind (
@@ -427,6 +423,13 @@ Use C-x n n to narrow, C-x n w to widen
 
 
 #+END_SRC
+
+** Git-gutter
+#+begin_src emacs-lisp
+  (use-package git-gutter
+    :ensure t
+    :hook (prog-mode . git-gutter-mode))
+#+end_src
 
 ** Ivy
 
