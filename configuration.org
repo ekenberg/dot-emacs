@@ -455,6 +455,12 @@ Use C-x n n to narrow, C-x n w to widen
     :hook (prog-mode . git-gutter-mode))
 #+end_src
 
+** Smex - remember command history
+#+begin_src emacs-lisp
+  (use-package smex
+    :ensure t)
+#+end_src
+
 ** Ivy
 
 Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
