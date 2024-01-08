@@ -98,6 +98,10 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 #+BEGIN_SRC emacs-lisp
   (save-place-mode 1)
 #+END_SRC
+** Save minibuffer history
+#+begin_src emacs-lisp
+  (savehist-mode 1)
+#+end_src
 
 * Package management
 
