@@ -447,6 +447,7 @@ Use C-x n n to narrow, C-x n w to widen
 #+begin_src emacs-lisp
   (use-package git-gutter
     :ensure t
+    :diminish git-gutter-mode
     :hook (prog-mode . git-gutter-mode))
 #+end_src
 
