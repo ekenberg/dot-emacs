@@ -864,7 +864,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 *** Export to octopress
 
 #+BEGIN_SRC emacs-lisp
-  ;;(load-library "octorgopress")
+  (load-library "octorgopress")
 #+END_SRC
 
 *** visual line mode
