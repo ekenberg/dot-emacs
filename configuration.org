@@ -45,11 +45,11 @@ On legacy systems site-init can mess up local configuration
   (setq inhibit-default-init t)
 #+END_SRC
 
-** Require version 27 or higher
+** Require version 26 or higher
 
 #+BEGIN_SRC emacs-lisp
 ;; this is a guess
-  (let ((minv "27"))
+  (let ((minv "26"))
     (when (version< emacs-version minv)
       (let ((sleep-sec 4))
         (while (> sleep-sec 0)
