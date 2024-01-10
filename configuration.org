@@ -132,9 +132,11 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
   (use-package auto-package-update
     :ensure t
     :config
+    (setq use-dialog-box nil)
     (setq auto-package-update-interval 3) ;; days
     (setq auto-package-update-prompt-before-update t)
     (auto-package-update-maybe)
+    (setq use-dialog-box t)
     )
 #+END_SRC
 
