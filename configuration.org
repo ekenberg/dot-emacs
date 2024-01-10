@@ -96,7 +96,28 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 
 ** Saveplace (save point for each file)
 #+BEGIN_SRC emacs-lisp
-  (save-place-mode 1)
+  (setq my-emacs-is-being-killed nil)
+
+  (defun my-on-kill-buffer-save-places-to-file ()
+    "Call this from kill-buffer-hook
+    If save-place-mode is active and the killed buffer file exists in save-place-alist, save places to file
+    See save-place-mode for more information"
+    (when (and (not my-emacs-is-being-killed)
+               save-place-mode
+               (buffer-file-name)
+               (assoc (buffer-file-name) save-place-alist))
+      (save-places-to-alist)
+      (when save-place-loaded
+          (save-place-alist-to-file))
+      ))
+
+  (use-package saveplace
+    :config
+    (save-place-mode t)
+    (add-hook 'kill-buffer-hook #'my-on-kill-buffer-save-places-to-file)
+    (add-hook 'kill-emacs-hook (lambda() (setq my-emacs-is-being-killed t)))
+    )
+
 #+END_SRC
 ** Save minibuffer history
 #+begin_src emacs-lisp
