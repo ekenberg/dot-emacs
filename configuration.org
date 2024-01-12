@@ -471,7 +471,10 @@ Use C-x n n to narrow, C-x n w to widen
   (use-package git-gutter
     :ensure t
     :diminish git-gutter-mode
-    :hook (prog-mode . git-gutter-mode))
+    :hook
+    (prog-mode . git-gutter-mode)
+    (org-mode  . git-gutter-mode)
+    )
 #+end_src
 
 ** Smex - remember command history
