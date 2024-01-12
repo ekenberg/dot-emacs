@@ -548,11 +548,12 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
     :ensure t
     :demand t
     :custom
-    (ivy-virtual-abbreviate 'full
-                            ivy-rich-switch-buffer-align-virtual-buffer t
-                            ivy-rich-path-style 'abbrev)
+    (ivy-virtual-abbreviate 'full)
+    (ivy-rich-path-style 'abbrev)
+    (ivy-rich-parse-remote-buffer nil)
     :config
     (ivy-rich-mode)
+    (ivy-rich-project-root-cache-mode)
     )
 
 #+end_src
