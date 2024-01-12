@@ -475,6 +475,7 @@ Use C-x n n to narrow, C-x n w to widen
     (prog-mode . git-gutter-mode)
     (org-mode  . git-gutter-mode)
     :config
+    (setq git-gutter:update-interval 0.02) ; sätt till 0 för att disable
     (add-to-list 'git-gutter:update-commands 'magit-status)
     (add-to-list 'git-gutter:update-commands 'other-window)
     (add-to-list 'git-gutter:update-commands 'ivy-switch-buffer))
