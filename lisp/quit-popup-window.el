@@ -26,6 +26,7 @@
     special-mode
     Info-mode
     Man-mode
+    diff-mode
     debugger-mode
     compilation-mode
     grep-mode
