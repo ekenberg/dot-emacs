@@ -1,5 +1,6 @@
 #+TITLE: Emacs Configuration
 #+STARTUP OVERVIEW
+#+TODO: TODO DOING | DONE WONTFIX
 
 * About
 
