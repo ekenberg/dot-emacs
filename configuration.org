@@ -1833,18 +1833,22 @@ Use c-mode for nqc/nqh files, but disable flycheck
 
 * grebneke-mode
 #+begin_src emacs-lisp
-  (defun greb/insert-grebneke ()
-    (interactive)
-    (insert "grebneke"))
+  ;; Ok det är fräckt men en hydra är nog bättre för då kan man fortsätta bara trycka en enda tangent
+  ;; om man tex vill stega mellan git-gutter hunks
 
   (define-minor-mode grebneke-mode
     "Personal mode for personal keybinds"
     :keymap
     (let
         ((gmap (make-sparse-keymap)))
-      (define-key gmap (kbd "M-j g") 'greb/insert-grebneke)
+                                          ;(define-key gmap (kbd "M-j g") '("git-gutter prefix"))
+
+      (define-key gmap (kbd "M-j g n") '("git-gutter next" . git-gutter:next-hunk))
+      (define-key gmap (kbd "M-j g p") '("git-gutter prev" . git-gutter:previous-hunk))
+
       ;; use cons-cell to set display label for which-key-mode:
       (define-key gmap (kbd "M-j p") '("HOPP" . (lambda() "HEPP" (interactive) (insert "HOPP"))))
+
       gmap)
     ;; body of defun goes here if needed
     )
