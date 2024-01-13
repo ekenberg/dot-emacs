@@ -6,7 +6,7 @@
 
 Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
-* Todo [80%]:
+* Todo [71%]:
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
@@ -18,12 +18,20 @@ Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package u
 ** TODO in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
 verkar inte finnas någon hook för toggle-frame-fullscreen, blir isf göra en egen funktion
 och binda den till F11/F9 (F9 på macen, minns inte varför)
-** WONTFIX Fix C-c C-o in org-mode -> org-open-at-point (not ivy-occur)
-krock med ivy, använd C-x C-o istället
+** TODO Hydra utforska mer, ev tex gör en hydra för git-gutter att stega mellan hunks, revert, stage mm?
+** DOING Varför döljs git-gutter när man trycker TAB, åtminstone här i denna org-fil?
+** DONE Finns det mer vettiga smarta saker man kan göra med git-gutter?
+** DONE Laga eller fixa ivy-rich så den inte tar hundra år på sig att byta buffer
+** DONE Varför visar git-gutter fortfarande ändringssymboler i sidan efter man committat?
+   Därför att den behöver uppdatera, antingen genom regelbunden timer eller koppling till funktioner, se config nedan
+** DONE git-gutter låt C-c q även stänga git-gutter popup
+** DONE Laga C-x 6 (swap-windows) som säger "symbol's definition is void: first"
 ** DONE Fix C-. in php-mode -> avy-goto-char-2
    later changed to M-.
 ** DONE nqc (c-mode) should not use flycheck, unless it can be setup with nqc compiler
 ** DONE in dired, make 'i' do dired-subtree-toggle instead of dired-subtree-insert
+** WONTFIX Fix C-c C-o in org-mode -> org-open-at-point (not ivy-occur)
+krock med ivy, använd C-x C-o istället
 * Basic sanity, startup and paths
 
 ** Add timestamps to *Messages*
