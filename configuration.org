@@ -1,11 +1,12 @@
 #+TITLE: Emacs Configuration
 #+STARTUP OVERVIEW
+#+TODO: TODO DOING | DONE WONTFIX
 
 * About
 
 Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
-* Todo [80%]:
+* Todo [71%]:
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
@@ -17,13 +18,33 @@ Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package u
 ** TODO in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
 verkar inte finnas någon hook för toggle-frame-fullscreen, blir isf göra en egen funktion
 och binda den till F11/F9 (F9 på macen, minns inte varför)
-** WONTFIX Fix C-c C-o in org-mode -> org-open-at-point (not ivy-occur)
-krock med ivy, använd C-x C-o istället
+** TODO Hydra utforska mer, ev tex gör en hydra för git-gutter att stega mellan hunks, revert, stage mm?
+** DOING Varför döljs git-gutter när man trycker TAB, åtminstone här i denna org-fil?
+** DONE Finns det mer vettiga smarta saker man kan göra med git-gutter?
+** DONE Laga eller fixa ivy-rich så den inte tar hundra år på sig att byta buffer
+** DONE Varför visar git-gutter fortfarande ändringssymboler i sidan efter man committat?
+   Därför att den behöver uppdatera, antingen genom regelbunden timer eller koppling till funktioner, se config nedan
+** DONE git-gutter låt C-c q även stänga git-gutter popup
+** DONE Laga C-x 6 (swap-windows) som säger "symbol's definition is void: first"
 ** DONE Fix C-. in php-mode -> avy-goto-char-2
    later changed to M-.
 ** DONE nqc (c-mode) should not use flycheck, unless it can be setup with nqc compiler
 ** DONE in dired, make 'i' do dired-subtree-toggle instead of dired-subtree-insert
+** WONTFIX Fix C-c C-o in org-mode -> org-open-at-point (not ivy-occur)
+krock med ivy, använd C-x C-o istället
 * Basic sanity, startup and paths
+
+** Add timestamps to *Messages*
+#+begin_src emacs-lisp
+  (defun my-message-with-timestamp (old-func fmt-string &rest args)
+     "Prepend current timestamp (with microsecond precision) to a message"
+     (apply old-func
+            (concat (format-time-string "[%F %T.%3N %Z] ")
+                     fmt-string)
+            args))
+  (advice-add 'message :around #'my-message-with-timestamp)
+  ; (advice-remove 'message #'my-message-with-timestamp)
+#+end_src
 
 ** Skip site-init
 
@@ -33,16 +54,19 @@ On legacy systems site-init can mess up local configuration
   (setq inhibit-default-init t)
 #+END_SRC
 
-** Require version 24 or higher
+** Require version 26 or higher
 
 #+BEGIN_SRC emacs-lisp
-  (when (version< emacs-version "24")
-    (let ((sleep-sec 4))
-      (while (> sleep-sec 0)
-        (message "This Emacs configuration requires major version 24 or higher! Exit in %d seconds" sleep-sec)
-        (sit-for 1)
-        (setq sleep-sec (1- sleep-sec)))
-      (save-buffers-kill-terminal))
+  ;; this is a guess
+  (let ((minv "26"))
+    (when (version< emacs-version minv)
+      (let ((sleep-sec 4))
+        (while (> sleep-sec 0)
+          (message "This Emacs configuration requires major version %s or higher! Exit in %d seconds" minv sleep-sec)
+          (sit-for 1)
+          (setq sleep-sec (1- sleep-sec)))
+        (save-buffers-kill-terminal))
+      )
     )
 #+END_SRC
 
@@ -70,7 +94,7 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 
 ** Localized calendar (Swedish)
 #+BEGIN_SRC emacs-lisp
-  (load "sv-kalender")
+  ;; (load "sv-kalender")
 #+END_SRC
 
 ** Uniquify (better names for same-name-buffers)
@@ -81,8 +105,29 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 
 ** Saveplace (save point for each file)
 #+BEGIN_SRC emacs-lisp
-  (save-place-mode 1)
+  (defun my-on-kill-buffer-save-places-to-file ()
+    "Call this from kill-buffer-hook
+    If save-place-mode is active and the killed buffer file exists in save-place-alist, save places to file
+    See save-place-mode for more information"
+    (when (and save-place-mode
+               (buffer-file-name)
+               (assoc (buffer-file-name) save-place-alist))
+      (save-places-to-alist)
+      (when save-place-loaded
+          (save-place-alist-to-file))
+      ))
+
+  (use-package saveplace
+    :config
+    (save-place-mode t)
+    (add-hook 'kill-buffer-hook #'my-on-kill-buffer-save-places-to-file)
+    )
+
 #+END_SRC
+** Save minibuffer history
+#+begin_src emacs-lisp
+  (savehist-mode 1)
+#+end_src
 
 * Package management
 
@@ -101,6 +146,10 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package))
+
+  ;; Använd use-package-report för att visa statistik efter uppstart
+  (setq use-package-compute-statistics t)
+
 #+END_SRC
 
 ** Automatic package updates
@@ -109,9 +158,11 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
   (use-package auto-package-update
     :ensure t
     :config
+    (setq use-dialog-box nil)
     (setq auto-package-update-interval 3) ;; days
     (setq auto-package-update-prompt-before-update t)
     (auto-package-update-maybe)
+    (setq use-dialog-box t)
     )
 #+END_SRC
 
@@ -142,11 +193,14 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
   (normal-erase-is-backspace-mode 0)
 #+END_SRC
 
-** Help key
+** Help key maps
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-+") 'help)
   (global-set-key (kbd "M-+") 'help) ;; can't make C-+ work on Mac in terminal
+  (define-key help-map (kbd "v") 'counsel-describe-variable)
+  (define-key help-map (kbd "f") 'counsel-describe-function)
+
 #+END_SRC
 
 ** Use IBuffer by default
@@ -277,7 +331,7 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
 ** Go to previous window anti-clockwise
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "\C-x p") '(lambda () (interactive) (other-window -1)))
+  (global-set-key (kbd "\C-x p") (lambda () (interactive) (other-window -1)))
 #+END_SRC
 
 ** Quit popup in other (next) window
@@ -405,10 +459,6 @@ Use C-x n n to narrow, C-x n w to widen
 ** Magit
 
 #+BEGIN_SRC emacs-lisp
-  ;; Detta är en hot-fix 2023-09-22 pga bugg efter uppgradering av magit
-  ;; seq 2.21 är built-in men magit behöver 2.24/2.25 och även om den finns installerad via elpa så laddas den inte
-  ;; testa ta bort detta i en bättre framtid
-  ;; (load-library "seq-25")
   (use-package magit
     :ensure t
     :bind (
@@ -424,6 +474,30 @@ Use C-x n n to narrow, C-x n w to widen
 
 
 #+END_SRC
+
+** Git-gutter
+#+begin_src emacs-lisp
+  (use-package git-gutter
+    :ensure t
+    :diminish git-gutter-mode
+    :hook
+    (prog-mode . git-gutter-mode)
+    (org-mode  . git-gutter-mode)
+    ;; :bind (:map global-map
+    ;;             ("C-x C-g" . git-gutter))
+    :config
+    (setq git-gutter:update-interval 0.02) ; sätt till 0 för att disable
+    (setq git-gutter:modified-sign "*")    ; se även :added-sign och :deleted-sign
+    (add-to-list 'git-gutter:update-commands 'magit-status)
+    (add-to-list 'git-gutter:update-commands 'other-window)
+    (add-to-list 'git-gutter:update-commands 'ivy-switch-buffer))
+#+end_src
+
+** Smex - remember command history
+#+begin_src emacs-lisp
+  (use-package smex
+    :ensure t)
+#+end_src
 
 ** Ivy
 
@@ -490,11 +564,12 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
     :ensure t
     :demand t
     :custom
-    (ivy-virtual-abbreviate 'full
-                            ivy-rich-switch-buffer-align-virtual-buffer t
-                            ivy-rich-path-style 'abbrev)
+    (ivy-virtual-abbreviate 'full)
+    (ivy-rich-path-style 'abbrev)
+    (ivy-rich-parse-remote-buffer nil)
     :config
     (ivy-rich-mode)
+    (ivy-rich-project-root-cache-mode)
     )
 
 #+end_src
@@ -516,7 +591,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-directory "~/ownCloud/org")
   (setq org-default-notes-file (concat org-directory "/Capture.org"))
   ;;(setq datavetenskap-todo-file "~/ownCloud/Datavetenskap/PLAN.org")
-  (setq org-default-drill-file (concat org-directory "/Drill/Drill.org"))
+  ;;(setq org-default-drill-file (concat org-directory "/Drill/Drill.org"))
 #+END_SRC
 
 *** External applications
@@ -561,18 +636,20 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (add-hook 'org-mode-hook
             (lambda ()
               (define-key org-mode-map (kbd "C-x C-o") 'my-org-open-at-point)
-              (define-key org-mode-map (kbd "C-c C-q") 'counsel-org-tag)))
+              (define-key org-mode-map (kbd "C-c C-q") 'counsel-org-tag)
+              ;; även om smart-tab-mode är avstängt i org så kan det ibland vara praktiskt för att komplettera långa ord man skriver flera gånger
+              (define-key org-mode-map (kbd "C-<tab>") 'smart-tab)))
 #+END_SRC
 
 *** org-drill flashcard spaced repetition
 #+BEGIN_SRC emacs-lisp
-  (require 'org-drill)
+;;  (require 'org-drill)
   ;; göm headings för varje card:
-  (setq org-drill-hide-item-headings-p t)
-  (setq org-drill-add-random-noise-to-intervals-p t)
-  (setq org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
-  (setq org-drill-learn-fraction 0.4) ; repetera frågor lite oftare, default = 0.5
-  (setq org-drill-maximum-duration 40) ; 40m
+ ;; (setq org-drill-hide-item-headings-p t)
+ ;; (setq org-drill-add-random-noise-to-intervals-p t)
+ ;; (setq org-drill-adjust-intervals-for-early-and-late-repetitions-p t)
+ ;; (setq org-drill-learn-fraction 0.4) ; repetera frågor lite oftare, default = 0.5
+ ;; (setq org-drill-maximum-duration 40) ; 40m
 #+END_SRC
 
 *** org-journal
@@ -596,12 +673,12 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 #+END_SRC
 *** Capture templates
 #+BEGIN_SRC emacs-lisp
-  (defun my-org-default-drill-capture-format ()
-    "Basic drill template"
-    (concat "** Fact:          :"
-            (format "%s" org-drill-question-tag)
-            ":\n:PROPERTIES:\n:DATE_ADDED: %<%Y-%m-%d>\n:END:\n\n%i%?\n\n*** Svar\n\n")
-    )
+;;  (defun my-org-default-drill-capture-format ()
+;;    "Basic drill template"
+;;    (concat "** Fact:          :"
+;;            (format "%s" org-drill-question-tag)
+;;            ":\n:PROPERTIES:\n:DATE_ADDED: %<%Y-%m-%d>\n:END:\n\n%i%?\n\n*** Svar\n\n")
+;;    )
   (setq org-capture-templates
         `(("t" "Todo" entry (file+headline org-default-notes-file "Tasks")
            "* TODO %?\n  %i\n" :prepend t)
@@ -610,10 +687,10 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
           ("n" "Note" entry (file+headline org-default-notes-file "Notes")
            "* %T %?\n  %l")
           ;; org-drill ----------------------
-          ("a" "Algebra Drill" entry (file+headline org-default-drill-file "Algebra och Diskret Matematik")
-           ,(my-org-default-drill-capture-format) :empty-lines 1)
-          ("d" "Drill (Blandat)" entry (file+headline org-default-drill-file "Blandat")
-           ,(my-org-default-drill-capture-format) :empty-lines 1)
+;;          ("a" "Algebra Drill" entry (file+headline org-default-drill-file "Algebra och Diskret Matematik")
+;;           ,(my-org-default-drill-capture-format) :empty-lines 1)
+;;          ("d" "Drill (Blandat)" entry (file+headline org-default-drill-file "Blandat")
+;;           ,(my-org-default-drill-capture-format) :empty-lines 1)
           ))
 #+END_SRC
 
@@ -660,6 +737,11 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-ellipsis "⤵")
 #+END_SRC
 
+*** Adapt indentation to headlines
+#+begin_src emacs-lisp
+  (setq org-adapt-indentation t)
+#+end_src
+
 *** Code block syntax highlighting when editing
 
 #+BEGIN_SRC emacs-lisp
@@ -677,10 +759,10 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
   (setq org-image-actual-width nil)
 #+END_SRC
 *** Code edit in same window
-
 #+BEGIN_SRC emacs-lisp
   ;(setq org-src-window-setup 'current-window)
   ;(setq org-src-window-setup 'reorganize-frame)
+  (setq org-src-window-setup 'split-window-below)
 #+END_SRC
 
 *** Babel code evaluation
@@ -818,7 +900,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 
 #+BEGIN_SRC emacs-lisp
   (use-package ox-twbs
-    :ensure t)
+    :ensure t
+    :defer t)
 #+END_SRC
 
 *** Skip footer in html exports
@@ -897,7 +980,7 @@ Toggle with M-o, hidden files with C-x .
   (setq dired-omit-files
         (concat dired-omit-files "\\|^\\.DS_Store$"))
 
-  (add-hook 'dired-mode-hook '(lambda ()
+  (add-hook 'dired-mode-hook (lambda ()
                                 (local-set-key (kbd "M-o") 'dired-omit-mode)))
 
   ;; toggle hidden files starting with .
@@ -918,7 +1001,7 @@ Toggle with M-o, hidden files with C-x .
   (add-hook 'dired-mode-hook (lambda () (dired-omit-mode)))
 
   ;; keybind C-x . to toggle hidden files in dired
-  (add-hook 'dired-mode-hook '(lambda ()
+  (add-hook 'dired-mode-hook (lambda ()
                                 (local-set-key (kbd "C-x .") 'dired-dotfiles-toggle)))
 
 #+END_SRC
@@ -989,21 +1072,30 @@ Toggle with M-o, hidden files with C-x .
 
 #+BEGIN_SRC emacs-lisp
   (use-package tex
-    :ensure auctex)
+    :ensure auctex
+    :defer t)
 #+END_SRC
-
 ** Smart-tab
-
 #+BEGIN_SRC emacs-lisp
+  (defun my-smart-tab-disable-in-org-src-block()
+    (when (org-in-src-block-p t)
+      (smart-tab-mode -1)))
+
+  (defun my-smart-tab-disabled-define-key(map key command)
+    (define-key map key `(lambda() (interactive)
+                           (my-smart-tab-disable-in-org-src-block)
+                           (,command))))
+
   (use-package smart-tab
     :ensure t
     :demand t
     :diminish smart-tab-mode
     :config
     (global-smart-tab-mode 1)
+    (add-hook 'org-mode-hook (lambda() (my-smart-tab-disabled-define-key org-mode-map (kbd "TAB") 'org-cycle)))
+    (add-hook 'org-mode-hook (lambda() (my-smart-tab-disabled-define-key org-mode-map (kbd "RET") 'org-return)))
     )
 #+END_SRC
-
 ** Octave-mode
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.m\\'" . octave-mode))
@@ -1197,8 +1289,7 @@ https://unix.stackexchange.com/a/392171/32165
     (ivy-posframe-border ((t (:background "#ffffff"))))
     :config
     (setq ivy-posframe-display-functions-alist
-          '((counsel-company . ivy-posframe-display-at-point)
-            (t               . ivy-display-function-fallback)) ; t = default
+          '((counsel-company . ivy-posframe-display-at-point))
           ivy-posframe-parameters '((internal-border-width . 1))
           ;; ivy-posframe-height-alist '((t . 20))
           ;; ivy-posframe-width 70
@@ -1215,7 +1306,7 @@ https://unix.stackexchange.com/a/392171/32165
 ** Auto-indent for all programming modes
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook '(lambda ()
+  (add-hook 'prog-mode-hook (lambda ()
                                (local-set-key (kbd "RET") 'newline-and-indent)))
 #+END_SRC
 
@@ -1226,15 +1317,9 @@ https://unix.stackexchange.com/a/392171/32165
     (interactive)
     (indent-region (point-min) (point-max)))
 
-  (add-hook 'prog-mode-hook '(lambda ()
+  (add-hook 'prog-mode-hook (lambda ()
                                (local-set-key (kbd "C-c <tab>") 'indent-buffer)))
 
-#+END_SRC
-
-** Make TAB smarter
-
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'prog-mode-hook 'smart-tab-mode)
 #+END_SRC
 
 ** Delete trailing whitespace when saving
@@ -1507,10 +1592,13 @@ Use c-mode for nqc/nqh files, but disable flycheck
 #+begin_src emacs-lisp
   (use-package company-ghci
     :ensure t
+    :defer t
     :config
-    (add-to-list 'company-backends 'company-ghci))
-  (add-hook 'haskell-mode-hook 'company-mode)
-  (add-hook 'haskell-interactive-mode-hook 'company-mode)
+    (add-to-list 'company-backends 'company-ghci)
+    :hook ((haskell-mode . company-mode)
+           (haskell-interactive-mode . company-mode)))
+  ;;      (add-hook 'haskell-mode-hook 'company-mode)
+  ;;      (add-hook 'haskell-interactive-mode-hook 'company-mode)
 #+end_src
 
 ** Flycheck
@@ -1539,6 +1627,7 @@ Use c-mode for nqc/nqh files, but disable flycheck
 
   (use-package lsp-ui
     :ensure t
+    :defer t
     :config (setq lsp-ui-doc-enable t
                   lsp-ui-doc-use-childframe t
                   lsp-ui-doc-position 'top
@@ -1598,12 +1687,14 @@ Use c-mode for nqc/nqh files, but disable flycheck
 ** ESS / R
 #+BEGIN_SRC emacs-lisp
   (use-package ess-site
-    :ensure ess)
+    :ensure ess
+    :defer t)
 #+END_SRC
 ** Docker
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode
-    :ensure t)
+    :ensure t
+    :defer t)
 #+END_SRC
 ** Restclient
 #+BEGIN_SRC emacs-lisp
@@ -1630,9 +1721,9 @@ Use c-mode for nqc/nqh files, but disable flycheck
       :ensure t
       :init (jee/load-default-theme))
 
-    (use-package eclipse-theme
-      :ensure t
-      :init (jee/load-default-theme))
+;;    (use-package eclipse-theme
+;;      :ensure t
+;;      :init (jee/load-default-theme))
 
   (set-face-background 'secondary-selection "DarkSlateGrey")
 
