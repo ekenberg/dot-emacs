@@ -49,7 +49,7 @@ On legacy systems site-init can mess up local configuration
 ** Require version 26 or higher
 
 #+BEGIN_SRC emacs-lisp
-;; this is a guess
+  ;; this is a guess
   (let ((minv "26"))
     (when (version< emacs-version minv)
       (let ((sleep-sec 4))
@@ -475,6 +475,8 @@ Use C-x n n to narrow, C-x n w to widen
     :hook
     (prog-mode . git-gutter-mode)
     (org-mode  . git-gutter-mode)
+    ;; :bind (:map global-map
+    ;;             ("C-x C-g" . git-gutter))
     :config
     (setq git-gutter:update-interval 0.02) ; sätt till 0 för att disable
     (setq git-gutter:modified-sign "*")    ; se även :added-sign och :deleted-sign
