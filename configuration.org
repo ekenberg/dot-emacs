@@ -331,7 +331,8 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
 ** Go to previous window anti-clockwise
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "\C-x p") (lambda () (interactive) (other-window -1)))
+  (global-set-key (kbd "\C-x o") (lambda () (interactive) (other-window -1)))
+  (global-set-key (kbd "\C-x p") (lambda () (interactive) (other-window 1)))
 #+END_SRC
 
 ** Quit popup in other (next) window
