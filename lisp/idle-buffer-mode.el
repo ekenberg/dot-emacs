@@ -11,8 +11,8 @@
 (defconst idle-buffer-poll-sec 1 "Poll interval for checking buffer focus and timers")
 
 (define-minor-mode idle-buffer-mode
-  "Perform automatic actions on idle buffers"
-  :lighter "ib-mode"
+  "Perform automatic actions on idle buffers."
+  :lighter "IB"
 
   ;; check file-local value of each relevant variable and start timers if applicable
   (if idle-buffer-mode
@@ -20,26 +20,23 @@
       (progn
 
         (when (> idle-buffer-auto-save-sec 0)
-          (message "idle-buffer-mode: %s activating idle auto save after %d sec" (buffer-name) idle-buffer-auto-save-sec)
+          ;;(message "idle-buffer-mode: %s activating idle auto save after %d sec" (buffer-name) idle-buffer-auto-save-sec)
           (idle-buffer--start-save-idle-timer (current-buffer) idle-buffer-auto-save-sec))
 
         (when (> idle-buffer-auto-close-sec 0)
-          (message "idle-buffer-mode: %s activating idle auto close after %d sec" (buffer-name) idle-buffer-auto-close-sec)
+          ;;(message "idle-buffer-mode: %s activating idle auto close after %d sec" (buffer-name) idle-buffer-auto-close-sec)
           (idle-buffer--start-close-idle-timer (current-buffer) idle-buffer-auto-close-sec))
 
         (when (or (> idle-buffer-auto-save-sec 0)
                   (> idle-buffer-auto-close-sec 0))
-          (message "idle-buffer-mode: starting poll-timer with interval %d sec" idle-buffer-poll-sec)
+          ;;(message "idle-buffer-mode: starting poll-timer with interval %d sec" idle-buffer-poll-sec)
           (idle-buffer--start-poll-timer (current-buffer) idle-buffer-poll-sec))
 
-        (add-hook 'kill-buffer-hook #'idle-buffer--kill-buffer-handler)
-
-        )
+        (add-hook 'kill-buffer-hook #'idle-buffer--kill-buffer-handler))
 
     ;; mode toggled OFF
     (idle-buffer--cancel-all-timers)
-    (remove-hook 'kill-buffer-hook #'idle-buffer--kill-buffer-handler)
-    ))
+    (remove-hook 'kill-buffer-hook #'idle-buffer--kill-buffer-handler)))
 
 (defun idle-buffer--kill-buffer-handler ()
   (idle-buffer--cancel-all-timers))
@@ -88,7 +85,7 @@
       (when (bound-and-true-p idle-buffer-mode)
         (when (buffer-modified-p buf)
           (save-buffer)) ; kolla returvärde? inte kill-buffer om save-buffer misslyckats?
-        (message "closing buffer %s after being idle for %d sec" (buffer-name buf) idle-buffer-auto-close-sec)
+        (message "idle-buffer-mode: Closing buffer %s after idle for %d sec" (buffer-name buf) idle-buffer-auto-close-sec)
         (kill-buffer)))))
 
 (defun idle-buffer--save (buf)
