@@ -13,7 +13,7 @@
 
 (define-minor-mode idle-buffer-mode
   "Perform automatic actions on idle buffers."
-  :lighter "IB"
+  :lighter " IB"
 
   (if idle-buffer-mode
       ;; mode toggled ON
