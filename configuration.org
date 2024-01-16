@@ -1627,7 +1627,9 @@ Use c-mode for nqc/nqh files, but disable flycheck
     ;;  (setq lsp-prefer-flymake nil)
     )
 
-  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+  (use-package lsp-ivy
+    :ensure t
+    :commands lsp-ivy-workspace-symbol)
 
   (use-package lsp-ui
     :ensure t
