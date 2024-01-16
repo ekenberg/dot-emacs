@@ -442,6 +442,11 @@ Use C-x n n to narrow, C-x n w to widen
     (kill-region 0 0 t))
   (global-set-key (kbd "C-S-w") 'my-append-kill-region)
 #+end_src
+** idle-buffer-mode
+   minor-mode som kan spara / stänga en buffer som varit idle för länge
+#+begin_src emacs-lisp
+  (load-library "idle-buffer-mode")
+#+end_src
 * Package settings and keybinds
 
 ** Tramp
