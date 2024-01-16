@@ -15,7 +15,6 @@
   "Perform automatic actions on idle buffers."
   :lighter "IB"
 
-  ;; check file-local value of each relevant variable and start timers if applicable
   (if idle-buffer-mode
       ;; mode toggled ON
       (progn
