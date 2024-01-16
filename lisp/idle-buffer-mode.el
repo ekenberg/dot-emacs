@@ -43,41 +43,46 @@
   (IB/cancel-all-timers))
 
 (defun IB/cancel-all-timers ()
-  (IB/cancel-poll-timer)
-  (IB/cancel-save-idle-timer)
-  (IB/cancel-close-idle-timer)
-  (IB/cancel-save-timer)
-  (IB/cancel-close-timer))
+  (IB/cancel-timer 'IB/poll-timer)
+  (IB/cancel-timer 'IB/save-idle-timer)
+  (IB/cancel-timer 'IB/close-idle-timer)
+  (IB/cancel-timer 'IB/save-timer)
+  (IB/cancel-timer 'IB/close-timer))
 
 (defun IB/start-poll-timer (my-buffer interv)
   (setq IB/poll-timer (run-with-timer interv interv 'IB/run-poll my-buffer)))
 
 (defun IB/start-save-timer (buf sec)
   (with-current-buffer buf
-    (when (and (null IB/save-timer) (boundp 'sec) (integerp sec) (> sec 0))
+    (when (null IB/save-timer)
       (setq IB/save-timer (run-with-timer sec sec #'IB/save buf)))))
 
 (defun IB/start-close-timer (buf sec)
   (with-current-buffer buf
-    (when (and (null IB/close-timer) (boundp 'sec) (integerp sec) (> sec 0))
-      (setq IB/close-timer (run-with-timer sec nil #'IB/close buf)))))
+    (when (null IB/close-timer)
+      (setq IB/close-timer (run-with-timer sec nil #'IB/close buf))))) ; no repeat for close timer
 
 (defun IB/start-save-idle-timer (buf sec)
-  (when (and (null IB/save-idle-timer) (boundp 'sec) (integerp sec) (> sec 0))
+  (when (null IB/save-idle-timer)
     (setq IB/save-idle-timer (run-with-idle-timer sec t #'IB/save buf))))
 
 (defun IB/start-close-idle-timer (buf sec)
-  (when (and (null IB/close-idle-timer) (boundp 'sec) (integerp sec) (> sec 0))
+  (when (null IB/close-idle-timer)
     (setq IB/close-idle-timer (run-with-idle-timer sec nil #'IB/close buf)))) ; no repeat for close timer
 
 (defun IB/run-poll (my-buffer)
-  (if (eq my-buffer (current-buffer))
-      (progn
-        (IB/cancel-save-timer)
-        (IB/cancel-close-timer))
-    ;; else
-    (IB/start-save-timer my-buffer (buffer-local-value 'idle-buffer-auto-save-sec my-buffer))
-    (IB/start-close-timer my-buffer (buffer-local-value 'idle-buffer-auto-close-sec my-buffer))))
+  (if (not (buffer-live-p my-buffer))
+      ;; buffer gone sayonara
+      (IB/cancel-all-timers)
+    ;; buffer still here
+    (if (eq my-buffer (current-buffer))
+        ;; buffer has focus
+        (progn
+          (IB/cancel-timer 'IB/save-timer)
+          (IB/cancel-timer 'IB/close-timer))
+      ;; buffer has lost focus
+      (IB/start-save-timer my-buffer (buffer-local-value 'idle-buffer-auto-save-sec my-buffer))
+      (IB/start-close-timer my-buffer (buffer-local-value 'idle-buffer-auto-close-sec my-buffer)))))
 
 (defun IB/close (buf)
   (when (buffer-live-p buf)
@@ -89,36 +94,16 @@
         (kill-buffer)))))
 
 (defun IB/save (buf)
-  (IB/cancel-save-timer)
+  (IB/cancel-timer 'IB/save-timer)
   (when (buffer-live-p buf)
     (with-current-buffer buf
       (when (and (bound-and-true-p idle-buffer-mode) (buffer-modified-p buf))
         (save-buffer)))))
 
-(defun IB/cancel-poll-timer()
-  (when IB/poll-timer
-    (cancel-timer IB/poll-timer)
-    (setq IB/poll-timer nil)))
-
-(defun IB/cancel-save-idle-timer()
-  (when IB/save-idle-timer
-    (cancel-timer IB/save-idle-timer)
-    (setq IB/save-idle-timer nil)))
-
-(defun IB/cancel-close-idle-timer()
-  (when IB/close-idle-timer
-    (cancel-timer IB/close-idle-timer)
-    (setq IB/close-idle-timer nil)))
-
-(defun IB/cancel-save-timer()
-  (when IB/save-timer
-    (cancel-timer IB/save-timer)
-    (setq IB/save-timer nil)))
-
-(defun IB/cancel-close-timer()
-  (when IB/close-timer
-    (cancel-timer IB/close-timer)
-    (setq IB/close-timer nil)))
-
+(defun IB/cancel-timer (tsym)
+  (let ((timer (symbol-value tsym)))
+    (when timer
+      (cancel-timer timer)
+      (set tsym nil))))
 
 (provide 'idle-buffer-mode)
