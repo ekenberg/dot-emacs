@@ -6,7 +6,7 @@
 
 Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
-* Todo [71%]:
+* Todo [85%]:
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
@@ -15,11 +15,11 @@ Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package u
    - Lägg i separat fil eller direkt här i denna filen?
    - https://emacs.stackexchange.com/questions/352/how-to-override-major-mode-bindings
    - https://nullprogram.com/blog/2013/02/06/
-** TODO in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
+** TODO Hydra utforska mer, ev tex gör en hydra för git-gutter att stega mellan hunks, revert, stage mm?
+** DONE in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
 verkar inte finnas någon hook för toggle-frame-fullscreen, blir isf göra en egen funktion
 och binda den till F11/F9 (F9 på macen, minns inte varför)
-** TODO Hydra utforska mer, ev tex gör en hydra för git-gutter att stega mellan hunks, revert, stage mm?
-** DOING Varför döljs git-gutter när man trycker TAB, åtminstone här i denna org-fil?
+** DONE Varför döljs git-gutter när man trycker TAB, åtminstone här i denna org-fil?
 ** DONE Finns det mer vettiga smarta saker man kan göra med git-gutter?
 ** DONE Laga eller fixa ivy-rich så den inte tar hundra år på sig att byta buffer
 ** DONE Varför visar git-gutter fortfarande ändringssymboler i sidan efter man committat?
@@ -328,7 +328,56 @@ Thanks to Harry R Schwartz for these functions. Removed (balance-window), prefer
     (setq eyebrowse-new-workspace t))
 #+END_SRC
 
+*** Title bar or mode-line shows Eyebrowse workspace info
+
+#+BEGIN_SRC emacs-lisp
+  (defun my/eyebrowse-info-str()
+    (let* ((current-slot (eyebrowse--get 'current-slot))
+           (window-configs (eyebrowse--get 'window-configs))
+           (window-config (assoc current-slot window-configs))
+           (window-config-name (nth 2 window-config))
+           (num-slots (length window-configs)))
+      (concat window-config-name "[" (number-to-string current-slot)
+              "/" (number-to-string num-slots) "]")))
+
+  (defun my/title-bar-format()
+    (concat (my/eyebrowse-info-str) " | %b"))
+
+  (if (display-graphic-p)
+      (progn
+        (setq frame-title-format
+              '(:eval (my/title-bar-format)))))
+
+  (defvar my/eyebrowse-local-lighter ""
+    "My custom lighter for eyebrowse-mode.
+  Used in fullscreen when there is no visible title-bar")
+
+  (define-minor-mode my-eyebrowse-fullscreen-helper-mode
+    ""
+    :lighter my/eyebrowse-local-lighter
+    :global t)
+
+  (when eyebrowse-mode
+    (my-eyebrowse-fullscreen-helper-mode))
+
+  (defun my/eyebrowse-set-fullscreen-lighter ()
+    "Sets or removes a custom mode-line lighter to display
+  eyebrowse configuration when in fullscreen mode"
+    (let ((fullscreen (frame-parameter nil 'fullscreen)))
+        ;; fullscreen status was changed
+        (if (eq fullscreen 'fullboth)
+            (setq my/eyebrowse-local-lighter (concat " EB:" (my/eyebrowse-info-str)))
+          (setq my/eyebrowse-local-lighter ""))
+        (force-mode-line-update t)))
+
+  (when eyebrowse-mode
+    (add-hook 'eyebrowse-post-window-switch-hook 'my/eyebrowse-set-fullscreen-lighter)
+    (add-hook 'window-configuration-change-hook 'my/eyebrowse-set-fullscreen-lighter))
+#+END_SRC
+
 ** Go to previous window anti-clockwise
+   This does not really work when working with complex layouts and many windows,
+   it jumps all over the place, guessing in order of window creation(?)
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "\C-x o") (lambda () (interactive) (other-window -1)))
@@ -1783,24 +1832,6 @@ Use c-mode for nqc/nqh files, but disable flycheck
   (menu-bar-mode 0)
   (when (display-graphic-p)
     (scroll-bar-mode -1))
-#+END_SRC
-
-*** Title bar shows Eyebrowse workspace + buffer name
-
-#+BEGIN_SRC emacs-lisp
-  (defun my-title-bar-format()
-    (let* ((current-slot (eyebrowse--get 'current-slot))
-           (window-configs (eyebrowse--get 'window-configs))
-           (window-config (assoc current-slot window-configs))
-           (window-config-name (nth 2 window-config))
-           (num-slots (length window-configs)))
-      (concat window-config-name " [" (number-to-string current-slot)
-              "/" (number-to-string num-slots) "] | " "%b")))
-
-  (if (display-graphic-p)
-      (progn
-        (setq frame-title-format
-              '(:eval (my-title-bar-format)))))
 #+END_SRC
 
 ** Highlight current line
