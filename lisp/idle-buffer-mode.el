@@ -9,7 +9,7 @@
 (defvar-local IB/close-timer                nil "For internal use only")
 (defvar-local IB/poll-timer                 nil "For internal use only")
 
-(defconst idle-buffer-poll-sec 1 "Poll interval for checking buffer focus and timers")
+(defconst idle-buffer-poll-sec 2 "Poll interval for checking buffer focus and timers")
 
 (define-minor-mode idle-buffer-mode
   "Perform automatic actions on idle buffers."
@@ -89,7 +89,7 @@
       (when (bound-and-true-p idle-buffer-mode)
         (when (buffer-modified-p buf)
           (save-buffer)) ; kolla returvärde? inte kill-buffer om save-buffer misslyckats?
-        (message "idle-buffer-mode: Closing buffer %s after idle for %d sec" (buffer-name buf) idle-buffer-auto-close-sec)
+        (message "idle-buffer: closing %s, timeout %d sec" (buffer-name buf) idle-buffer-auto-close-sec)
         (kill-buffer)))))
 
 (defun IB/save (buf)
