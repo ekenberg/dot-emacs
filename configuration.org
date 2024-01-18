@@ -185,7 +185,11 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 #+END_SRC
 
 * Global keybinds and custom functions
-
+** Hydra
+#+begin_src emacs-lisp
+  (use-package hydra
+    :ensure t)
+#+end_src
 ** Backspace and C-h
 
 #+BEGIN_SRC emacs-lisp
