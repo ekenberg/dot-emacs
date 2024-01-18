@@ -400,26 +400,23 @@ Closing man-pages, help, warnings etc
 ** Open current file in external program
 
 #+BEGIN_SRC emacs-lisp
-  (defun my-open-current-file-in-external-program ()
+  (defun my-open-current-file-in-external-program (arg)
     "Open underlying file of current buffer in external program"
-    (interactive)
+    (interactive "P")
 
-    ;; normal-type file buffer:
-    (if buffer-file-name
-        (progn
-          (call-process
-           (if (eq system-type 'darwin)
-               "open"
-             (read-shell-command "Open current file with: "))
-           nil 0 nil buffer-file-name
-           ))
+    (let ((file-name (or buffer-file-name (dired-utils-get-filename))))
+      (cond (file-name
+             (call-process (if arg
+                               (read-shell-command "Open file with: ")
+                             (if (eq system-type 'darwin)
+                                 "open"
+                               "xdg-open"))
+                           nil 0 nil file-name))
 
-      ;; else link/image/current-url in w3m:
-      (if (string= major-mode "w3m-mode")
-          (let (url)
-            (setq url (or (w3m-anchor) (w3m-image) w3m-current-url))
-            (when url
-              (browse-url-default-browser url))))))
+            ((string= major-mode "w3m-mode")
+             (let ((url (or (w3m-anchor) (w3m-image) w3m-current-url)))
+               (when url
+                 (browse-url-default-browser url)))))))
 
   (global-set-key (kbd "C-c o") 'my-open-current-file-in-external-program)
 #+END_SRC
