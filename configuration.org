@@ -6,7 +6,7 @@
 
 Based on [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][Harry R. Schwartz emacs configuration.org]]
 
-* Todo [85%]:
+* Todo [92%]:
 ** DONE Can Emacs regularly remind me to update packages?           :ARCHIVE:
 
 Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package update]]
@@ -15,7 +15,7 @@ Maybe this? [[https://github.com/rranelli/auto-package-update.el][Auto package u
    - Lägg i separat fil eller direkt här i denna filen?
    - https://emacs.stackexchange.com/questions/352/how-to-override-major-mode-bindings
    - https://nullprogram.com/blog/2013/02/06/
-** TODO Hydra utforska mer, ev tex gör en hydra för git-gutter att stega mellan hunks, revert, stage mm?
+** DONE Hydra utforska mer, ev tex gör en hydra för git-gutter att stega mellan hunks, revert, stage mm?
 ** DONE in fullscreen mode (toggle-frame-fullscreen), show eyebrowse window/num-windows in modeline
 verkar inte finnas någon hook för toggle-frame-fullscreen, blir isf göra en egen funktion
 och binda den till F11/F9 (F9 på macen, minns inte varför)
