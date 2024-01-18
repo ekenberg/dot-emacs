@@ -547,9 +547,44 @@ Use C-x n n to narrow, C-x n w to widen
     :config
     (setq git-gutter:update-interval 0.02) ; sätt till 0 för att disable
     (setq git-gutter:modified-sign "*")    ; se även :added-sign och :deleted-sign
+    (setq git-gutter:ask-p nil)            ; t för yes-no-popup vid stage och revert/kill
     (add-to-list 'git-gutter:update-commands 'magit-status)
     (add-to-list 'git-gutter:update-commands 'other-window)
     (add-to-list 'git-gutter:update-commands 'ivy-switch-buffer))
+
+  (defun my/git-gutter-toggle-mark-hunk()
+    "If mark is set, deactivate it
+  If mark is not set, run git-gutter:mark-hunk"
+    (interactive)
+    (if mark-active
+        (deactivate-mark)
+      (git-gutter:mark-hunk)))
+
+  (defun my/git-gutter-undo-revert-hunk()
+    "If last command was git-gutter:revert-hunk, undo it"
+    (interactive)
+    (if (eq last-command 'git-gutter:revert-hunk)
+        (undo)
+      (message "Last command was not a hunk kill")))
+
+  ;; ^ is a zero-width placeholder, for alignment purpose
+  (defhydra hydra-git-gutter (:hint nil)
+    "
+  git-gutter: (%(git-gutter:buffer-hunks) hunks)
+
+  _p_: previous      _s_: stage       _m_: toggle mark
+  _n_: next          _k_: kill        _u_: undo last kill
+  _q_: quit
+  "
+    ("p" git-gutter:previous-hunk nil)
+    ("n" git-gutter:next-hunk nil)
+    ("s" git-gutter:stage-hunk nil)
+    ("k" git-gutter:revert-hunk nil)
+    ("m" my/git-gutter-toggle-mark-hunk nil)
+    ("u" my/git-gutter-undo-revert-hunk nil)
+    ("q" nil nil))
+
+  (define-key global-map (kbd "C-x C-g") 'hydra-git-gutter/body)
 #+end_src
 
 ** Smex - remember command history
