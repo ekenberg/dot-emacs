@@ -581,7 +581,7 @@ Use C-x n n to narrow, C-x n w to widen
     ("u" my/git-gutter-undo-revert-hunk nil)
     ("q" nil nil))
 
-  (define-key global-map (kbd "C-x C-g") 'hydra-git-gutter/body)
+  (define-key global-map (kbd "C-x G") 'hydra-git-gutter/body)
 #+end_src
 
 ** Smex - remember command history
