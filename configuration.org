@@ -1039,6 +1039,22 @@ Visually wrap text in org-mode
   (require 'dired-x)
 #+END_SRC
 
+** Dired view-file-other-window
+#+begin_src emacs-lisp
+  (defun my/dired-view-file-other-window ()
+    "Like dired-view-file but in other window"
+    (interactive)
+    (let ((file (dired-get-file-for-visit)))
+      (if (file-directory-p file)
+          (or (and (cdr dired-subdir-alist)
+                   (dired-goto-subdir file))
+              (dired-other-window file))
+        (view-file-other-window file))))
+
+  (with-eval-after-load "dired"
+    (define-key dired-mode-map (kbd "V") 'my/dired-view-file-other-window))
+#+end_src
+
 ** Dired Subtree
 [[http://pragmaticemacs.com/emacs/tree-style-directory-views-in-dired-with-dired-subtree/][Dired Subtree - Pragmatic Emacs Blog]]
 #+BEGIN_SRC emacs-lisp
