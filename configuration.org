@@ -1151,6 +1151,26 @@ Toggle with M-o, hidden files with C-x .
   (diminish 'abbrev-mode)
 #+END_SRC
 
+** Bookmarks open files without position
+   Let save-place-mode record the latest position,
+   by default ignore the position saved in the bookmark
+#+begin_src emacs-lisp
+  (defun my/open-bookmark-no-position (arg)
+    "Open a bookmark. If it points to a file, ignore the position inside the file.
+  Use prefix arg to also move to the bookmarked position inside the file."
+    (interactive "P")
+    (if arg (bookmark-bmenu-this-window)
+      (let ((target (bookmark-location (bookmark-bmenu-bookmark))))
+        (if (and (not (file-remote-p target))
+                 (file-regular-p target))
+            (find-file target)
+          (bookmark-bmenu-this-window)))))
+
+  (with-eval-after-load "bookmark"
+    (define-key bookmark-bmenu-mode-map (kbd "<return>") 'my/open-bookmark-no-position))
+
+#+end_src
+
 ** Bookmarks folder
 #+BEGIN_SRC emacs-lisp
   (when (file-directory-p "~/ownCloud/emacs_shared")
