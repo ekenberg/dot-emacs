@@ -1420,7 +1420,9 @@ https://unix.stackexchange.com/a/392171/32165
           ;; ivy-posframe-height-alist '((t . 20))
           ;; ivy-posframe-width 70
           )
-    (ivy-posframe-mode +1))
+    (ivy-posframe-mode +1)
+    ;; Prevent remapping the context menu M-o, the one from posframe doesn't work correctly
+    (define-key ivy-posframe-mode-map [remap ivy-dispatching-done] nil))
 #+end_src
 
 ** Use spaces for indent
