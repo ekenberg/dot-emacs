@@ -571,7 +571,7 @@ Use C-x n n to narrow, C-x n w to widen
 
   _p_: previous      _s_: stage       _m_: toggle mark
   _n_: next          _k_: kill        _u_: undo last kill
-  _q_: quit
+  _q_: quit          ^ ^              _g_: update-all-windows
   "
     ("p" git-gutter:previous-hunk nil)
     ("n" git-gutter:next-hunk nil)
@@ -579,6 +579,7 @@ Use C-x n n to narrow, C-x n w to widen
     ("k" git-gutter:revert-hunk nil)
     ("m" my/git-gutter-toggle-mark-hunk nil)
     ("u" my/git-gutter-undo-revert-hunk nil)
+    ("g" git-gutter:update-all-windows nil)
     ("q" nil nil))
 
   (define-key global-map (kbd "C-x G") 'hydra-git-gutter/body)
