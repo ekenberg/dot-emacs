@@ -27,10 +27,12 @@
           ;;(message "idle-buffer-mode: %s activating idle auto close after %d sec" (buffer-name) idle-buffer-auto-close-sec)
           (IB/start-close-idle-timer (current-buffer) idle-buffer-auto-close-sec))
 
-        (when (or (> idle-buffer-auto-save-sec 0)
-                  (> idle-buffer-auto-close-sec 0))
+        (when (and
+               (or (> idle-buffer-auto-save-sec 0)
+                   (> idle-buffer-auto-close-sec 0))
+               (null IB/poll-timer))
           ;;(message "idle-buffer-mode: starting poll-timer with interval %d sec" idle-buffer-poll-sec)
-          (IB/start-poll-timer (current-buffer) idle-buffer-poll-sec))
+          (IB/start-poll-timer (current-buffer)))
 
         (add-hook 'kill-buffer-hook #'IB/kill-buffer-handler))
 
@@ -48,8 +50,8 @@
   (IB/cancel-timer 'IB/save-timer)
   (IB/cancel-timer 'IB/close-timer))
 
-(defun IB/start-poll-timer (my-buffer interv)
-  (setq IB/poll-timer (run-with-timer interv interv 'IB/run-poll my-buffer)))
+(defun IB/start-poll-timer (my-buffer)
+  (setq IB/poll-timer (run-with-timer idle-buffer-poll-sec nil 'IB/run-poll my-buffer)))
 
 (defun IB/start-save-timer (buf sec)
   (with-current-buffer buf
@@ -81,7 +83,8 @@
           (IB/cancel-timer 'IB/close-timer))
       ;; buffer has lost focus
       (IB/start-save-timer my-buffer (buffer-local-value 'idle-buffer-auto-save-sec my-buffer))
-      (IB/start-close-timer my-buffer (buffer-local-value 'idle-buffer-auto-close-sec my-buffer)))))
+      (IB/start-close-timer my-buffer (buffer-local-value 'idle-buffer-auto-close-sec my-buffer)))
+    (IB/start-poll-timer my-buffer)))
 
 (defun IB/close (buf)
   (when (buffer-live-p buf)
