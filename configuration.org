@@ -631,6 +631,30 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
     (let ((inhibit-read-only t))
       (call-interactively 'keep-lines)))
 
+  (defun my/counsel-git-grep-find-other-window (x)
+    "Go to occurrence X in current Git repository. Open in other window"
+    (when (string-match "\\`\\(.*?\\):\\([0-9]+\\):\\(.*\\)\\'" x)
+      (let ((file-name (match-string-no-properties 1 x))
+            (line-number (match-string-no-properties 2 x)))
+        (find-file-other-window (expand-file-name
+                                 file-name
+                                 (ivy-state-directory ivy-last)))
+        (goto-char (point-min))
+        (forward-line (1- (string-to-number line-number)))
+        (when (re-search-forward (ivy--regex ivy-text t) (line-end-position) t)
+          (when swiper-goto-start-of-match
+            (goto-char (match-beginning 0))))
+        (swiper--ensure-visible)
+        (run-hooks 'counsel-grep-post-action-hook)
+        (unless (eq ivy-exit 'done)
+          (swiper--cleanup)
+          (swiper--add-overlays (ivy--regex ivy-text))))))
+
+  ;; ivy extra actions for counsel-git-grep
+  (ivy-add-actions
+   #'counsel-git-grep
+   '(("j" my/counsel-git-grep-find-other-window "other window")))
+
   ;; ivy action for counsel-file-jump, idea from https://emacs.stackexchange.com/questions/50404/open-directory-containing-file-during-counsel-file-jump
   (ivy-add-actions
    #'counsel-file-jump
