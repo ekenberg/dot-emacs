@@ -34,7 +34,7 @@ Works on region if active, else entire buffer"
             (replace-string-in-region "\\\"" "'" (funcall point-start) (funcall point-end))
 
             ;; //foo => // foo
-            (replace-regexp-in-region "//\\([^ ]\\)" "// \\1" (funcall point-start) (funcall point-end))
+            (replace-regexp-in-region "\\(^\\|[^:]\\)//\\([^ ]\\)" "\\1// \\2" (funcall point-start) (funcall point-end))
 
             ;; search-and-replace is done, restore original major mode
             (funcall orig-mode)
