@@ -46,9 +46,9 @@ Works on region if active, else entire buffer"
 
             ;; swiper to onload/javascript which will probably need manual fixing of quotes
             (goto-char (funcall point-start))
-            (when (re-search-forward "onload\\|javascript" (funcall point-end) t)
+            (when (re-search-forward "onload\\|javascript\\|onclick" (funcall point-end) t)
               (add-to-history 'query-replace-defaults (cons "\\\"" "'"))
-              (swiper "onload\\|javascript"))
+              (swiper "onload\\|javascript\\|onclick"))
 
             )
         (or (equal major-mode orig-mode) (funcall orig-mode))))))
