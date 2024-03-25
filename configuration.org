@@ -1023,6 +1023,10 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
        (setq org-latex-pdf-process (list texcmd))))
 
    (add-hook 'org-export-before-parsing-hook 'my-auto-tex-cmd)
+
+   ;; Hack för att rensa bort temporära filer i pdf-generering som annars ligger kvar och skräpar, låtsas att de är latex logfiler
+   (add-hook 'org-mode-hook (lambda ()(add-to-list 'org-latex-logfiles-extensions "tex")))
+   (add-hook 'org-mode-hook (lambda ()(add-to-list 'org-latex-logfiles-extensions "synctex.gz")))
  #+end_src
 
 *** Twitter bootstrap exporting [[https://github.com/marsmining/ox-twbs]['ow-twbs']]
