@@ -629,7 +629,7 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
            ("C-c C-f" . counsel-describe-function)
            ("C-c C-v" . counsel-describe-variable)
            ("M-x" . counsel-M-x)
-           ("C-c a" . counsel-ag)
+           ("C-c a" . my/counsel-ag)
            ("C-c f" . counsel-file-jump)
            :map ivy-mode-map
            ("C-h" . ivy-backward-delete-char) ;; use C-h in ivy popups/dialogs
@@ -645,6 +645,18 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
     (interactive)
     (let ((inhibit-read-only t))
       (call-interactively 'keep-lines)))
+
+  (defun my/counsel-ag (&optional initial-input initial-directory extra-ag-args ag-prompt
+                                  &key caller)
+    "Wrapper for `counsel-ag'
+
+  Given the argument C-0, run counsel-ag in buffer current directory with args --depth 0
+  Else run `counsel-ag' as normal."
+    (interactive)
+    (let ((arg (prefix-numeric-value current-prefix-arg)))
+      (if (= arg 0)
+          (counsel-ag "" default-directory "--depth 0" (format "[%s] ag --depth 0 " default-directory))
+        (counsel-ag initial-input initial-directory extra-ag-args ag-prompt))))
 
   (defun my/counsel-git-grep-find-other-window (x)
     "Go to occurrence X in current Git repository. Open in other window"
