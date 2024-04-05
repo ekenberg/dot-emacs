@@ -1123,6 +1123,14 @@ Visually wrap text in org-mode
                (";" . dired-subtree-remove)))
 #+END_SRC
 
+** Dired Open Multiple Files
+Like dired-do-find-marked-files but do not open separate window for each file
+#+begin_src emacs-lisp
+  (define-key dired-mode-map (kbd "F")
+              (lambda ()
+                (interactive)
+                (mapc #'find-file (reverse (dired-get-marked-files)))))
+#+end_src
 ** Dired Narrow
 [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][Dired Narrow - Pragmatic Emacs Blog]]
 #+BEGIN_SRC emacs-lisp
