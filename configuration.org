@@ -624,6 +624,7 @@ Interactive completion: [[http://oremacs.com/swiper/][Ivy webpage]]
     ;; https://www.masteringemacs.org/article/re-builder-interactive-regexp-builder
     (setq counsel-find-file-ignore-regexp "^.*\\(~\\|#\\|.class\\)$")
     (setq ivy-use-selectable-prompt t) ;; C-p on first item = 'use what I write and don't complete'
+    (setq counsel-git-grep-cmd-default "git --no-pager grep -n --no-color -I -E -e \"%s\"") ;; lägg till -E för extended regexp
     :bind (("C-s" . swiper) ;; replace default search
            ("C-x C-f" . counsel-find-file)
            ("C-c C-f" . counsel-describe-function)
