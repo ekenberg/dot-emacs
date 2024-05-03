@@ -515,6 +515,8 @@ Use C-x n n to narrow, C-x n w to widen
   ;;          (while (looking-at "^.+$") (forward-line))
   ;;          (eval-region (point) (point-max))))
 
+
+  ;; Vid någon uppdatering av emacs behövde jag ta bort tramp och lägga till den igen via package-installer
   (use-package tramp
     :init
     ;; Set default connection method for TRAMP
