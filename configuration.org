@@ -1450,6 +1450,11 @@ https://unix.stackexchange.com/a/392171/32165
   (use-package epa-file
     :ensure nil)
 #+end_src
+** gcode-mode
+#+begin_src emacs-lisp
+  (use-package gcode-mode
+    :ensure t)
+#+end_src
 * Programming options and packages
 
 ** Auto-completion company-mode with ivy-posframe
