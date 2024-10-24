@@ -1563,20 +1563,22 @@ Specially important using sudo or su
   (defun my/comment-region-or-line ()
     "Comment the current region. Without an active region, comment the current line"
     (interactive)
-    (save-excursion
-      (let ((start (if (use-region-p) (region-beginning) (line-beginning-position)))
-            (end (if (use-region-p) (region-end) (line-end-position))))
-        (comment-region start end))
-      )
+    (save-window-excursion
+      (save-excursion
+        (let ((start (if (use-region-p) (region-beginning) (line-beginning-position)))
+              (end (if (use-region-p) (region-end) (line-end-position))))
+          (comment-region start end))
+        ))
     )
   (defun my/uncomment-region-or-line ()
     "Uncomment the current region. Without an active region, uncomment the current line"
     (interactive)
-    (save-excursion
-      (let ((start (if (use-region-p) (region-beginning) (line-beginning-position)))
-            (end (if (use-region-p) (region-end) (line-end-position))))
-        (uncomment-region start end))
-      )
+    (save-window-excursion
+      (save-excursion
+        (let ((start (if (use-region-p) (region-beginning) (line-beginning-position)))
+              (end (if (use-region-p) (region-end) (line-end-position))))
+          (uncomment-region start end))
+        ))
     )
 
   (global-set-key "\C-cc" 'my/comment-region-or-line)
