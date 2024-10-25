@@ -185,20 +185,28 @@ Faster startup, avoid hanging in git-enabled dirs with emacs-gtk on Linux
 #+END_SRC
 
 * Global keybinds and custom functions
+** Binary movement
+#+begin_src emacs-lisp
+  (load-library "binary-move.el")
+  (global-set-key (kbd "C-S-f") 'binary-move-forward)
+  (global-set-key (kbd "C-S-b") 'binary-move-backward)
+  (global-set-key (kbd "C-S-n") 'binary-move-down)
+  (global-set-key (kbd "C-S-p") 'binary-move-up)
+#+end_src
+
 ** Hydra
 #+begin_src emacs-lisp
   (use-package hydra
     :ensure t)
 #+end_src
-** Backspace and C-h
 
+** Backspace and C-h
 #+BEGIN_SRC emacs-lisp
   (global-set-key "\C-h" 'backward-delete-char)
   (normal-erase-is-backspace-mode 0)
 #+END_SRC
 
 ** Help key maps
-
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-+") 'help)
   (global-set-key (kbd "M-+") 'help) ;; can't make C-+ work on Mac in terminal
@@ -1561,25 +1569,26 @@ Specially important using sudo or su
 
 #+BEGIN_SRC emacs-lisp
   (defun my/comment-region-or-line ()
-    "Comment the current region. Without an active region, comment the current line"
+    "Comment the current region.
+  Without an active region, comment the current line"
     (interactive)
-    (save-window-excursion
+    (save-window-excursion ; because of occasional window-scrolling
       (save-excursion
         (let ((start (if (use-region-p) (region-beginning) (line-beginning-position)))
               (end (if (use-region-p) (region-end) (line-end-position))))
           (comment-region start end))
-        ))
-    )
+        )))
+
   (defun my/uncomment-region-or-line ()
-    "Uncomment the current region. Without an active region, uncomment the current line"
+    "Uncomment the current region.
+  Without an active region, uncomment the current line"
     (interactive)
-    (save-window-excursion
+    (save-window-excursion ; because of occasional window-scrolling
       (save-excursion
         (let ((start (if (use-region-p) (region-beginning) (line-beginning-position)))
               (end (if (use-region-p) (region-end) (line-end-position))))
           (uncomment-region start end))
-        ))
-    )
+        )))
 
   (global-set-key "\C-cc" 'my/comment-region-or-line)
   (global-set-key "\C-cu" 'my/uncomment-region-or-line)
