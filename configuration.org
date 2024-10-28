@@ -1903,19 +1903,23 @@ Use c-mode for nqc/nqh files, but disable flycheck
 
 #+BEGIN_SRC emacs-lisp
   (use-package toml-mode
-    :ensure t)
+    :ensure t
+    :defer t)
 
   (use-package rust-mode
     :ensure t
+    :defer t
     :hook (rust-mode . lsp))
 
   ;; Cargo keybindings
   (use-package cargo
     :ensure t
+    :defer t
     :hook (rust-mode . cargo-minor-mode))
 
   (use-package flycheck-rust
     :ensure t
+    :defer t
     :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 #+END_SRC
 
@@ -1923,6 +1927,7 @@ Use c-mode for nqc/nqh files, but disable flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package clojure-mode
     :ensure t
+    :defer t
     :mode (("\\.clj\\'" . clojure-mode)
            ("\\.edn\\'" . clojure-mode))
     )
