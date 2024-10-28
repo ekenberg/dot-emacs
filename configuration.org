@@ -1466,13 +1466,14 @@ https://unix.stackexchange.com/a/392171/32165
 ** gptel (LLM AI inside Emacs)
 #+begin_src emacs-lisp
   (setopt gptel-directives '((default . "You are a large language model living in Emacs and a helpful assistant. Respond concisely. Before providing any answer, engage in internal verification: check facts, review logic, and only output answers you have high confidence in after self-review. If confidence is low, acknowledge uncertainty.")
-                            (programming . "You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note.")
-                            (writing . "You are a large language model and a writing assistant. Respond concisely.")
-                            (chat . "You are a large language model and a conversation partner. Respond concisely.")))
+                             (programming . "You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note.")
+                             (writing . "You are a large language model and a writing assistant. Respond concisely.")
+                             (chat . "You are a large language model and a conversation partner. Respond concisely.")))
   (use-package gptel
     :ensure t
     :config
     (setq gptel-default-mode 'org-mode)
+    (setq gptel-expert-commands t)
     ;; (setf (alist-get 'default gptel-directives)
     ;;       "You are a large language model living in Emacs and a helpful assistant. Respond concisely. Before providing any answer, engage in internal verification: check facts, review logic, and only output answers you have high confidence in after self-review. If confidence is low, acknowledge uncertainty.")
     ;; this is how to make it the default backend:
