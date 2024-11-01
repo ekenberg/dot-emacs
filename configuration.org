@@ -1465,7 +1465,7 @@ https://unix.stackexchange.com/a/392171/32165
 #+end_src
 ** gptel (LLM AI inside Emacs)
 #+begin_src emacs-lisp
-  (setopt gptel-directives '((default . "You are a large language model living in Emacs and a helpful assistant. Respond concisely. Before providing any answer, engage in internal verification: check facts, review logic, and only output answers you have high confidence in after self-review. If confidence is low, acknowledge uncertainty.")
+  (setopt gptel-directives '((default . "You are a large language model living in Emacs and a helpful assistant. Respond concisely. Before providing any answer, engage in internal verification: check facts, review logic, and only output answers you have high confidence in after self-review. If confidence is low, acknowledge uncertainty. When discussing specific software commands, always verify key bindings and functionality through official documentation before responding.")
                              (programming . "You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note.")
                              (writing . "You are a large language model and a writing assistant. Respond concisely.")
                              (chat . "You are a large language model and a conversation partner. Respond concisely.")))
