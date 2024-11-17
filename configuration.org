@@ -1145,10 +1145,17 @@ Like dired-do-find-marked-files but do not open separate window for each file
 ** Dired Narrow
 [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][Dired Narrow - Pragmatic Emacs Blog]]
 #+BEGIN_SRC emacs-lisp
+  (defun my-dired-narrow (&optional arg)
+    "dired-narrow or dired-narrow-regexp if prefix argument"
+    (interactive "P")
+    (if arg
+        (dired-narrow-regexp)
+      (dired-narrow)))
+
   (use-package dired-narrow
     :ensure t
     :bind (:map dired-mode-map
-                ("/" . dired-narrow)))
+                ("/" . my-dired-narrow)))
 #+END_SRC
 ** Dired [[http://www.emacswiki.org/emacs/DiredOmitMode][Omit Mode]]
 
