@@ -528,11 +528,13 @@ Use C-x n n to narrow, C-x n w to widen
   (use-package tramp
     :init
     ;; Set default connection method for TRAMP
-    (setq tramp-default-method "ssh"))
+    (setq tramp-default-method "ssh")
+    (setq tramp-use-connection-share nil) ; auto-detect in ~/.ssh/config
+    )
 
-    ;; https://emacs.stackexchange.com/questions/24264/loading-tramp-overrides-tramp-remote-path-customization-back-to-default-value
-    (custom-set-variables
-     '(tramp-remote-path (quote (tramp-own-remote-path)) nil (tramp)))
+  ;; https://emacs.stackexchange.com/questions/24264/loading-tramp-overrides-tramp-remote-path-customization-back-to-default-value
+  (custom-set-variables
+   '(tramp-remote-path (quote (tramp-own-remote-path)) nil (tramp)))
 
 
 #+END_SRC

@@ -1,7 +1,7 @@
 ;; ---------------------------
 ;;
 ;; my-dev-1-theme
-;; Baserat på:
+;; Baserat pÃ¥
 ;; Spolsky : A dark color theme samt emacs default
 ;;
 ;; ----------------------------
