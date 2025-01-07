@@ -856,6 +856,10 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
 *** Custom colors
 
 #+BEGIN_SRC emacs-lisp
+;; Prevent org-mode from changing the color of completed headlines
+  (custom-set-faces
+   '(org-headline-done ((t (:inherit nil :foreground nil)))))
+
   (defun my-org-custom-faces ()
     (setq default-background (face-attribute 'default :background))
     (let ((header-lvl-1-color "DarkOrange2")
@@ -870,7 +874,8 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
                           :background default-background :box nil :weight 'normal :height 1.1)
       (set-face-attribute 'org-level-3 nil :foreground header-lvl-3-color :background default-background)
       (set-face-attribute 'org-todo nil :background "chocolate4" :foreground "#ffab91" :weight 'bold)
-      (set-face-attribute 'org-headline-done nil :foreground "DimGray" :strike-through t)))
+      (set-face-attribute 'org-headline-done nil :inherit nil) ; keep headline face identical regardless of todo status
+      ))
 
   (add-hook 'org-mode-hook 'my-org-custom-faces)
 #+END_SRC
