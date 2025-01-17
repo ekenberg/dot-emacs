@@ -1687,6 +1687,18 @@ Auto-complete ([{ etc
     :config
     (require 'smartparens-config))
 #+END_SRC
+** Expand region
+#+begin_src emacs-lisp
+  (use-package expand-region
+    :ensure t
+    :bind ("C-=" . er/expand-region))
+  ;; er/expand-region: The main function to incrementally expand selection
+  ;; er/contract-region: The reverse function (usually bound to negative prefix arg of expand-region, e.g. C-- C-=)
+  ;; er/mark-word: Marks the word directly
+  ;; er/mark-symbol: Marks the symbol
+  ;; er/mark-inside-pairs: Marks inside delimiters
+  ;; er/mark-outside-pairs: Marks including delimiters
+#+end_src
 
 ** PHP-mode
    Web-mode får svårt med större php-filer, kanske php-mode är bättre?
