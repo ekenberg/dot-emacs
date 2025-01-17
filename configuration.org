@@ -949,9 +949,9 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
     :ensure t
     :diminish org-cdlatex-mode)
 
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (org-cdlatex-mode t)))
+  ;; (add-hook 'org-mode-hook
+  ;;           (lambda ()
+  ;;             (org-cdlatex-mode t)))
 #+END_SRC
 
 *** LaTeX
