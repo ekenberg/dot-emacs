@@ -1504,6 +1504,17 @@ https://unix.stackexchange.com/a/392171/32165
   ;;     :key (with-temp-buffer
   ;;            (insert-file-contents "~/.gptel/keys/emacs-gptel.key.txt")
   ;;            (string-trim-right (buffer-string)))))
+
+  ;; post-fix buggy code block fontification when using gptel-stream
+  (defun my/fontify-and-goto-end (beg end)
+    "Fix code block fontification with org-mode
+  When gptel-stream is active, fontify region between BEG and END.
+  Finally, regardless of streaming, set point to END."
+    (when (and gptel-stream font-lock-mode (derived-mode-p 'org-mode))
+      (font-lock-fontify-region beg end))
+    (goto-char end))
+
+  (add-hook 'gptel-post-response-functions #'my/fontify-and-goto-end)
 #+end_src
 * Programming options and packages
 
