@@ -462,6 +462,26 @@ Also see counsel-ag later in this file (C-c a)
     :bind ("C-x C-u" . goto-last-change))
 #+END_SRC
 
+** Capture X11 clipboard to image buffer
+
+   - Opens an image buffer with the image, use 'i o' to save the image to file (PNG)
+
+#+begin_src emacs-lisp
+  (defun my/x11-clipboard-to-image-buffer ()
+    "Display the image on the X11 clipboard in an Emacs buffer."
+    (interactive)
+    (let* ((selection-coding-system 'raw-text)
+           (x-select-request-type 'image/png)
+           (sel (gui--selection-value-internal 'CLIPBOARD)))
+      (unless sel
+        (user-error "No %s data on clipboard" x-select-request-type))
+      (with-current-buffer-window (get-buffer-create "*emacs-ss*")
+          nil
+          nil
+        (insert sel)
+        (image-mode))))
+#+end_src
+
 ** Align regexp
 
 Use C-u prefix to customize the regexp
