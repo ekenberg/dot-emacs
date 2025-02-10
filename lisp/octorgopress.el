@@ -28,9 +28,9 @@
 
 (org-export-define-derived-backend 'octopress 'md
   :menu-entry
-  '(?o "Export to Octopress"
-       ((?O "As MARKDOWN buffer" org-octopress-export-as-octopress)
-        (?o "As MARKDOWN file" org-octopress-export-to-octopress)))
+  '(?b "Export to Octopress"
+       ((?B "As MARKDOWN buffer" org-octopress-export-as-octopress)
+        (?b "As MARKDOWN file" org-octopress-export-to-octopress)))
   :options-alist '((:sidebar "SIDEBAR" nil nil t) (:publish "PUBLISH" nil "true" t) (:tags "TAGS" nil nil split)(:categories "CATEGORIES" nil nil split)(:title "TITLE" nil nil space) (:author "AUTHOR" nil user-full-name t) (:email "EMAIL" nil user-mail-address t) (:date "DATE" nil nil t))
   :translate-alist
   '(
