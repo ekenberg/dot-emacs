@@ -955,6 +955,7 @@ Emacs style navigation: [[https://github.com/abo-abo/avy][Avy on github]]
      (emacs-lisp . t)
      (perl . t)
      (java . t)
+     (js . t)
      (haskell . t)
      (gnuplot . t)
      (sql . t)
