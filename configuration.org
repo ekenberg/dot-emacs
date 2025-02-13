@@ -1518,8 +1518,28 @@ https://unix.stackexchange.com/a/392171/32165
      gptel-backend (gptel-make-anthropic "Claude"
                      :stream t
                      :key (with-temp-buffer
-                            (insert-file-contents "~/.gptel/keys/emacs-gptel.key.txt")
-                            (string-trim-right (buffer-string))))))
+                            (insert-file-contents "~/.gptel/keys/emacs-gptel-anthropic.key.txt")
+                            (string-trim-right (buffer-string)))))
+
+    (gptel-make-openai "Codestral"
+      :host "api.mistral.ai"
+      :endpoint "/v1/chat/completions"
+      :stream t
+      :key (with-temp-buffer
+             (insert-file-contents "~/.gptel/keys/emacs-gptel-mistral.key.txt")
+             (string-trim-right (buffer-string)))
+      :models '(codestral-latest))
+
+    (gptel-make-openai "Mistral"
+      :host "api.mistral.ai"
+      :endpoint "/v1/chat/completions"
+      :stream t
+      :key (with-temp-buffer
+             (insert-file-contents "~/.gptel/keys/emacs-gptel-mistral.key.txt")
+             (string-trim-right (buffer-string)))
+      :models '(mistral-large-latest))
+)
+
   ;;  (gptel-make-anthropic "Claude" ; any name
   ;;     :stream t
   ;;     :key (with-temp-buffer
@@ -1529,8 +1549,8 @@ https://unix.stackexchange.com/a/392171/32165
   ;; post-fix buggy code block fontification when using gptel-stream
   (defun my/fontify-and-goto-end (beg end)
     "Fix code block fontification with org-mode
-  When gptel-stream is active, fontify region between BEG and END.
-  Finally, regardless of streaming, set point to END."
+     When gptel-stream is active, fontify region between BEG and END.
+     Finally, regardless of streaming, set point to END."
     (when (and gptel-stream font-lock-mode (derived-mode-p 'org-mode))
       (font-lock-fontify-region beg end))
     (goto-char end))
