@@ -1501,6 +1501,11 @@ https://unix.stackexchange.com/a/392171/32165
 #+end_src
 ** gptel (LLM AI inside Emacs)
 #+begin_src emacs-lisp
+  (defun my/gptel-anthropic-key ()
+    (with-temp-buffer
+      (insert-file-contents "~/.gptel/keys/emacs-gptel-anthropic.key.txt")
+      (string-trim-right (buffer-string))))
+
   (setopt gptel-directives '((default . "You are a large language model living in Emacs and a helpful assistant. Respond concisely. Before providing any answer, engage in internal verification: check facts, review logic, and only output answers you have high confidence in after self-review. If confidence is low, acknowledge uncertainty. When discussing specific software commands, always verify key bindings and functionality through official documentation before responding.")
                              (programming . "You are a large language model and a careful programmer. Provide code and only code as output without any additional text, prompt or note.")
                              (writing . "You are a large language model and a writing assistant. Respond concisely.")
@@ -1510,16 +1515,32 @@ https://unix.stackexchange.com/a/392171/32165
     :config
     (setq gptel-default-mode 'org-mode)
     (setq gptel-expert-commands t)
-    ;; (setf (alist-get 'default gptel-directives)
-    ;;       "You are a large language model living in Emacs and a helpful assistant. Respond concisely. Before providing any answer, engage in internal verification: check facts, review logic, and only output answers you have high confidence in after self-review. If confidence is low, acknowledge uncertainty.")
-    ;; this is how to make it the default backend:
     (setq
-     gptel-model 'claude-3-5-sonnet-20241022
+     gptel-model 'claude-3-7-sonnet-20250219
      gptel-backend (gptel-make-anthropic "Claude"
                      :stream t
-                     :key (with-temp-buffer
-                            (insert-file-contents "~/.gptel/keys/emacs-gptel-anthropic.key.txt")
-                            (string-trim-right (buffer-string)))))
+                     :key (my/gptel-anthropic-key)))
+
+    (gptel-make-anthropic "Claude-thinking"
+      :key (my/gptel-anthropic-key)
+      :stream t
+      :models '(claude-3-7-sonnet-20250219)
+      :header (lambda () (when-let* ((key (gptel--get-api-key)))
+                           `(("x-api-key" . ,key)
+                             ("anthropic-version" . "2023-06-01")
+                             ("anthropic-beta" . "pdfs-2024-09-25")
+                             ("anthropic-beta" . "output-128k-2025-02-19")
+                             ("anthropic-beta" . "prompt-caching-2024-07-31"))))
+      :request-params '(:thinking (:type "enabled" :budget_tokens 4096)
+                                  :max_tokens 4097))
+
+    (gptel-make-anthropic "Grok"
+      :host "api.x.ai"
+      :stream t
+      :key (with-temp-buffer
+             (insert-file-contents "~/.gptel/keys/emacs-gptel-grok.key.txt")
+             (string-trim-right (buffer-string)))
+      :models '(grok-2-latest))
 
     (gptel-make-openai "Codestral"
       :host "api.mistral.ai"
@@ -1538,19 +1559,13 @@ https://unix.stackexchange.com/a/392171/32165
              (insert-file-contents "~/.gptel/keys/emacs-gptel-mistral.key.txt")
              (string-trim-right (buffer-string)))
       :models '(mistral-large-latest))
-)
-
-  ;;  (gptel-make-anthropic "Claude" ; any name
-  ;;     :stream t
-  ;;     :key (with-temp-buffer
-  ;;            (insert-file-contents "~/.gptel/keys/emacs-gptel.key.txt")
-  ;;            (string-trim-right (buffer-string)))))
+    )
 
   ;; post-fix buggy code block fontification when using gptel-stream
   (defun my/fontify-and-goto-end (beg end)
     "Fix code block fontification with org-mode
-     When gptel-stream is active, fontify region between BEG and END.
-     Finally, regardless of streaming, set point to END."
+           When gptel-stream is active, fontify region between BEG and END.
+           Finally, regardless of streaming, set point to END."
     (when (and gptel-stream font-lock-mode (derived-mode-p 'org-mode))
       (font-lock-fontify-region beg end))
     (goto-char end))
