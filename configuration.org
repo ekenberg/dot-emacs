@@ -1534,7 +1534,14 @@ https://unix.stackexchange.com/a/392171/32165
       :request-params '(:thinking (:type "enabled" :budget_tokens 4096)
                                   :max_tokens 4097))
 
-    (gptel-make-deepseek "DeepSeek"
+  ;; :key can be a function that returns the API key.
+    (gptel-make-gemini "Gemini"
+      :stream t
+      :key (with-temp-buffer
+             (insert-file-contents "~/.gptel/keys/emacs-gptel-gemini.key.txt")
+             (string-trim-right (buffer-string))))
+
+  (gptel-make-deepseek "DeepSeek"
       :stream t
       :key (with-temp-buffer
              (insert-file-contents "~/.gptel/keys/emacs-gptel-deepseek.key.txt")
