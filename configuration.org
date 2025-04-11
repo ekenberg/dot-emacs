@@ -1553,7 +1553,7 @@ https://unix.stackexchange.com/a/392171/32165
       :key (with-temp-buffer
              (insert-file-contents "~/.gptel/keys/emacs-gptel-grok.key.txt")
              (string-trim-right (buffer-string)))
-      :models '(grok-2-latest))
+      :models '(grok-3-beta))
 
     (gptel-make-openai "Codestral"
       :host "api.mistral.ai"
