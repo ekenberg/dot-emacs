@@ -2128,14 +2128,14 @@ Use c-mode for nqc/nqh files, but disable flycheck
 
 #+BEGIN_SRC emacs-lisp
   (when (display-graphic-p)
-    (cond ((string-equal (window-system) "x")   ; Linux
+    (cond ((or (string-equal (window-system) "x") (string-equal (window-system) "pgtk"))   ; Linux X11 or Wayland with Pure GTK
            (progn
              (when (member "Bitstream Vera Sans Mono" (font-family-list))
-               (set-default-font "Bitstream Vera Sans Mono-10" ))))
+               (set-frame-font "Bitstream Vera Sans Mono-10" ))))
           ((string-equal (window-system) "w32") ; Windows
-           (set-default-font "Menlo 10"))
+           (set-frame-font "Menlo 10"))
           (t                                    ; Mac
-           (set-default-font "Menlo 13"))))
+           (set-frame-font "Menlo 13"))))
 
 
 
