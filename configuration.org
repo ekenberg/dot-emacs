@@ -1526,7 +1526,7 @@
        (setq gptel-expert-commands t)
        ;; Set the default system prompt to use the 'default directive
        (setq gptel-system-prompt (alist-get 'default gptel-directives))
-       (setq gptel-model 'claude-4-5-sonnet-20250929
+       (setq gptel-model 'claude-sonnet-4-5-20250929
              gptel-backend (gptel-make-anthropic "Claude"
                              :stream t
                              :key (my/gptel-anthropic-key)))
