@@ -563,6 +563,9 @@
       '(tramp-remote-path (quote (tramp-own-remote-path)) nil (tramp)))
 
 
+     ;; https://emacs.stackexchange.com/questions/37190/remote-shell-path-env-no-such-file-or-directory
+     ;; blir annars /bin/sh för M-x shell via tramp
+     (setq explicit-shell-file-name "/bin/bash")
    #+END_SRC
 
 ** Magit
