@@ -1827,6 +1827,9 @@
          (set-face-attribute 'web-mode-html-attr-value-face nil :foreground
                              (face-attribute 'font-lock-string-face :foreground))
 
+         ;; data-* attributes colored pink
+         (set-face-attribute 'web-mode-html-attr-custom-face nil :foreground "#FF69B4")
+
          ;; Disable auto-pairing (Conflicts with smartparens-mode)
          (setq web-mode-disable-auto-pairing t)
          )
