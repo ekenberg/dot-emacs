@@ -2000,31 +2000,31 @@
 ** LSP
 
    #+BEGIN_SRC emacs-lisp
-     (use-package lsp-mode
-       :ensure t
-       :commands lsp
-       :hook (lsp-mode . lsp-ui-mode)
-       ;;  (setq lsp-prefer-flymake nil)
-       )
+     ;; (use-package lsp-mode
+     ;;   :ensure t
+     ;;   :commands lsp
+     ;;   :hook (lsp-mode . lsp-ui-mode)
+     ;;   ;;  (setq lsp-prefer-flymake nil)
+     ;;   )
 
-     (use-package lsp-ivy
-       :ensure t
-       :commands lsp-ivy-workspace-symbol)
+     ;; (use-package lsp-ivy
+     ;;   :ensure t
+     ;;   :commands lsp-ivy-workspace-symbol)
 
-     (use-package lsp-ui
-       :ensure t
-       :defer t
-       :config (setq lsp-ui-doc-enable t
-                     lsp-ui-doc-use-childframe t
-                     lsp-ui-doc-position 'top
-                     lsp-ui-doc-include-signature t
-                     lsp-ui-sideline-enable nil
-                     lsp-ui-flycheck-enable t
-                     lsp-ui-flycheck-list-position 'right
-                     lsp-ui-flycheck-live-reporting t
-                     lsp-ui-peek-enable t
-                     lsp-ui-peek-list-width 60
-                     lsp-ui-peek-peek-height 25))
+     ;; (use-package lsp-ui
+     ;;   :ensure t
+     ;;   :defer t
+     ;;   :config (setq lsp-ui-doc-enable t
+     ;;                 lsp-ui-doc-use-childframe t
+     ;;                 lsp-ui-doc-position 'top
+     ;;                 lsp-ui-doc-include-signature t
+     ;;                 lsp-ui-sideline-enable nil
+     ;;                 lsp-ui-flycheck-enable t
+     ;;                 lsp-ui-flycheck-list-position 'right
+     ;;                 lsp-ui-flycheck-live-reporting t
+     ;;                 lsp-ui-peek-enable t
+     ;;                 lsp-ui-peek-list-width 60
+     ;;                 lsp-ui-peek-peek-height 25))
    #+END_SRC
 
 ** Rust
@@ -2037,7 +2037,7 @@
      (use-package rust-mode
        :ensure t
        :defer t
-       :hook (rust-mode . lsp))
+       :hook (rust-mode . eglot-ensure))
 
      ;; Cargo keybindings
      (use-package cargo
