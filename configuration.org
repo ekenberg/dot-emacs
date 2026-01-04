@@ -2050,6 +2050,19 @@
        :defer t
        :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
    #+END_SRC
+** Go
+
+#+begin_src emacs-lisp
+  (use-package go-mode
+    :ensure t
+    :defer t
+    :mode "\\.go\\'"
+    :hook ((go-mode . eglot-ensure)
+           (go-mode . (lambda () (setq-local tab-width 4))))
+    :config
+    (add-hook 'before-save-hook 'gofmt-before-save)) ; run gofmt on each save
+
+#+end_src
 
 ** Clojure
    #+BEGIN_SRC emacs-lisp
