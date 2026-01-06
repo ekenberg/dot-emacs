@@ -1261,7 +1261,8 @@
 
      (defun my-mc-mark-next-like-this (arg)
        "Like mc/mark-next-like-this but use prefix argument > 1
-     to instead run mc/unmark-next-like-this like an undo"
+     to instead run mc/unmark-next-like-this like an undo.
+     Prefix argument 0 skips over the last marked cursor."
        (interactive "p")
        (if (> arg 1)
            (let ((cursor (mc/furthest-cursor-after-point)))
