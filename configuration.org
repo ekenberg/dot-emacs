@@ -2061,6 +2061,7 @@
     :hook ((go-mode . eglot-ensure)
            (go-mode . (lambda () (setq-local tab-width 4))))
     :config
+    (setq gofmt-command "goimports")
     (add-hook 'before-save-hook 'gofmt-before-save)) ; run gofmt on each save
 
 #+end_src
