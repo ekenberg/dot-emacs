@@ -581,6 +581,9 @@
               ("RET" . magit-diff-visit-file-other-window)
               ("C-x g" . magit-status))
        :config
+       ;; Show all worktrees at the end of the status buffer (if more than one)
+       (add-hook 'magit-status-sections-hook #'magit-insert-worktrees t)
+
        ;; gör ändrad whitespace synlig i diff vid stage/commit
        (setq magit-diff-paint-whitespace-lines "all"))
 
