@@ -2062,11 +2062,42 @@
     :defer t
     :mode "\\.go\\'"
     :hook ((go-mode . eglot-ensure)
+           (go-mode . (lambda () (flycheck-mode -1)))
            (go-mode . (lambda () (setq-local tab-width 4))))
     :config
     (setq gofmt-command "goimports")
     (add-hook 'before-save-hook 'gofmt-before-save)) ; run gofmt on each save
 
+  (use-package templ-ts-mode
+    :ensure t
+    :defer t
+    :hook ((templ-ts-mode . (lambda () (setq-local go-ts-mode-indent-offset 4)))
+           (templ-ts-mode . (lambda () (setq-local indent-tabs-mode nil))))
+    ;;:config (add-hook 'before-save-hook 'templ-fmt)
+    )
+
+  ;; jo det funkar typ men den hittar inte "prettier" så det blir tabs = 8 spaces som indent, meh
+  ;; man kan joxa med prettier och se till att den finns i path och sen anpassa options
+  ;; med -prettier-command, se 'templ fmt --help' för mer detaljer
+  (defun templ-fmt ()
+    "Format the current buffer with templ fmt."
+    (interactive)
+    (let ((tmpfile (make-nearby-temp-file "templfmt" nil ".templ"))
+          (coding-system-for-read 'utf-8)
+          (coding-system-for-write 'utf-8))
+      (unwind-protect
+          (progn
+            (write-region nil nil tmpfile)
+            (if (zerop (call-process "templ" nil nil nil "fmt" (file-local-name tmpfile)))
+                (let ((tmpbuf (generate-new-buffer " *templ-fmt*")))
+                  (unwind-protect
+                      (progn
+                        (with-current-buffer tmpbuf
+                          (insert-file-contents tmpfile))
+                        (replace-buffer-contents tmpbuf))
+                    (kill-buffer tmpbuf)))
+              (message "templ fmt failed")))
+        (delete-file tmpfile))))
 #+end_src
 
 ** Clojure
