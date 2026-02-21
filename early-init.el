@@ -5,9 +5,17 @@
 ;; hints to the compositor, causing bad window placement.
 (setq frame-resize-pixelwise t)
 
-;; Load saved frame geometry into initial-frame-alist BEFORE the
-;; initial frame is created — the only time initial-frame-alist
-;; actually takes effect.
+;; Disable UI chrome before the frame is created to avoid flicker.
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(scroll-bar-mode -1)
+
+;; Set font before frame creation so set-frame-font doesn't resize
+;; the frame later (which causes progressive height shrinking).
+(push '(font . "Bitstream Vera Sans Mono-10") default-frame-alist)
+
+;; Load saved frame geometry into default-frame-alist BEFORE the
+;; initial frame is created.
 (let ((geom-file (expand-file-name "framegeometry" user-emacs-directory)))
   (when (file-readable-p geom-file)
     (load geom-file)))
