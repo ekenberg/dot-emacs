@@ -1,73 +1,81 @@
 ;;; restore-framegeometry.el --- Save/restore Emacs frame geometry  -*- lexical-binding: t; -*-
-;;
+
+;;; Commentary:
 ;; Save and restore frame size (and position on X11).
 ;; On Wayland (pgtk), only size is saved — the protocol does not allow
 ;; clients to read or set window position.
 ;;
-;; If fullscreen on exit, transition to maximized and wait for the
-;; compositor to resize the frame before saving.
+;; Geometry is loaded in early-init.el (before frame creation) via
+;; the generated framegeometry file, which pushes entries onto
+;; `default-frame-alist'.
+;;
+;; If the frame was maximized/fullscreen on exit, the generated file
+;; also arranges for the first graphical frame to be maximized after
+;; creation, so the compositor registers the base size for unmaximize.
 
-(defun my/framegeometry--wayland-p ()
-  "Return non-nil if the current frame is running on Wayland (pgtk)."
-  (eq (window-system) 'pgtk))
+;;; Code:
 
-(defun save-framegeometry ()
-  "Save frame geometry to ~/.emacs.d/framegeometry.
-If fullscreen, transition to maximized first and wait for resize.
-On Wayland, only width and height are saved."
-  ;; Capture fullscreen/maximized state before any transition.
-  (let* ((fs (frame-parameter nil 'fullscreen))
-         (maximized (memq fs '(fullscreen fullboth maximized))))
-    ;; If fullscreen, switch to maximized and give the compositor time
-    ;; to actually resize the frame before we read the parameters.
-    (when (memq fs '(fullscreen fullboth))
-      (set-frame-parameter nil 'fullscreen 'maximized)
-      (sit-for 0.5))
-    (let ((width  (frame-text-width (selected-frame)))
-          (height (frame-text-height (selected-frame)))
-          (top    (frame-parameter (selected-frame) 'top))
-          (left   (frame-parameter (selected-frame) 'left))
-          (wayland (my/framegeometry--wayland-p))
-          (file   (expand-file-name "~/.emacs.d/framegeometry")))
-      (unless (number-or-marker-p width)  (setq width 800))
-      (unless (number-or-marker-p height) (setq height 600))
-      (unless (number-or-marker-p top)    (setq top 0))
-      (unless (number-or-marker-p left)   (setq left 0))
-      (with-temp-buffer
-        (insert
-         ";;; This is the previous emacs frame's geometry.\n"
-         ";;; Last generated " (current-time-string) ".\n"
-         "(setq default-frame-alist\n"
-         "      (append '(\n"
-         ;; When maximized, save 80% of maximized size as the windowed
-         ;; restore target — otherwise the compositor has no sensible
-         ;; size to unmaximize to.
-         (let ((w (max width 0))
-               (h (max height 0)))
-           (when maximized
-             (setq w (round (* w 0.8))
-                   h (round (* h 0.8))))
-           (concat
-            (format "        (width . (text-pixels . %d))\n" w)
-            (format "        (height . (text-pixels . %d))\n" h)))
-         (if wayland
-             ""
-           (format "        (top . %d)\n        (left . %d)\n"
-                   (max top 0) (max left 0)))
-         "        ) default-frame-alist))\n"
-         ;; Maximize after the frame exists so the compositor registers
-         ;; the base size as the unmaximize restore target.
-         (if maximized
-             "(add-hook 'window-setup-hook #'toggle-frame-maximized)\n"
-           ""))
-        (when (file-writable-p file)
-          (write-file file))))))
+(defvar my/framegeometry-file
+  (expand-file-name "framegeometry" user-emacs-directory)
+  "File used to persist frame geometry between sessions.")
 
-(defun load-framegeometry ()
-  "Load ~/.emacs.d/framegeometry to restore previous frame geometry."
-  (let ((file (expand-file-name "~/.emacs.d/framegeometry")))
-    (when (file-readable-p file)
-      (load-file file))))
+(defun my/framegeometry--wayland-p (&optional frame)
+  "Return non-nil if FRAME is running on Wayland (pgtk)."
+  (eq (framep-on-display (or frame (selected-frame))) 'pgtk))
+
+(defun my/framegeometry-save ()
+  "Save current frame geometry to `my/framegeometry-file'.
+If fullscreen, transition to maximized first and wait for the
+compositor to resize.  On Wayland, only width and height are saved.
+When maximized, saves 80% of maximized size as the windowed
+restore target so the compositor has a sensible unmaximize size."
+  (when (display-graphic-p)
+    (let* ((frame (selected-frame))
+           (fs (frame-parameter frame 'fullscreen))
+           (maximized (memq fs '(fullscreen fullboth maximized))))
+      ;; Transition fullscreen → maximized so we can read real dimensions.
+      (when (memq fs '(fullscreen fullboth))
+        (set-frame-parameter frame 'fullscreen 'maximized)
+        (sleep-for 0.5))
+      (let ((width  (frame-text-width frame))
+            (height (frame-text-height frame))
+            (top    (frame-parameter frame 'top))
+            (left   (frame-parameter frame 'left))
+            (wayland (my/framegeometry--wayland-p frame)))
+        (unless (number-or-marker-p width)  (setq width 800))
+        (unless (number-or-marker-p height) (setq height 600))
+        (unless (number-or-marker-p top)    (setq top 0))
+        (unless (number-or-marker-p left)   (setq left 0))
+        (when maximized
+          (setq width  (round (* width  0.8))
+                height (round (* height 0.8))))
+        (with-temp-buffer
+          (insert
+           ";;; Generated by my/framegeometry-save — do not edit.\n"
+           (format ";;; %s\n" (current-time-string)))
+          (insert (format "(push '(width  . (text-pixels . %d)) default-frame-alist)\n"
+                          (max width 0)))
+          (insert (format "(push '(height . (text-pixels . %d)) default-frame-alist)\n"
+                          (max height 0)))
+          (unless wayland
+            (insert (format "(push '(top  . %d) default-frame-alist)\n" top))
+            (insert (format "(push '(left . %d) default-frame-alist)\n" left)))
+          (when maximized
+            (insert
+             "\n;; Was maximized — re-maximize after frame creation.\n"
+             "(defun my/framegeometry--maximize-first-frame (frame)\n"
+             "  \"Maximize FRAME if graphical, then remove self from hook.\"\n"
+             "  (when (display-graphic-p frame)\n"
+             "    (with-selected-frame frame (toggle-frame-maximized))\n"
+             "    (remove-hook 'after-make-frame-functions\n"
+             "                 #'my/framegeometry--maximize-first-frame)))\n"
+             "(if (daemonp)\n"
+             "    (add-hook 'after-make-frame-functions\n"
+             "              #'my/framegeometry--maximize-first-frame)\n"
+             "  (add-hook 'window-setup-hook #'toggle-frame-maximized))\n"))
+          (when (file-writable-p my/framegeometry-file)
+            (write-region (point-min) (point-max) my/framegeometry-file
+                          nil 'silent)))))))
 
 (provide 'restore-framegeometry)
 ;;; restore-framegeometry.el ends here

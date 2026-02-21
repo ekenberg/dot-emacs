@@ -1,13 +1,19 @@
 ;;; early-init.el --- Pre-frame-creation settings  -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;; Settings that must take effect before the initial frame is created.
+;; Loaded before init.el and before the package system.
+
+;;; Code:
+
 ;; Disable character-cell resize increments in GTK geometry hints.
 ;; Without this, Emacs pgtk + fractional scaling sends inflated size
 ;; hints to the compositor, causing bad window placement.
 (setq frame-resize-pixelwise t)
 
 ;; Disable UI chrome before the frame is created to avoid flicker.
-(tool-bar-mode 0)
-(menu-bar-mode 0)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
 (scroll-bar-mode -1)
 
 ;; Set font before frame creation so set-frame-font doesn't resize

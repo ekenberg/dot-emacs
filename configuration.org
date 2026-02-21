@@ -2172,26 +2172,19 @@
       ;; Geometry is loaded in early-init.el (before frame creation).
       ;; Here we only set up saving on exit.
       (when (display-graphic-p)
-        (load-library "restore-framegeometry")
-        (add-hook 'kill-emacs-hook 'save-framegeometry))
+        (require 'restore-framegeometry)
+        (add-hook 'kill-emacs-hook #'my/framegeometry-save))
     #+END_SRC
 
 *** Mac/Linux fonts
 
     #+BEGIN_SRC emacs-lisp
+      ;; Linux font is set in early-init.el via default-frame-alist.
       (when (display-graphic-p)
-        (cond ((or (string-equal (window-system) "x") (string-equal (window-system) "pgtk"))   ; Linux X11 or Wayland with Pure GTK
-               (progn
-                 (when (member "Bitstream Vera Sans Mono" (font-family-list))
-                   (set-frame-font "Bitstream Vera Sans Mono-10" ))))
-              ((string-equal (window-system) "w32") ; Windows
+        (cond ((eq (window-system) 'w32)
                (set-frame-font "Menlo 10"))
-              (t                                    ; Mac
+              ((eq (window-system) 'ns)
                (set-frame-font "Menlo 13"))))
-
-
-
-      ;; w32
     #+END_SRC
 
 *** Hide toolbar/menubar/scrollbar
