@@ -2169,11 +2169,11 @@
 *** Save / restore window-sizes
 
     #+BEGIN_SRC emacs-lisp
-      (if (display-graphic-p)
-          (progn
-            (load-library "restore-framegeometry")
-            (add-hook 'after-init-hook 'load-framegeometry)
-            (add-hook 'kill-emacs-hook 'save-framegeometry)))
+      ;; Geometry is loaded in early-init.el (before frame creation).
+      ;; Here we only set up saving on exit.
+      (when (display-graphic-p)
+        (load-library "restore-framegeometry")
+        (add-hook 'kill-emacs-hook 'save-framegeometry))
     #+END_SRC
 
 *** Mac/Linux fonts
