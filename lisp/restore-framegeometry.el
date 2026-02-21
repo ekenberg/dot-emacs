@@ -4,8 +4,8 @@
 ;; On Wayland (pgtk), only size is saved — the protocol does not allow
 ;; clients to read or set window position.
 ;;
-;; If fullscreen on exit, skip saving — keep the previous file.
-;; Maximized is fine to save.
+;; If fullscreen on exit, transition to maximized and wait for the
+;; compositor to resize the frame before saving.
 
 (defun my/framegeometry--wayland-p ()
   "Return non-nil if the current frame is running on Wayland (pgtk)."
@@ -13,11 +13,14 @@
 
 (defun save-framegeometry ()
   "Save frame geometry to ~/.emacs.d/framegeometry.
-Skip saving if fullscreen — keep the previous file.
+If fullscreen, transition to maximized first and wait for resize.
 On Wayland, only width and height are saved."
-  (when (not (memq (frame-parameter nil 'fullscreen)
-                   '(fullscreen fullboth)))
-    (let ((width  (frame-parameter (selected-frame) 'width))
+  ;; If fullscreen, switch to maximized and give the compositor time
+  ;; to actually resize the frame before we read the parameters.
+  (when (memq (frame-parameter nil 'fullscreen) '(fullscreen fullboth))
+    (set-frame-parameter nil 'fullscreen 'maximized)
+    (sit-for 0.5))
+  (let ((width  (frame-parameter (selected-frame) 'width))
           (height (frame-parameter (selected-frame) 'height))
           (top    (frame-parameter (selected-frame) 'top))
           (left   (frame-parameter (selected-frame) 'left))
@@ -41,7 +44,7 @@ On Wayland, only width and height are saved."
                    (max top 0) (max left 0)))
          "        ) initial-frame-alist))\n")
         (when (file-writable-p file)
-          (write-file file))))))
+          (write-file file)))))
 
 (defun load-framegeometry ()
   "Load ~/.emacs.d/framegeometry to restore previous frame geometry."
