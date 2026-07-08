@@ -973,6 +973,7 @@
          (sql . t)
          (php . t)        ; use :results output to get stdout to #+RESULTS
          (shell . t)))
+      (require 'ob-php nil t)
     #+END_SRC
 
 *** CDLatex minor mode
