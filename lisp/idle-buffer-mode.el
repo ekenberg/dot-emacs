@@ -1,3 +1,13 @@
+;;; idle-buffer-mode.el --- auto-close idle buffers (esp. encrypted org)
+;;
+;; A minor mode that auto-saves and auto-closes a buffer after it
+;; has been idle (lost focus) for `idle-buffer-auto-save-sec'
+;; / `idle-buffer-auto-close-sec' seconds.
+;;
+;; Intentionally NOT globally enabled: it is activated per buffer,
+;; e.g. from encrypted (gpg) org files that load this library
+;; and enable `idle-buffer-mode'. The close timeout defaults to
+;; 900s, set globally in custom.el.
 
 ;; buffer-local variables:
 (defvar-local idle-buffer-auto-save-sec     0   "How many seconds idle buffer before saving, 0 means disabled")
