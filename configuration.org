@@ -94,6 +94,7 @@
 
 ** Localized calendar (Swedish)
    #+BEGIN_SRC emacs-lisp
+     ;; DEAD: sv-kalender.el being removed (unused vendored file); see removal commit.
      ;; (load "sv-kalender")
    #+END_SRC
 
@@ -829,6 +830,7 @@
 
 *** org-drill flashcard spaced repetition
     #+BEGIN_SRC emacs-lisp
+      ;;  DEAD: org-drill disabled; its backend org-learn.el is also dead; see removal commit.
       ;;  (require 'org-drill)
       ;; göm headings för varje card:
       ;; (setq org-drill-hide-item-headings-p t)
@@ -1402,6 +1404,7 @@
    #+BEGIN_SRC emacs-lisp
      (setq browse-url-browser-function 'browse-url-chromium)
 
+     ;; DEAD: w3m browser disabled; browse-url-chromium is the active handler.
      ;; (use-package w3m
      ;;   :ensure t)
 
@@ -1442,6 +1445,7 @@
 ** Yasnippet (disabled)
 
    #+BEGIN_SRC emacs-lisp
+     ;; DEAD: yasnippet disabled; snippets dir referenced but mode never enabled.
      ;; (use-package yasnippet
      ;;   :ensure t
      ;;   :diminish yas-minor-mode
@@ -1686,6 +1690,7 @@
    To customize behavior, see `column-enforce-column' and `column-enforce-face'
 
    #+BEGIN_SRC emacs-lisp
+     ;; DEAD: column-enforce-mode disabled; no 80-col enforcement wanted.
      ;; (use-package column-enforce-mode
      ;;   :ensure t
      ;;   :hook ((prog-mode . column-enforce-mode)
@@ -1851,6 +1856,7 @@
 ** Indium (javascript)
    - 2023-10-23: commented out, indium cannot be loaded and development seems to have stalled
    #+BEGIN_SRC emacs-lisp
+     ;; DEAD: indium (JS REPL) disabled; development stalled, never used. js2-mode was its dependency.
      ;; (when (not (version< emacs-version "25")) ;; requires emacs 25
      ;;   (use-package indium
      ;;     :ensure t)
@@ -2005,6 +2011,7 @@
 ** LSP
 
    #+BEGIN_SRC emacs-lisp
+     ;; DEAD: lsp-mode disabled by design; eglot is the live LSP path for go/rust.
      ;; (use-package lsp-mode
      ;;   :ensure t
      ;;   :commands lsp
@@ -2144,6 +2151,7 @@
        :ensure t
        :init (jee/load-default-theme))
 
+     ;;    DEAD: eclipse-theme alternative to material-theme; material-theme is the live default.
      ;;    (use-package eclipse-theme
      ;;      :ensure t
      ;;      :init (jee/load-default-theme))
