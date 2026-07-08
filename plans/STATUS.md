@@ -12,7 +12,7 @@
   force-delete.
 - Next: work stream 1 (bug fixes) after AGENTS.md is committed
 
-### 2026-07-08 — Session 1: bug fixes
+### 2026-07-08 — Session 1: bug fixes + dead-code purge
 
 - Simplification loop on the 3 bootstrap docs: oracle `623d3602`,
   workers `e6548558` + `62556233`, reviewers `a21aa121` +
@@ -32,11 +32,25 @@
   check) — not bundled into the require fix.
 - Bug #3 (`lsp-ivy` in `package-selected-packages`) **DEFERRED** —
   part of the LSP-vs-eglot call; needs online research + plan.
-- Next: dead-code purge (2nd half of work stream 1) — seq-25.el,
-  guess-offset.el, org-learn.el, autopackage.el, sv-kalender.el,
-  commented-out use-package blocks. lsp-ivy stays deferred to
-  LSP-vs-eglot plan.
-- `master` is 3 commits ahead of `origin/master` (setup + 2 fixes).
+- Dead-code purge DONE (work stream 1, 2nd half):
+  - `accc580` — annotate 7 dead commented blocks in
+    `configuration.org` with `;; DEAD:` labels (w3m, yasnippet,
+    column-enforce-mode, indium/js2, lsp-mode bundle, eclipse-theme,
+    org-drill).
+  - `086904f` — remove 5 unused vendored files (`seq-25.el`,
+    `guess-offset.el`, `org-learn.el`, `autopackage.el`,
+    `sv-kalender.el`, 1609 lines). All confirmed dead via grep
+    (no load path) + reads.
+  - `68d2db8` — document the live `idle-buffer-mode.el` (auto-close
+    idle buffers, per-buffer activation from encrypted org files;
+    NOT dead, not deleted).
+  - `150d962` — remove the dangling `** Localized calendar (Swedish)`
+    section (sv-kalender load ref to a deleted file).
+- Remaining in work stream 1: bug #4 (`pdf-tools :load-path` to a
+  nonexistent dir — low priority; fix = remove the line or guard it).
+- Next session: bug #4, or kick off the LSP-vs-eglot research plan
+  (unblocks bug #3). `master` pushed to `origin/master` (was 8 ahead,
+  now in sync).
 
 ## Feature backlog
 
