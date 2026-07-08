@@ -92,12 +92,6 @@
      (setq vc-handled-backends ())
    #+END_SRC
 
-** Localized calendar (Swedish)
-   #+BEGIN_SRC emacs-lisp
-     ;; DEAD: sv-kalender.el being removed (unused vendored file); see removal commit.
-     ;; (load "sv-kalender")
-   #+END_SRC
-
 ** Uniquify (better names for same-name-buffers)
    #+BEGIN_SRC emacs-lisp
      (require 'uniquify)
