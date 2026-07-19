@@ -2213,7 +2213,7 @@
 
    #+BEGIN_SRC emacs-lisp
      (setq split-height-threshold nil)
-     (setq split-width-threshold 0)
+     (setq split-width-threshold 160) ; 160 = the default
    #+END_SRC
 ** Adjust font size in all frames - default-text-scale
    https://github.com/purcell/default-text-scale
