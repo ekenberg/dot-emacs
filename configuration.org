@@ -1606,6 +1606,17 @@
 
      (add-hook 'gptel-post-response-functions #'my/fontify-and-goto-end)
    #+end_src
+** visual-fill-column-mode
+   M-x visual-fill-column-mode = toggle 120 char soft-wrap (endast visuellt) av/på. Bra för ex markdown eller org-mode med väldigt långa textrader
+#+begin_src emacs-lisp
+  (use-package visual-fill-column
+    :ensure t
+    :init
+    (setq visual-fill-column-width 120
+          visual-fill-column-center-text nil))
+
+  (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
+#+end_src
 * Programming options and packages
 
 ** Auto-completion company-mode with ivy-posframe
