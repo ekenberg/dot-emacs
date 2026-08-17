@@ -1615,7 +1615,7 @@
     (setq visual-fill-column-width 120
           visual-fill-column-center-text nil))
 
-  (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
+  ;; (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
 #+end_src
 * Programming options and packages
 
